@@ -11,6 +11,17 @@ npm run dev                  # http://localhost:3000
 npm test                     # pruebas unitarias (Vitest)
 ```
 
+`npm run dev` y `npm run build` copian antes el worker de MapLibre a `public/`
+(`scripts/copiar-worker-maplibre.mjs`). Ese archivo no se versiona.
+
+## Mapa
+
+- Base: estilo Positron de [OpenFreeMap](https://openfreemap.org), sin clave. Si no responde, el mapa se dibuja sobre un fondo liso.
+- Capa de temperatura: `fill` sobre las celdas de la grilla, coloreada con una expresión `interpolate` sobre la propiedad del año elegido.
+  Escala secuencial (amarillo a rojo oscuro) para temperatura y divergente (azul a rojo) para anomalía.
+  El dominio de colores es fijo para todos los años, así los colores se comparan entre años.
+- La anomalía de un año es la diferencia contra el promedio 2005-2024 de la misma celda.
+
 ## Fuente de datos
 
 `src/lib/data/` expone una interfaz única (`datos.getGrilla()`, `datos.getSerieSector(sector)`).

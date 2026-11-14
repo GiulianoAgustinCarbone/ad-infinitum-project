@@ -1,0 +1,25 @@
+.marco {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 72vh;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #efebe1;
+}
+
+.mapa {
+  position: absolute;
+  inset: 0;
+}
+
+.cargando {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--apagado);
+  font-size: 14px;
+  background: repeating-linear-gradient(135deg, #efebe1 0 12px, #e8e3d6 12px 24px);
+}

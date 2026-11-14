@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "predev": "node scripts/copiar-worker-maplibre.mjs",
+    "prebuild": "node scripts/copiar-worker-maplibre.mjs"
   },
   "dependencies": {
     "maplibre-gl": "6.18.0",
