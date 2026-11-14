@@ -5,12 +5,7 @@ from datetime import date
 
 url = "https://power.larc.nasa.gov/api/temporal/monthly/point"
 
-fecha_inicio = "1981"
-fecha_fin = date.today().strftime("%Y")
-latitud = -33.2948
-longitud = -66.3358
-comunidades = ["ag","hy","sb","re"]
-parametros = ["PRECTOTCORR"]
+
 
 def obtener_datos_nasa_mensuales(fecha_inicio, fecha_fin, latitud, longitud, comunidades, parametros):
     parametros = {
@@ -20,6 +15,7 @@ def obtener_datos_nasa_mensuales(fecha_inicio, fecha_fin, latitud, longitud, com
         "longitude": longitud,
         "community": comunidades[0],
         "parameters": ",".join(parametros),
+        "time-standard" : "utc",
         "format": "JSON"
     }
 
@@ -29,6 +25,28 @@ def obtener_datos_nasa_mensuales(fecha_inicio, fecha_fin, latitud, longitud, com
         raise Exception(f"Error en la API: {respuesta.status_code} - {respuesta.text}")
     else:
         data = respuesta.json()
+        
+        coords = data.get("geometry", {}).get("coordinates", [None, None, None])
+        header = data.get("header", {})
+
+        metadatos = {
+            "ubicacion_modelo": {
+                "longitud": coords[0],
+                "latitud": coords[1],
+                "elevacion_msnm": coords[2]
+            },
+            "fuente": {
+                "titulo": header.get("title"),
+                "api": header.get("api"),
+                # En varias versiones de POWER v2, la NASA incluye aquí ["MERRA2"] o ["SYN1DEG"]
+                "modelos_instrumentos": header.get("sources", [])
+            },
+            # Diccionario con {"PARAM": {"units": "...", "longname": "..."}}
+            "parametros": data.get("parameters", {}),
+            "mensajes": data.get("messages", []),
+            "tiempos_procesamiento": data.get("times", {})
+        }
+        
         df = pd.DataFrame(data["properties"]["parameter"])
         #Como la data mensual va del mes 1 al 13, siendo el 13 el promedio entre los 12 meses, hay que filtrarlo para que no aparezca en el dataframe.
         df = df[~df.index.str.endswith("13")] #De los indices (es decir de las fechas), busca las que terminan en 13 y las extrae del dataframe.
@@ -38,4 +56,13 @@ def obtener_datos_nasa_mensuales(fecha_inicio, fecha_fin, latitud, longitud, com
         #La NASA pone como "-999.0" los valores nulos. Para no romper los calculos, se limpian dichos valores:
         df.replace(-999.0, np.nan, inplace=True)
         
-        return df
+        return df, metadatos
+
+##Ejemplo de uso:
+fecha_inicio = "2026"
+fecha_fin = date.today().strftime("%Y")
+latitud = -33.2948
+longitud = -66.3358
+comunidades = ["ag","hy","sb","re"]
+parametros = ["PRECTOTCORR"]
+print(obtener_datos_nasa_mensuales(fecha_inicio, fecha_fin, latitud, longitud, comunidades, parametros))

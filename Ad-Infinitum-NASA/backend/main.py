@@ -39,7 +39,7 @@ def get_serie_punto(
     lista_parametros = [p.strip().upper() for p in params.split(",") if p.strip()]
     
     try:
-        df = obtener_datos_nasa_mensuales(
+        df, metadatos = obtener_datos_nasa_mensuales(
             fecha_inicio=start,
             fecha_fin=end,
             latitud=lat,
@@ -58,7 +58,7 @@ def get_serie_punto(
 
     return {
         "ubicacion": {"lat": lat, "lon": lon},
-        "parametros": lista_parametros,
+        "metadatos": metadatos,
         "total_registros": len(serie),
         "serie": serie
     }
