@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AnimacionesInicio } from "@/components/inicio/AnimacionesInicio";
 import { Camino } from "@/components/inicio/Camino";
 import { ComoFunciona } from "@/components/inicio/ComoFunciona";
@@ -10,6 +11,7 @@ import { Hero } from "@/components/sitio/Hero";
 import { Navegacion } from "@/components/sitio/Navegacion";
 import { Pie } from "@/components/sitio/Pie";
 import type { Resumen } from "@/lib/focos/tipos";
+import fondoSanLuis from "@/fondo/san-luis.webp";
 // Generado por scripts/preparar-datos.mts a partir de los datos reales
 import datosResumen from "@/lib/generado/resumen.json";
 
@@ -19,7 +21,9 @@ export default function Inicio() {
   return (
     <>
       {/* Espacio para el fondo de la primera pantalla: ver FondoInicio.tsx */}
-      <FondoInicio />
+      <FondoInicio>
+        <Image src={fondoSanLuis} alt="" fill sizes="100vw" fetchPriority="high" loading="eager" placeholder="blur" />
+      </FondoInicio>
       <Navegacion />
       <main id="contenido">
         <Hero resumen={resumen} />
