@@ -1,0 +1,48 @@
+.hero {
+  padding: clamp(32px, 6vw, 72px) 0 clamp(48px, 8vw, 96px);
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.texto {
+  display: grid;
+  gap: 24px;
+  align-content: center;
+}
+
+.lugar {
+  color: var(--ceniza-2);
+  font-size: 1rem;
+}
+
+.titulo {
+  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  font-variation-settings: "wdth" 80, "opsz" 96;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.bajada {
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  color: var(--ceniza-2);
+  max-width: 44ch;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 860px) {
+  .grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,99 @@
+"use client";
+
+import type { Resumen } from "@/lib/focos/tipos";
+import { capitalizar, decimal, MESES_CORTOS, mesAnio, nombreMes } from "@/lib/formato";
+import { FUEGO } from "@/lib/focos/escala";
+import { useGlobo } from "./Globo";
+import { useAncho } from "./useAncho";
+import estilos from "./Graficos.module.css";
+
+const AL = 260;
+const M = { arriba: 24, derecha: 8, abajo: 28, izquierda: 40 };
+
+function ticks(max: number): number[] {
+  const paso = max > 150 ? 50 : max > 60 ? 20 : 10;
+  return Array.from({ length: Math.floor(max / paso) + 1 }, (_, i) => i * paso);
+}
+
+type Props = { estacionalidad: Resumen["aqua"]["estacionalidad"]; mesPico: number; desde: string; hasta: string };
+
+function textoMes(clave: string): string {
+  const [a, m] = clave.split("-").map(Number);
+  return mesAnio(a, m);
+}
+
+export function BarrasMes({ estacionalidad, mesPico, desde, hasta }: Props) {
+  const { globo, mostrar, ocultar } = useGlobo();
+  const { ref, ancho: AN } = useAncho<HTMLDivElement>(600);
+  const max = Math.max(...estacionalidad.map((e) => e.promedio));
+  const tope = Math.ceil(max / 50) * 50;
+  const ancho = AN - M.izquierda - M.derecha;
+  const alto = AL - M.arriba - M.abajo;
+  const banda = ancho / 12;
+  const y = (v: number) => M.arriba + alto - (v / tope) * alto;
+
+  return (
+    <figure className={estilos.figura}>
+      <figcaption>
+        <p className={estilos.titulo}>Focos por mes, promedio de todos los años</p>
+        <p className={estilos.subtitulo}>Satélite Aqua, de {textoMes(desde)} a {textoMes(hasta)}. Los meses sin dato no cuentan.</p>
+      </figcaption>
+      <div ref={ref} className={estilos.lienzo} onMouseLeave={ocultar}>
+        <svg className={estilos.svg} viewBox={`0 0 ${AN} ${AL}`} role="group" aria-label={`Promedio de focos por mes. El máximo es ${nombreMes(mesPico)}.`}>
+          {ticks(tope).map((t) => (
+            <g key={t}>
+              <line className={estilos.grilla} x1={M.izquierda} x2={AN - M.derecha} y1={y(t)} y2={y(t)} />
+              <text className={estilos.eje} x={M.izquierda - 8} y={y(t) + 4} textAnchor="end">
+                {t}
+              </text>
+            </g>
+          ))}
+          {estacionalidad.map((e, i) => {
+            const x = M.izquierda + i * banda + banda * 0.15;
+            const w = banda * 0.7;
+            const h = Math.max(1, (e.promedio / tope) * alto);
+            const leer = () =>
+              mostrar({
+                x: ((x + w / 2) / AN) * 100,
+                y: (y(e.promedio) / AL) * 100,
+                contenido: (
+                  <>
+                    <strong>{capitalizar(nombreMes(e.mes))}</strong>
+                    {decimal(e.promedio, 1)} focos en promedio ({e.anios} años con dato). Máximo: {e.maximo} en {e.anioMaximo}.
+                  </>
+                ),
+              });
+            return (
+              <g
+                key={e.mes}
+                className={estilos.marca}
+                tabIndex={0}
+                onMouseEnter={leer}
+                onFocus={leer}
+                onBlur={ocultar}
+                aria-label={`${nombreMes(e.mes)}: ${decimal(e.promedio, 1)} focos en promedio`}
+              >
+                {/* Zona sensible mas grande que la barra */}
+                <rect x={M.izquierda + i * banda} y={M.arriba} width={banda} height={alto} fill="transparent" />
+                <path
+                  className={estilos.resalte}
+                  d={`M${x},${y(0)} V${y(0) - h + 4} q0,-4 4,-4 h${w - 8} q4,0 4,4 V${y(0)} Z`}
+                  fill={FUEGO[2]}
+                />
+                <text className={estilos.eje} x={x + w / 2} y={AL - 8} textAnchor="middle">
+                  {MESES_CORTOS[i]}
+                </text>
+                {e.mes === mesPico && (
+                  <text x={x + w / 2} y={y(e.promedio) - 8} textAnchor="middle" fill="currentColor" fontSize="13" fontWeight="700">
+                    {decimal(e.promedio, 0)}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+        {globo}
+      </div>
+    </figure>
+  );
+}

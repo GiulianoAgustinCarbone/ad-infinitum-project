@@ -1,66 +1,81 @@
 # Detective de Tendencias - frontend
 
-Next.js (App Router) con TypeScript. Diseño y alcance en `../docs/`.
+Sitio de una página sobre los focos de calor en la provincia de San Luis (NASA Space Apps Challenge 2026).
+Next.js (App Router) con TypeScript. Alcance y secciones en `../docs/`.
+
+> **TODO (licencia de datos):** los datos de focos de calor, departamentos y embalses **no declaran licencia**.
+> Hay que pedir autorización a CONAE y al Gobierno de San Luis antes de publicar el sitio. Mientras tanto, el pie de
+> página muestra la atribución "Datos: CONAE / Gobierno de San Luis" y la fecha de descarga.
 
 ## Uso
 
 ```bash
+# Una sola vez: descarga los datos reales (Node 18+, sin dependencias)
+node ../backend/scripts/descargar_datos.mjs
+
 npm install
-cp .env.example .env.local   # una sola vez
-npm run dev                  # http://localhost:3000
-npm test                     # pruebas unitarias (Vitest)
+npm run dev     # http://localhost:3000
+npm test        # pruebas unitarias (Vitest)
+npm run build
 ```
 
-`npm run dev` y `npm run build` copian antes el worker de MapLibre a `public/`
-(`scripts/copiar-worker-maplibre.mjs`). Ese archivo no se versiona.
+`npm run dev` y `npm run build` ejecutan antes:
 
-## Mapa
+- `scripts/copiar-worker-maplibre.mjs`: copia el worker de MapLibre a `public/` (no se versiona).
+- `scripts/preparar-datos.mts`: copia `backend/data/*` a `public/datos/` (no se versiona) y precalcula
+  `src/lib/generado/resumen.json` (cifras, estacionalidad, tendencia y hallazgos). Ningún número del sitio está
+  escrito a mano: todos salen de ese archivo o de los datos.
 
-Estilo de los mapas de anomalía del SMN: superficie suave en bandas discretas, recortada por el
-contorno de Argentina, con límites de provincias y coordenadas en los bordes.
+## Datos
 
-1. La grilla se ordena como matriz regular (`src/lib/mapa/rejilla.ts`) y se refina por interpolación
-   bilineal de 0,5° a 0,125°.
-2. `@turf/isobands` arma las bandas y `@turf/intersect` las recorta por el contorno del país
-   (`src/lib/mapa/bandas.ts`). La leyenda usa los mismos cortes.
-   - Anomalía: cortes −1,5, −1,0, −0,8, −0,6, −0,4, −0,2, 0,2, 0,4, 0,6, 0,8, 1,0, 1,5 °C; escala azul a
-     rojo con clase neutra blanca. La anomalía de un año es la diferencia contra el promedio 2005-2024 del mismo punto.
-   - Temperatura: cortes cada 2 °C, fijos para todos los años; escala secuencial amarillo a rojo oscuro.
-3. El cálculo corre en un Web Worker (`src/lib/mapa/bandas.worker.ts`). `CalculadorBandas` pide primero el
-   año visible y después el resto, y guarda cada resultado en caché: volver a un año calculado es inmediato.
+Capas públicas de ArcGIS Online (CONAE / Gobierno de San Luis), descargadas una vez por
+`backend/scripts/descargar_datos.mjs`, que valida el total (38558 focos) e imprime un resumen:
 
-Base opcional: estilo Positron de [OpenFreeMap](https://openfreemap.org), sin clave. Si no responde, el mapa
-se dibuja sobre fondo blanco.
+| Archivo en `backend/data/` | Contenido |
+|---|---|
+| `focos.compact.json` | Focos en columnas: lon, lat, anio, mes, dia, power (MW), confianza, depto, sat |
+| `departamentos.geojson` | 9 departamentos simplificados |
+| `departamentos.mensual.json` | Focos por mes y departamento, 2002-07 a 2024-04. `null` = mes sin dato (nunca cero) |
+| `embalses.geojson` | 22 embalses (solo forma, sin nivel de agua) |
+| `raw/` | GeoJSON originales (no se versionan, ~18 MB) |
 
-### Límites
+Particularidades encontradas en la fuente, y cómo se tratan:
 
-`src/lib/geo/argentina.json` y `src/lib/geo/provincias.json` salen de Natural Earth v5.1.2 (dominio público).
-El contorno usa la versión de países con punto de vista argentino, que incluye las Islas Malvinas.
-Para regenerarlos, descargar `ne_10m_admin_0_countries_arg.geojson` y `ne_10m_admin_1_states_provinces.geojson`
-del tag v5.1.2 de `nvkelso/natural-earth-vector` en una carpeta y correr:
+- La tabla por departamento coincide con los focos del satélite **Aqua**. Es la serie que se usa para comparar
+  años, porque mantiene el mismo sensor todo el período. Sumar Terra, Suomi NPP (desde 2012) y NOAA-20 (desde 2019)
+  inflaría los años recientes.
+- 9 meses no tienen columna en la tabla. Se tratan como dato ausente. Coinciden con meses sin focos de Aqua y de
+  baja temporada, así que podrían ser ceros omitidos, pero no se asume.
+- En los registros MODIS desde 2017, `FP_Power` (y otras columnas) perdieron el separador decimal. Esas potencias
+  (6802) se guardan como `null` y se muestran como "sin dato confiable".
+- El campo `Instrumento` etiqueta como VIIRS a Terra y Aqua; el sensor se deduce del satélite.
 
-```bash
-node scripts/preparar-limites.mjs <carpeta>
-```
+## Fuente de datos (interfaz)
 
-## Fuente de datos
-
-`src/lib/data/` expone una interfaz única (`datos.getGrilla()`, `datos.getSerieSector(sector)`).
-`NEXT_PUBLIC_USE_MOCK` decide la implementación al compilar:
+`src/lib/data/` expone una interfaz única (`getGrilla()`, `getSerieSector(sector)`) con tres implementaciones.
+`NEXT_PUBLIC_FUENTE` decide cuál usa `datos`:
 
 | Valor | Implementación | Origen |
 |---|---|---|
-| sin definir o `true` | `mock.ts` | Grilla sintética determinista generada en el navegador. La interfaz muestra "Datos ilustrativos". |
-| `false` | `api.ts` | `GET ${NEXT_PUBLIC_API_URL}/api/grilla` |
+| `focos` | `focos.ts` | Archivos estáticos de `public/datos/`. La grilla cuenta focos por celda de 0,1° y año. Además expone `getFocos()`, `getDepartamentos()`, `getSerieMensual()` y `getEmbalses()`. |
+| `api` | `api.ts` | `GET ${NEXT_PUBLIC_API_URL}/api/grilla` |
+| sin definir | `mock.ts` | Grilla sintética de temperatura (ilustrativa) |
 
-## Contrato con el backend
+Las secciones del sitio usan siempre `fuenteFocos` (datos reales).
 
-`GET /api/grilla` devuelve una GeoJSON `FeatureCollection`:
+## Estadística
 
-- una celda por feature, con geometría `Polygon`;
-- propiedades `t2005` ... `t2024` con la temperatura media anual en °C (números);
-- una propiedad `id` opcional por celda.
+`src/lib/estadistica.ts`, portada del prototipo (`docs/prototipo-detective.html`) y con pruebas:
+regresión lineal, Mann-Kendall con corrección por empates (el prototipo no la tenía) y pendiente de Sen.
 
-La serie de un sector (`{ years: number[], values: number[] }`) se calcula en el cliente:
-es el promedio anual de las celdas cuyo centro cae dentro del rectángulo
-`[oeste, sur, este, norte]`. `api.ts` valida la respuesta y avisa qué propiedad falta.
+## Diseño
+
+Carta de relevamiento satelital: fondo pizarra nocturno; el único color saturado es la escala de fuego de los datos
+(violeta a amarillo pálido, apta para daltonismo, con contraste de 3:1 o más sobre la superficie para que los
+valores bajos se vean; los puntos llevan además un borde claro fino). Tipografías: Bricolage Grotesque (títulos y
+cifras) y Atkinson Hyperlegible Next (texto). La única animación automática es la del inicio, con botón de pausa, y
+se reemplaza por una imagen fija con `prefers-reduced-motion`.
+
+## Límites de provincias
+
+`src/lib/geo/*.json` salen de Natural Earth v5.1.2 (dominio público); ver `scripts/preparar-limites.mjs`.

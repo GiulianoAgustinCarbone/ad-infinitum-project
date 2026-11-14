@@ -43,3 +43,4 @@ next-env.d.ts
 
 # worker de maplibre, se copia en predev/prebuild
 /public/maplibre-gl-worker.mjs
+/public/datos/

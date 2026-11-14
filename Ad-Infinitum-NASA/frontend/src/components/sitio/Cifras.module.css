@@ -1,0 +1,81 @@
+.grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: end;
+}
+
+.principal {
+  display: grid;
+  gap: 8px;
+}
+
+.titulo {
+  font-size: 1.25rem;
+  font-variation-settings: normal;
+  color: var(--ceniza-2);
+  letter-spacing: 0;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.numero {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-variation-settings: "wdth" 75, "opsz" 96;
+  font-weight: 800;
+  font-size: clamp(5rem, 16vw, 12rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.leyenda {
+  font-size: 1.15rem;
+  color: var(--ceniza-2);
+  max-width: 36ch;
+}
+
+.lista {
+  margin: 0;
+  display: grid;
+}
+
+.lista > div {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0;
+  border-top: 1px solid var(--linea);
+}
+
+.lista > div:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.lista dt {
+  color: var(--ceniza-3);
+  font-size: 0.9rem;
+}
+
+.lista dd {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.valor {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.detalle {
+  color: var(--ceniza-2);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 860px) {
+  .grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

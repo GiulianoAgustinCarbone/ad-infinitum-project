@@ -1,0 +1,32 @@
+.pie {
+  border-top: 1px solid var(--linea);
+  padding: 48px 0 64px;
+  color: var(--ceniza-2);
+  font-size: 0.95rem;
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 32px;
+}
+
+.grilla > div {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.marca,
+.atribucion {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ceniza);
+}
+
+@media (max-width: 760px) {
+  .grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

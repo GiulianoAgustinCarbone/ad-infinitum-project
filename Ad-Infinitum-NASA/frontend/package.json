@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "predev": "node scripts/copiar-worker-maplibre.mjs",
-    "prebuild": "node scripts/copiar-worker-maplibre.mjs"
+    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
+    "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
+    "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts"
   },
   "dependencies": {
     "@turf/helpers": "7.4.0",

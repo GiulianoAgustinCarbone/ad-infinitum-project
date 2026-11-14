@@ -1,0 +1,125 @@
+.dos {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+
+.matriz {
+  margin-top: clamp(48px, 7vw, 80px);
+  max-width: 880px;
+}
+
+.tendencia {
+  margin-top: clamp(56px, 8vw, 96px);
+  padding-top: clamp(32px, 5vw, 48px);
+  border-top: 1px solid var(--linea);
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+
+.tendenciaTexto {
+  display: grid;
+  gap: 16px;
+}
+
+.tendenciaTitulo {
+  color: var(--ceniza-2);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.titular {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-variation-settings: "wdth" 85, "opsz" 48;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.insignia {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1.5px dashed var(--ceniza-2);
+  color: var(--ceniza);
+}
+
+.insignia[data-significativa="true"] {
+  border-style: solid;
+  background: var(--ceniza);
+  color: var(--noche);
+}
+
+.explica {
+  color: var(--ceniza-2);
+}
+
+.datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+}
+
+.datos > div {
+  padding: 12px 12px 12px 0;
+}
+
+.datos > div + div {
+  padding-left: 12px;
+  border-left: 1px solid var(--linea);
+}
+
+.datos dt {
+  color: var(--ceniza-3);
+  font-size: 0.85rem;
+}
+
+.datos dd {
+  margin: 0;
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+.tendenciaGrafico {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.leyendaSerie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 0.875rem;
+  color: var(--ceniza-2);
+}
+
+.leyendaSerie span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pieNota {
+  margin-top: 32px;
+  max-width: 70ch;
+}
+
+@media (max-width: 900px) {
+  .dos,
+  .tendencia {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
