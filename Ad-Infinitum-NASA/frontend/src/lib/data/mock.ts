@@ -9,11 +9,11 @@ import {
   type Sector,
 } from "./tipos";
 
-// Extension de la grilla sintetica, centrada en el centro oeste de Argentina
-const OESTE = -70;
-const NORTE = -26;
-const LADO = 0.25;
-const N = 40;
+// Grilla regular que cubre toda Argentina continental e insular
+export const EXTENSION_MOCK = { oeste: -74, este: -53, sur: -55, norte: -22 } as const;
+const LADO = 0.5;
+const NX = Math.round((EXTENSION_MOCK.este - EXTENSION_MOCK.oeste) / LADO);
+const NY = Math.round((EXTENSION_MOCK.norte - EXTENSION_MOCK.sur) / LADO);
 
 // Hash entero determinista en [0, 1): misma grilla en cada carga
 function hash(i: number, j: number, k: number): number {
@@ -22,41 +22,64 @@ function hash(i: number, j: number, k: number): number {
   return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
-function gauss(x: number, y: number, cx: number, cy: number, s: number): number {
-  const dx = x - cx;
-  const dy = y - cy;
-  return Math.exp(-(dx * dx + dy * dy) / s);
+function gauss(lon: number, lat: number, cLon: number, cLat: number, sLon: number, sLat: number): number {
+  const dx = (lon - cLon) / sLon;
+  const dy = (lat - cLat) / sLat;
+  return Math.exp(-(dx * dx + dy * dy));
 }
 
 function redondear(v: number): number {
   return Math.round(v * 100) / 100;
 }
 
-// Generador portado del prototipo: gradiente norte-sur, relieve suave,
-// tendencia que varia en el espacio (foco de calentamiento al noreste,
-// leve enfriamiento al suroeste), ciclo interanual comun y ruido por celda
+// Temperatura media del periodo: gradiente norte-sur, enfriamiento por altura
+// sobre la cordillera (mas marcado en la Puna) y nucleo calido en el Chaco
+export function climatologia(lon: number, lat: number): number {
+  const latitud = 25.5 + (lat + 22) * 0.6;
+  const cordillera = -(4 + 5 * gauss(lon, lat, -67, -23.5, 2.5, 3)) * gauss(lon, lat, -70.2, lat, 1.4, 1);
+  const chaco = 1.5 * gauss(lon, lat, -61.5, -25.5, 3, 3);
+  return latitud + cordillera + chaco;
+}
+
+// Manchas regionales de anomalia: cada una oscila con su propio ritmo
+const MANCHAS = [
+  { lon: -60, lat: -27, sLon: 4, sLat: 3.5, amp: 0.75, fase: 0.4, ritmo: 1.7 },
+  { lon: -63, lat: -34, sLon: 4.5, sLat: 3, amp: 0.7, fase: 2.1, ritmo: 1.1 },
+  { lon: -67, lat: -43, sLon: 4, sLat: 5, amp: 0.65, fase: 4.0, ritmo: 0.8 },
+  { lon: -66, lat: -26, sLon: 2.5, sLat: 3, amp: 0.55, fase: 5.3, ritmo: 2.3 },
+  { lon: -69, lat: -51, sLon: 3.5, sLat: 3, amp: 0.5, fase: 1.2, ritmo: 1.4 },
+];
+
+// Anomalia del anio k (0 = 2005): tendencia que crece hacia el noreste,
+// manchas regionales y ruido pequeno por celda. Queda dentro de +-1.5 C.
+export function anomalia(lon: number, lat: number, k: number, ruido: number): number {
+  const ritmo = 0.012 + 0.028 * gauss(lon, lat, -59, -27, 6, 5);
+  const tendencia = ritmo * (k - (ANIOS.length - 1) / 2);
+  let manchas = 0;
+  for (const m of MANCHAS) {
+    manchas += m.amp * Math.sin(m.ritmo * k + m.fase) * gauss(lon, lat, m.lon, m.lat, m.sLon, m.sLat);
+  }
+  return tendencia + manchas + (ruido - 0.5) * 0.06;
+}
+
 export function generarGrillaMock(): Grilla {
   const features: Feature<Polygon, PropiedadesCelda>[] = [];
-  for (let j = 0; j < N; j++) {
-    for (let i = 0; i < N; i++) {
-      const x = i / (N - 1);
-      const y = j / (N - 1);
-      const base = 30.5 - 10.5 * y + 2.4 * Math.sin(5.2 * x + 1.3) * Math.cos(4.1 * y) + 1.1 * Math.sin(9 * x + 3 * y);
-      const tendencia = 0.012 + 0.055 * gauss(x, y, 0.78, 0.25, 0.07) - 0.03 * gauss(x, y, 0.22, 0.78, 0.06);
-      const sesgo = (hash(i, j, 0) - 0.5) * 0.5;
+  for (let j = 0; j < NY; j++) {
+    for (let i = 0; i < NX; i++) {
+      const o = EXTENSION_MOCK.oeste + i * LADO;
+      const n = EXTENSION_MOCK.norte - j * LADO;
+      const lon = o + LADO / 2;
+      const lat = n - LADO / 2;
+      const base = climatologia(lon, lat);
 
       const propiedades = { id: `c${i}-${j}` } as PropiedadesCelda;
       ANIOS.forEach((anio, k) => {
-        const ciclo = (0.7 * Math.sin(1.7 * k + 0.4) + 0.45 * Math.sin(0.65 * k + 2.0)) * (0.8 + 0.4 * x);
-        const ruido = (hash(i, j, k + 1) - 0.5) * 0.3;
-        propiedades[claveAnio(anio)] = redondear(base + tendencia * k + ciclo + sesgo + ruido);
+        propiedades[claveAnio(anio)] = redondear(base + anomalia(lon, lat, k, hash(i, j, k + 1)));
       });
 
-      const o = OESTE + i * LADO;
-      const n = NORTE - j * LADO;
       features.push({
         type: "Feature",
-        id: j * N + i,
+        id: j * NX + i,
         properties: propiedades,
         geometry: {
           type: "Polygon",

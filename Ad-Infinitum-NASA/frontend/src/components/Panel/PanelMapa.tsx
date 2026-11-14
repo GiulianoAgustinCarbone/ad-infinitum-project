@@ -1,8 +1,8 @@
 "use client";
 
 import { ANIO_FIN, ANIO_INICIO } from "@/lib/data";
-import type { Vista } from "@/lib/mapa/escalas";
-import type { CapasMapa } from "@/components/Mapa/MapaTemperatura";
+import type { VistaCampo as Vista } from "@/lib/mapa/rejilla";
+import type { CapasMapa } from "@/components/Mapa/MapaBandas";
 import estilos from "./Panel.module.css";
 
 type Props = {
@@ -20,7 +20,8 @@ type Props = {
 
 const NOMBRES_CAPAS: { clave: keyof CapasMapa; texto: string }[] = [
   { clave: "temperatura", texto: "Temperatura" },
-  { clave: "cuadricula", texto: "Cuadrícula y coordenadas" },
+  { clave: "provincias", texto: "Límites de provincias" },
+  { clave: "coordenadas", texto: "Coordenadas" },
   { clave: "base", texto: "Base del mapa" },
 ];
 

@@ -40,17 +40,25 @@
   min-width: 0;
 }
 
-.cabeceraMapa {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
 .tituloMapa {
   font-size: 18px;
-  padding-bottom: 6px;
+  margin-bottom: 16px;
+}
+
+/* Mapa vertical a la izquierda; anio, leyenda y lectura a la derecha */
+.mapaYLeyenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px 32px;
+}
+
+.lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 1 200px;
+  max-width: 320px;
 }
 
 /* El anio del mapa es la marca de la pantalla: cambia al reproducir */
@@ -65,22 +73,19 @@
   color: var(--tinta);
 }
 
-.pieMapa {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px 24px;
-  margin-top: 14px;
-}
-
 .lectura {
-  flex: 1 1 260px;
   margin: 0;
-  min-height: 2.6em;
+  min-height: 4.2em;
   font-size: 13px;
   color: var(--tinta-2);
   font-variant-numeric: tabular-nums;
+}
+
+.estado {
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 13px;
+  color: var(--apagado);
 }
 
 .nota {

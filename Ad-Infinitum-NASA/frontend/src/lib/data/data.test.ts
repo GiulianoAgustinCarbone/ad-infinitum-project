@@ -53,9 +53,10 @@ describe("serieDesdeGrilla", () => {
 describe("generarGrillaMock", () => {
   const grilla = generarGrillaMock();
 
-  it("cumple el contrato de datos", () => {
+  it("cumple el contrato de datos y cubre Argentina", () => {
     expect(() => validarGrilla(grilla)).not.toThrow();
-    expect(grilla.features).toHaveLength(1600);
+    // 42 x 66 celdas de 0,5 grados entre -74/-53 de longitud y -55/-22 de latitud
+    expect(grilla.features).toHaveLength(42 * 66);
   });
 
   it("es determinista", () => {
@@ -66,25 +67,39 @@ describe("generarGrillaMock", () => {
     for (const c of grilla.features) {
       for (const anio of ANIOS) {
         const v = c.properties[claveAnio(anio)];
-        expect(v).toBeGreaterThan(10);
-        expect(v).toBeLessThan(40);
+        expect(v).toBeGreaterThan(-10);
+        expect(v).toBeLessThan(32);
       }
     }
   });
 
-  it("es mas calida al norte que al sur", () => {
-    const norte = serieDesdeGrilla(grilla, [-70, -28, -60, -26]);
-    const sur = serieDesdeGrilla(grilla, [-70, -36, -60, -34]);
-    expect(norte.values[0]).toBeGreaterThan(sur.values[0] + 5);
+  it("mantiene la anomalia de cada celda entre -1,5 y +1,5 C", () => {
+    for (const c of grilla.features) {
+      const valores = ANIOS.map((a) => c.properties[claveAnio(a)]);
+      const media = valores.reduce((s, v) => s + v, 0) / valores.length;
+      for (const v of valores) expect(Math.abs(v - media)).toBeLessThanOrEqual(1.5);
+    }
   });
 
-  it("se calienta mas en el foco noreste que en el suroeste", () => {
-    const noreste = serieDesdeGrilla(grilla, [-63.5, -29.5, -61, -27]);
-    const suroeste = serieDesdeGrilla(grilla, [-69, -35, -66.5, -32.5]);
+  it("es mas calida al norte que al sur", () => {
+    const norte = serieDesdeGrilla(grilla, [-64, -27, -58, -22]);
+    const sur = serieDesdeGrilla(grilla, [-71, -55, -66, -50]);
+    expect(norte.values[0]).toBeGreaterThan(sur.values[0] + 12);
+  });
+
+  it("es mas fria sobre la cordillera que en el llano a la misma latitud", () => {
+    const cordillera = serieDesdeGrilla(grilla, [-71, -25, -69.5, -23]);
+    const llano = serieDesdeGrilla(grilla, [-63, -25, -61.5, -23]);
+    expect(llano.values[0]).toBeGreaterThan(cordillera.values[0] + 5);
+  });
+
+  it("se calienta mas en el noreste que en la Patagonia", () => {
+    const noreste = serieDesdeGrilla(grilla, [-61, -29, -57, -25]);
+    const patagonia = serieDesdeGrilla(grilla, [-70, -48, -66, -44]);
     const pNe = pendiente(noreste.years, noreste.values);
-    const pSo = pendiente(suroeste.years, suroeste.values);
-    expect(pNe).toBeGreaterThan(0.03);
-    expect(pNe).toBeGreaterThan(pSo + 0.03);
+    const pPa = pendiente(patagonia.years, patagonia.values);
+    expect(pNe).toBeGreaterThan(0.025);
+    expect(pNe).toBeGreaterThan(pPa + 0.015);
   });
 });
 

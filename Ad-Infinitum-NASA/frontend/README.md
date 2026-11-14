@@ -16,11 +16,32 @@ npm test                     # pruebas unitarias (Vitest)
 
 ## Mapa
 
-- Base: estilo Positron de [OpenFreeMap](https://openfreemap.org), sin clave. Si no responde, el mapa se dibuja sobre un fondo liso.
-- Capa de temperatura: `fill` sobre las celdas de la grilla, coloreada con una expresión `interpolate` sobre la propiedad del año elegido.
-  Escala secuencial (amarillo a rojo oscuro) para temperatura y divergente (azul a rojo) para anomalía.
-  El dominio de colores es fijo para todos los años, así los colores se comparan entre años.
-- La anomalía de un año es la diferencia contra el promedio 2005-2024 de la misma celda.
+Estilo de los mapas de anomalía del SMN: superficie suave en bandas discretas, recortada por el
+contorno de Argentina, con límites de provincias y coordenadas en los bordes.
+
+1. La grilla se ordena como matriz regular (`src/lib/mapa/rejilla.ts`) y se refina por interpolación
+   bilineal de 0,5° a 0,125°.
+2. `@turf/isobands` arma las bandas y `@turf/intersect` las recorta por el contorno del país
+   (`src/lib/mapa/bandas.ts`). La leyenda usa los mismos cortes.
+   - Anomalía: cortes −1,5, −1,0, −0,8, −0,6, −0,4, −0,2, 0,2, 0,4, 0,6, 0,8, 1,0, 1,5 °C; escala azul a
+     rojo con clase neutra blanca. La anomalía de un año es la diferencia contra el promedio 2005-2024 del mismo punto.
+   - Temperatura: cortes cada 2 °C, fijos para todos los años; escala secuencial amarillo a rojo oscuro.
+3. El cálculo corre en un Web Worker (`src/lib/mapa/bandas.worker.ts`). `CalculadorBandas` pide primero el
+   año visible y después el resto, y guarda cada resultado en caché: volver a un año calculado es inmediato.
+
+Base opcional: estilo Positron de [OpenFreeMap](https://openfreemap.org), sin clave. Si no responde, el mapa
+se dibuja sobre fondo blanco.
+
+### Límites
+
+`src/lib/geo/argentina.json` y `src/lib/geo/provincias.json` salen de Natural Earth v5.1.2 (dominio público).
+El contorno usa la versión de países con punto de vista argentino, que incluye las Islas Malvinas.
+Para regenerarlos, descargar `ne_10m_admin_0_countries_arg.geojson` y `ne_10m_admin_1_states_provinces.geojson`
+del tag v5.1.2 de `nvkelso/natural-earth-vector` en una carpeta y correr:
+
+```bash
+node scripts/preparar-limites.mjs <carpeta>
+```
 
 ## Fuente de datos
 

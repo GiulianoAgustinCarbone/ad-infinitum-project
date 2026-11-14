@@ -1,0 +1,39 @@
+.leyenda {
+  margin: 0;
+}
+
+.titulo {
+  font-size: 13px;
+  color: var(--tinta-2);
+  margin-bottom: 8px;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--tinta);
+  width: 22px;
+}
+
+.clase {
+  position: relative;
+  height: 18px;
+}
+
+.color {
+  position: absolute;
+  inset: 0;
+}
+
+/* El corte va sobre el limite inferior de cada clase */
+.corte {
+  position: absolute;
+  left: 30px;
+  bottom: 0;
+  transform: translateY(50%);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--tinta);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

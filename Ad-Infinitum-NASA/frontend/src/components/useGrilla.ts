@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { datos } from "@/lib/data";
-import { conMedia, type GrillaConMedia } from "@/lib/mapa/escalas";
+import { datos, type Grilla } from "@/lib/data";
 
 export type EstadoGrilla =
   | { tipo: "cargando" }
   | { tipo: "error"; mensaje: string }
-  | { tipo: "listo"; grilla: GrillaConMedia };
+  | { tipo: "listo"; grilla: Grilla };
 
 export function useGrilla() {
   const [estado, setEstado] = useState<EstadoGrilla>({ tipo: "cargando" });
@@ -17,7 +16,7 @@ export function useGrilla() {
     let vigente = true;
     datos
       .getGrilla()
-      .then((g) => vigente && setEstado({ tipo: "listo", grilla: conMedia(g) }))
+      .then((g) => vigente && setEstado({ tipo: "listo", grilla: g }))
       .catch((e: unknown) => {
         if (vigente) setEstado({ tipo: "error", mensaje: e instanceof Error ? e.message : String(e) });
       });
