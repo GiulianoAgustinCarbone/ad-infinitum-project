@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-// La comparacion de sectores ahora vive en la pagina principal
+// La comparacion de departamentos vivira en /focos/comparar; mientras tanto, a /focos
 export default function Comparar() {
-  redirect("/#estacionalidad");
+  redirect("/focos#estacionalidad");
 }

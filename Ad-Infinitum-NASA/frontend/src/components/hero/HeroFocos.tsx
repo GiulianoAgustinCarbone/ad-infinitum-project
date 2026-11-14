@@ -223,6 +223,8 @@ export function HeroFocos() {
 
     const medir = () => {
       const r = cv.getBoundingClientRect();
+      // Al salir de la pagina el lienzo mide 0: no hay nada que dibujar
+      if (r.width < 1 || r.height < 1) return;
       ancho = r.width;
       alto = r.height;
       cv.width = Math.round(ancho * dpr);

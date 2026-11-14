@@ -27,8 +27,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${titulos.variable} ${texto.variable}`}>
+    <html lang="es" className={`${titulos.variable} ${texto.variable}`} suppressHydrationWarning>
       <body>
+        {/* Marca que hay JavaScript antes de pintar, para que las animaciones de entrada no parpadeen */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <a className="saltar" href="#contenido">
           Saltar al contenido
         </a>

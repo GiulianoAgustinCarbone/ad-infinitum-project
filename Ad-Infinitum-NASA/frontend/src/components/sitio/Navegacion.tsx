@@ -1,28 +1,38 @@
 "use client";
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { EstadoDato } from "./EstadoDato";
 import estilos from "./Navegacion.module.css";
 
-export type Enlace = { href: string; texto: string };
+// href null: la pagina todavia no existe y se muestra deshabilitada
+export type Seccion = { texto: string; href: string | null };
 
-export function Navegacion({ enlaces }: { enlaces: Enlace[] }) {
+export const SECCIONES: Seccion[] = [
+  { texto: "Focos de calor", href: "/focos" },
+  { texto: "Sequía y diques", href: null },
+  { texto: "Método", href: null },
+  { texto: "Datos", href: null },
+];
+
+export function Navegacion() {
+  const ruta = usePathname();
   const [abierta, setAbierta] = useState(false);
-  const [activa, setActiva] = useState<string | null>(null);
+  const [solida, setSolida] = useState(false);
 
-  // Marca la seccion visible para orientar al lector
+  // Transparente arriba de todo; al hacer scroll la barra toma fondo
   useEffect(() => {
-    const secciones = enlaces
-      .map((e) => document.querySelector<HTMLElement>(e.href))
-      .filter((s): s is HTMLElement => s !== null);
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        for (const e of entradas) if (e.isIntersecting) setActiva(`#${e.target.id}`);
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    secciones.forEach((s) => observador.observe(s));
-    return () => observador.disconnect();
-  }, [enlaces]);
+    gsap.registerPlugin(ScrollTrigger);
+    const disparador = ScrollTrigger.create({
+      start: 12,
+      end: "max",
+      onToggle: (s) => setSolida(s.isActive),
+    });
+    return () => disparador.kill();
+  }, []);
 
   useEffect(() => {
     if (!abierta) return;
@@ -32,16 +42,16 @@ export function Navegacion({ enlaces }: { enlaces: Enlace[] }) {
   }, [abierta]);
 
   return (
-    <header className={estilos.barra}>
+    <header className={estilos.barra} data-solida={solida || abierta}>
       <div className={`contenedor ${estilos.interior}`}>
-        <a href="#inicio" className={estilos.marca}>
+        <Link href="/" className={estilos.marca} aria-current={ruta === "/" ? "page" : undefined}>
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
             <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="12" cy="12" r="3.2" fill="#f07f4f" />
+            <circle cx="12" cy="12" r="3.2" className={estilos.marcaCentro} />
             <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="1.5" />
           </svg>
           <span>Detective de Tendencias</span>
-        </a>
+        </Link>
         <button
           type="button"
           className={estilos.menu}
@@ -49,25 +59,29 @@ export function Navegacion({ enlaces }: { enlaces: Enlace[] }) {
           aria-controls="menu-secciones"
           onClick={() => setAbierta((v) => !v)}
         >
-          {abierta ? "Cerrar" : "Secciones"}
+          {abierta ? "Cerrar" : "Menú"}
         </button>
-        <nav id="menu-secciones" aria-label="Secciones" className={estilos.nav} data-abierta={abierta}>
+        <nav id="menu-secciones" aria-label="Principal" className={estilos.nav} data-abierta={abierta}>
           <ul>
-            {enlaces.map((e) => (
-              <li key={e.href}>
-                <a
-                  href={e.href}
-                  aria-current={activa === e.href ? "location" : undefined}
-                  onClick={() => setAbierta(false)}
-                >
-                  {e.texto}
-                </a>
+            {SECCIONES.map((s) => (
+              <li key={s.texto}>
+                {s.href ? (
+                  <Link
+                    href={s.href}
+                    aria-current={ruta === s.href ? "page" : undefined}
+                    onClick={() => setAbierta(false)}
+                  >
+                    {s.texto}
+                  </Link>
+                ) : (
+                  <span className={estilos.inactivo} aria-disabled="true">
+                    {s.texto}
+                    <EstadoDato estado="proximamente" compacta />
+                  </span>
+                )}
               </li>
             ))}
           </ul>
-          <a className="boton boton-principal" href="#descargas" onClick={() => setAbierta(false)}>
-            Descargar informe
-          </a>
         </nav>
       </div>
     </header>

@@ -46,3 +46,23 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.ingles {
+  color: var(--ceniza-3);
+  font-size: 0.95rem;
+  font-style: italic;
+  max-width: 48ch;
+  margin-top: -12px;
+}
+
+/* La accion deshabilitada no reacciona al cursor */
+.acciones [aria-disabled="true"] {
+  opacity: 1;
+  color: var(--ceniza-3);
+  border-style: dashed;
+}
+
+.acciones [aria-disabled="true"]:hover {
+  background: transparent;
+  border-color: var(--linea-fuerte);
+}

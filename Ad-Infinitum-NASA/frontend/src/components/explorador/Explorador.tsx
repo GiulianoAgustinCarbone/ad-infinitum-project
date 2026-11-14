@@ -39,14 +39,15 @@ function describirPeriodo(anio: number | null, mes: number | null): string {
   return `de ${nombreMes(mes)} de ${anio}`;
 }
 
-export function Explorador() {
+// inicial: mes y anio preseleccionados (por ejemplo desde un enlace de la pagina de inicio)
+export function Explorador({ inicial }: { inicial?: { anio: number; mes: number } } = {}) {
   const [datos, setDatos] = useState<Datos | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [vista, setVista] = useState<Vista>("calor");
   const [soloAqua, setSoloAqua] = useState(false);
   const [depto, setDepto] = useState<number | null>(null);
-  const [todosLosAnios, setTodosLosAnios] = useState(true);
-  const [momento, setMomento] = useState({ anio: 2009, mes: 0 });
+  const [todosLosAnios, setTodosLosAnios] = useState(!inicial);
+  const [momento, setMomento] = useState(inicial ?? { anio: 2009, mes: 0 });
   const { anio, mes } = momento;
   const setAnio = (a: number) => setMomento((p) => ({ ...p, anio: a }));
   const setMes = (m: number) => setMomento((p) => ({ ...p, mes: m }));

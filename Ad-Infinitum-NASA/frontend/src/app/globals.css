@@ -213,3 +213,18 @@ a:hover {
   font-size: 0.875rem;
   line-height: 1.5;
 }
+
+/* Entrada animada del inicio (GSAP): oculto solo con JavaScript y sin "reducir movimiento".
+   Si la animacion no llega a correr, el contenido aparece igual a los 3 segundos. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-entrada] {
+    visibility: hidden;
+    animation: mostrar-sin-animacion 0s 3s forwards;
+  }
+}
+
+@keyframes mostrar-sin-animacion {
+  to {
+    visibility: visible;
+  }
+}
