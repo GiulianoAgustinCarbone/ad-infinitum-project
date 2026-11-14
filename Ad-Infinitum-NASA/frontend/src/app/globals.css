@@ -1,0 +1,58 @@
+/* Sistema visual de docs/detective-tendencias-secciones-v2.md, seccion 8 */
+:root {
+  --papel: #f6f3ec;
+  --superficie: #ffffff;
+  --tinta: #1c211f;
+  --tinta-2: #3c4441;
+  --apagado: #5e6662;
+  --borde: #ddd7ca;
+  --terracota: #c8643a;
+  --terracota-texto: #a24a22;
+  --verde: #2f7d5b;
+  --verde-texto: #1f6b4f;
+  --radio: 16px;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fuente-texto), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulos), system-ui, sans-serif;
+  font-weight: 600;
+  margin: 0;
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 3px solid var(--terracota);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

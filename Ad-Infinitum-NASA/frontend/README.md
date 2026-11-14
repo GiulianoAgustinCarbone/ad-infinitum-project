@@ -1,16 +1,34 @@
-# React + Vite
+# Detective de Tendencias - frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Next.js (App Router) con TypeScript. Diseño y alcance en `../docs/`.
 
-Currently, two official plugins are available:
+## Uso
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+cp .env.example .env.local   # una sola vez
+npm run dev                  # http://localhost:3000
+npm test                     # pruebas unitarias (Vitest)
+```
 
-## React Compiler
+## Fuente de datos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+`src/lib/data/` expone una interfaz única (`datos.getGrilla()`, `datos.getSerieSector(sector)`).
+`NEXT_PUBLIC_USE_MOCK` decide la implementación al compilar:
 
-## Expanding the ESLint configuration
+| Valor | Implementación | Origen |
+|---|---|---|
+| sin definir o `true` | `mock.ts` | Grilla sintética determinista generada en el navegador. La interfaz muestra "Datos ilustrativos". |
+| `false` | `api.ts` | `GET ${NEXT_PUBLIC_API_URL}/api/grilla` |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Contrato con el backend
+
+`GET /api/grilla` devuelve una GeoJSON `FeatureCollection`:
+
+- una celda por feature, con geometría `Polygon`;
+- propiedades `t2005` ... `t2024` con la temperatura media anual en °C (números);
+- una propiedad `id` opcional por celda.
+
+La serie de un sector (`{ years: number[], values: number[] }`) se calcula en el cliente:
+es el promedio anual de las celdas cuyo centro cae dentro del rectángulo
+`[oeste, sur, este, norte]`. `api.ts` valida la respuesta y avisa qué propiedad falta.
