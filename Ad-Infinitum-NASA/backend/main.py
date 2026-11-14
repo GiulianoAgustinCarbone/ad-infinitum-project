@@ -1,9 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-import requests
 import pandas as pd
-import numpy as np
-from API import obtener_datos_nasa_mensuales
+from conexion_con_apis.API import obtener_datos_nasa_mensuales
 
 app = FastAPI(title="Earth Trend Detective API")
 
