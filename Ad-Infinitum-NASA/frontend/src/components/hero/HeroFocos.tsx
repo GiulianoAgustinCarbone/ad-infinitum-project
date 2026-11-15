@@ -40,6 +40,8 @@ export function HeroFocos() {
   const [error, setError] = useState(false);
   const [pausado, setPausado] = useState(false);
   const [quieto, setQuieto] = useState(false);
+  const [activa, setActiva] = useState(false);
+  const animar = !quieto || activa;
   const pausadoRef = useRef(false);
 
   useEffect(() => {
@@ -237,7 +239,7 @@ export function HeroFocos() {
       proy = ajustarProyeccion(cajaDe(datos.anillos), ancho, alto, Math.min(48, ancho * 0.08));
       dibujarBase();
       // Reconstruye la ceniza hasta el mes que se estaba mostrando
-      if (quieto) estadoFinal();
+      if (!animar) estadoFinal();
       else {
         for (let k = 0; k <= mesDibujado; k++) sumarCeniza(k);
         dibujar(mesDibujado);
@@ -248,7 +250,7 @@ export function HeroFocos() {
     ro.observe(cv);
     medir();
 
-    if (quieto) return () => ro.disconnect();
+    if (!animar) return () => ro.disconnect();
 
     let raf = 0;
     let acumulado = 0;
@@ -286,7 +288,7 @@ export function HeroFocos() {
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [datos, quieto]);
+  }, [datos, animar]);
 
   return (
     <figure className={estilos.figura}>
@@ -321,9 +323,13 @@ export function HeroFocos() {
         </div>
         <div className={estilos.controles}>
           <figcaption className="nota">Cada barra es un mes: altura según la cantidad de focos.</figcaption>
-          {!quieto && (
+          {animar ? (
             <button type="button" className="boton" onClick={() => setPausado((p) => !p)} aria-pressed={pausado}>
               {pausado ? "Reanudar" : "Pausar"}
+            </button>
+          ) : (
+            <button type="button" className="boton" onClick={() => setActiva(true)}>
+              Reproducir animación
             </button>
           )}
         </div>
