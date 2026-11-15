@@ -19,6 +19,9 @@ type Preparado = {
   power: (number | null)[];
   porMes: number[][];
   mes0: { anio: number; mes: number };
+  anioDesde: number;
+  anioHasta: number;
+  mesHasta: number;
   total: number;
 };
 
@@ -76,6 +79,9 @@ export function HeroFocos() {
           power: c.power,
           porMes,
           mes0: { anio: a0, mes: m0 },
+          anioDesde: a0,
+          anioHasta: a1,
+          mesHasta: m1,
           total: focos.n,
         });
       })
@@ -137,7 +143,7 @@ export function HeroFocos() {
         b.moveTo(0, y);
         b.lineTo(10, y);
         b.stroke();
-        b.fillText(`${-lat}° S`, 14, y + 4);
+        b.fillText(`${-lat}Â° S`, 14, y + 4);
       }
       for (let lon = -67; lon <= -65; lon++) {
         const x = proy.x(lon);
@@ -146,7 +152,7 @@ export function HeroFocos() {
         b.moveTo(x, alto);
         b.lineTo(x, alto - 10);
         b.stroke();
-        b.fillText(`${-lon}° O`, x - 14, alto - 14);
+        b.fillText(`${-lon}Â° O`, x - 14, alto - 14);
       }
     };
 
@@ -219,7 +225,7 @@ export function HeroFocos() {
       ctx.drawImage(base, 0, 0);
       ctx.drawImage(ceniza, 0, 0);
       dibujarTira(datos.porMes.length - 1);
-      if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
+      if (textoMes.current) textoMes.current.textContent = `${datos.anioDesde} a ${datos.anioHasta}`;
       if (textoCuenta.current) textoCuenta.current.textContent = `${entero(datos.total)} focos`;
     };
 
@@ -277,7 +283,7 @@ export function HeroFocos() {
         c.clearRect(0, 0, ceniza.width, ceniza.height);
       } else if (mesDibujado === n - 1 && k === n) {
         dibujar(n + ESTELA);
-        if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
+        if (textoMes.current) textoMes.current.textContent = `${datos.anioDesde} a ${datos.anioHasta}`;
         if (textoCuenta.current) textoCuenta.current.textContent = `${entero(datos.total)} focos`;
       }
       raf = requestAnimationFrame(paso);
@@ -297,39 +303,43 @@ export function HeroFocos() {
           ref={lienzo}
           className={estilos.lienzo}
           role="img"
-          aria-label="Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de 2002 hasta octubre de 2024 y dejan una marca acumulada."
+          aria-label={
+            datos
+              ? `Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de ${datos.anioDesde} hasta ${mesAnio(datos.anioHasta, datos.mesHasta)} y dejan una marca acumulada.`
+              : "Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes y dejan una marca acumulada."
+          }
         />
-        {!datos && !error && <p className={estilos.estado}>Cargando 22 años de focos…</p>}
+        {!datos && !error && <p className={estilos.estado}>Cargando los focos de calor…</p>}
         {error && (
           <p className={estilos.estado}>
-            No se pudieron cargar los focos. Recargá la página para intentar de nuevo.
+            No se pudieron cargar los focos. RecargÃ¡ la pÃ¡gina para intentar de nuevo.
           </p>
         )}
         <div className={estilos.lectura} aria-hidden="true">
           <span ref={textoMes} className={estilos.mes}>
-            {" "}
+            {"Â "}
           </span>
           <span ref={textoCuenta} className={estilos.cuenta}>
-            {" "}
+            {"Â "}
           </span>
         </div>
       </div>
       <div className={estilos.pie}>
         <canvas ref={tira} className={estilos.tira} aria-hidden="true" />
         <div className={estilos.ejes} aria-hidden="true">
-          <span>2002</span>
-          <span>2013</span>
-          <span>2024</span>
+          <span>{datos?.anioDesde}</span>
+          <span>{datos ? Math.round((datos.anioDesde + datos.anioHasta) / 2) : ""}</span>
+          <span>{datos?.anioHasta}</span>
         </div>
         <div className={estilos.controles}>
-          <figcaption className="nota">Cada barra es un mes: altura según la cantidad de focos.</figcaption>
+          <figcaption className="nota">Cada barra es un mes: altura segÃºn la cantidad de focos.</figcaption>
           {animar ? (
             <button type="button" className="boton" onClick={() => setPausado((p) => !p)} aria-pressed={pausado}>
               {pausado ? "Reanudar" : "Pausar"}
             </button>
           ) : (
             <button type="button" className="boton" onClick={() => setActiva(true)}>
-              Reproducir animación
+              Reproducir animaciÃ³n
             </button>
           )}
         </div>

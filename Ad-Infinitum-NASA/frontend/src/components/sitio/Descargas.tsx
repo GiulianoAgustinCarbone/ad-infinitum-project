@@ -7,6 +7,28 @@ import type { Resumen } from "@/lib/focos/tipos";
 import estilos from "./Descargas.module.css";
 
 const ATRIBUCION = "Datos: CONAE / Gobierno de San Luis";
+const ATRIBUCION_TODOS = "Datos: CONAE / Gobierno de San Luis y NASA FIRMS";
+
+function porAnioYFuente(resumen: Resumen) {
+  const { porAnioOrigen, porOrigen, fechaMin, fechaMax } = resumen.todos;
+  const nombres = porOrigen.map((o) => o.origen);
+  const filas = [
+    ["anio", ...nombres, "total"],
+    ...porAnioOrigen.map((a) => {
+      const valores = nombres.map((n) => a.origenes[n] ?? 0);
+      return [a.anio, ...valores, valores.reduce((s, v) => s + v, 0)];
+    }),
+    [],
+    [
+      `# ${ATRIBUCION_TODOS}. CONAE: serie base. FIRMS: meses que CONAE no registro y periodo posterior a su serie. Descargado ${resumen.descargado}.`,
+    ],
+  ];
+  descargar(
+    `san-luis_focos-por-anio-y-fuente_${fechaMin.slice(0, 4)}-${fechaMax.slice(0, 4)}.csv`,
+    aCsv(filas),
+    "text/csv;charset=utf-8",
+  );
+}
 
 function anual(resumen: Resumen) {
   const { anual: serie, tendencia: t } = resumen.aqua;
@@ -23,7 +45,7 @@ function anual(resumen: Resumen) {
     ["# Mann-Kendall p", Math.round(t.p * 10000) / 10000],
     ["# Pendiente de Sen (focos por decada)", Math.round(t.senAnual * 100) / 10],
     ["# Significativa (p < 0.05)", t.significativa ? "si" : "no"],
-    [`# ${ATRIBUCION}. Satelite Aqua (MODIS). Descargado ${resumen.descargado}.`],
+    [`# ${ATRIBUCION}. Aqua (MODIS): CONAE y NASA FIRMS donde CONAE no tiene dato. Descargado ${resumen.descargado}.`],
   ];
   descargar(`san-luis_focos-anuales-aqua_${t.desde}-${t.hasta}.csv`, aCsv(filas), "text/csv;charset=utf-8");
 }
@@ -32,15 +54,15 @@ async function mensual(resumen: Resumen) {
   const serie = await fuenteFocos.getSerieMensual();
   const nombres = serie.departamentos.map((d) => d.nombre);
   const filas = [
-    ["mes", ...nombres, "total_provincia"],
+    ["mes", ...nombres, "total_provincia", "fuente"],
     ...serie.meses.map((m, i) => {
       const valores = serie.departamentos.map((d) => d.conteos[i]);
       const total = valores.some((v) => v === null) ? null : valores.reduce<number>((s, v) => s + (v ?? 0), 0);
-      return [m, ...valores, total];
+      return [m, ...valores, total, serie.fuentePorMes?.[i] ?? "CONAE"];
     }),
     [],
     ["# Celdas vacias: mes sin dato en la fuente (no es cero)."],
-    [`# ${ATRIBUCION}. Conteos del satelite Aqua (MODIS). Descargado ${resumen.descargado}.`],
+    [`# ${ATRIBUCION}. Aqua (MODIS): CONAE y NASA FIRMS donde CONAE no tiene dato. Descargado ${resumen.descargado}.`],
   ];
   descargar(`san-luis_focos-mensuales-por-departamento_${serie.meses[0]}_${serie.meses.at(-1)}.csv`, aCsv(filas), "text/csv;charset=utf-8");
 }
@@ -80,6 +102,15 @@ export function Descargas({ resumen }: { resumen: Resumen }) {
               className="boton boton-principal"
               onClick={() => mensual(resumen).catch((e: Error) => setError(e.message))}
             >
+              Descargar CSV
+            </button>
+          </li>
+          <li>
+            <div>
+              <h3>Focos por año y fuente</h3>
+              <p>Todos los focos del sitio, por año y por fuente: CONAE y NASA FIRMS. Incluye los focos que no son de Aqua.</p>
+            </div>
+            <button type="button" className="boton boton-principal" onClick={() => porAnioYFuente(resumen)}>
               Descargar CSV
             </button>
           </li>

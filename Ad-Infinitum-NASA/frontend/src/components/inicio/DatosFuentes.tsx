@@ -1,10 +1,10 @@
 import { EstadoDato } from "@/components/sitio/EstadoDato";
+import { NOMBRE_SATELITE } from "@/lib/focos/satelites";
 import type { Resumen } from "@/lib/focos/tipos";
 import { fechaLarga } from "@/lib/formato";
 import estilos from "./Inicio.module.css";
 
 const SERVICIOS = "https://services5.arcgis.com/HhpfpBpfJF3e3irA/arcgis/rest/services/";
-const NOMBRE_SATELITE: Record<string, string> = { SNPP: "Suomi NPP", NOAA20: "NOAA-20" };
 
 export function DatosFuentes({ resumen }: { resumen: Resumen }) {
   const viirs = resumen.todos.porSatelite.filter((s) => s.sensor === "VIIRS");
@@ -16,7 +16,8 @@ export function DatosFuentes({ resumen }: { resumen: Resumen }) {
         </div>
         <div className={estilos.fuentesTexto}>
           <p className={estilos.atribucion}>
-            Detecciones MODIS (NASA), distribuidas por CONAE y publicadas por el Gobierno de San Luis.
+            Focos de calor de CONAE, publicados por el Gobierno de San Luis, y detecciones de NASA FIRMS para los meses
+            que CONAE no registró y para el periodo posterior a octubre de 2024.
           </p>
           <EstadoDato estado="real" />
           {viirs.length > 0 && (

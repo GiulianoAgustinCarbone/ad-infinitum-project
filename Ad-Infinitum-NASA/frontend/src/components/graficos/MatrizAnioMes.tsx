@@ -17,8 +17,7 @@ export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
       <figcaption>
         <p className={estilos.titulo}>Cada año, mes por mes</p>
         <p className={estilos.subtitulo}>
-          Cantidad de focos detectados por el satélite Aqua. Las celdas rayadas son meses sin dato en la fuente, que no
-          se cuentan como cero.
+          Cantidad de focos de Aqua: CONAE, y NASA FIRMS donde CONAE no tiene dato. Las celdas rayadas son meses fuera del período con datos.
         </p>
       </figcaption>
       <div className={estilos.lienzo} onMouseLeave={ocultar}>

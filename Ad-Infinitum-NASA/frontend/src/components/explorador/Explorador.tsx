@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fuenteFocos, type Departamentos, type Embalses } from "@/lib/data/focos";
 import { CLASES_POTENCIA, SIN_DATO } from "@/lib/focos/escala";
+import { NOMBRE_SATELITE, ORIGEN_CONAE } from "@/lib/focos/satelites";
 import type { FocosCompactos } from "@/lib/focos/tipos";
 import { capitalizar, decimal, entero, MESES, nombreMes } from "@/lib/formato";
 import type { FiltroFocos, Lectura, Vista } from "./MapaFocos";
@@ -15,8 +16,6 @@ const MapaFocos = dynamic(() => import("./MapaFocos"), {
 });
 
 const MS_POR_MES = 700;
-const NOMBRE_SATELITE: Record<string, string> = { TERRA: "Terra", AQUA: "Aqua", SNPP: "Suomi NPP", NOAA20: "NOAA-20" };
-
 type Datos = { focos: FocosCompactos; departamentos: Departamentos; embalses: Embalses };
 
 function contar(f: FocosCompactos, filtro: FiltroFocos, indiceAqua: number): number {
@@ -26,7 +25,8 @@ function contar(f: FocosCompactos, filtro: FiltroFocos, indiceAqua: number): num
     if (filtro.anio !== null && c.anio[i] !== filtro.anio) continue;
     if (filtro.mes !== null && c.mes[i] !== filtro.mes) continue;
     if (filtro.depto !== null && c.depto[i] !== filtro.depto) continue;
-    if (filtro.soloAqua && c.sat[i] !== indiceAqua) continue;
+    // La serie comparable de Aqua es solo la de CONAE: FIRMS tambien tiene Aqua, pero desde 2024 y sin esa tabla
+    if (filtro.soloAqua && (c.sat[i] !== indiceAqua || (c.origen && c.origen[i] !== ORIGEN_CONAE))) continue;
     n++;
   }
   return n;
@@ -303,7 +303,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
           </label>
           <label className={estilos.casilla}>
             <input type="checkbox" checked={soloAqua} onChange={(e) => setSoloAqua(e.target.checked)} />
-            <span>Solo satélite Aqua (la serie que se puede comparar entre años)</span>
+            <span>Solo satélite Aqua de CONAE</span>
           </label>
         </fieldset>
 

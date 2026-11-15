@@ -1,77 +1,84 @@
 {
- "generado": "2026-11-14",
- "descargado": "2026-11-14",
- "fuente": "CONAE / Gobierno de San Luis (ArcGIS Online, capa Focos_de_calor_(2002_2024))",
+ "generado": "2026-11-15",
+ "descargado": "2026-11-15",
+ "fuente": "CONAE / Gobierno de San Luis (2002-2024-10) + NASA FIRMS (meses faltantes y desde 2024-10-02); incendio confirmado por NASA MCD64A1 y VNP64A1 (area quemada, 1 km, mismo mes)",
  "todos": {
-  "total": 38558,
+  "total": 52056,
   "fechaMin": "2002-01-01",
-  "fechaMax": "2024-10-01",
+  "fechaMax": "2026-11-13",
   "porDepto": [
    {
     "nombre": "Gobernador Dupuy",
-    "total": 8610
+    "total": 16285
    },
    {
     "nombre": "General Pedernera",
-    "total": 6974
+    "total": 8826
    },
    {
     "nombre": "Juan Martín de Pueyrredón",
-    "total": 6544
-   },
-   {
-    "nombre": "Coronel Pringles",
-    "total": 3288
+    "total": 8215
    },
    {
     "nombre": "Libertador General San Martín",
-    "total": 3226
+    "total": 3916
+   },
+   {
+    "nombre": "Coronel Pringles",
+    "total": 3867
    },
    {
     "nombre": "Junín",
-    "total": 2955
+    "total": 3266
    },
    {
     "nombre": "Chacabuco",
-    "total": 2756
+    "total": 3036
    },
    {
     "nombre": "Ayacucho",
-    "total": 2352
+    "total": 2541
    },
    {
     "nombre": "Belgrano",
-    "total": 1853
+    "total": 2104
    }
   ],
   "porSatelite": [
    {
     "satelite": "AQUA",
     "sensor": "MODIS",
-    "total": 16766,
+    "total": 17467,
     "desde": 2002,
-    "hasta": 2024
+    "hasta": 2026
    },
    {
     "satelite": "TERRA",
     "sensor": "MODIS",
-    "total": 12571,
+    "total": 13063,
     "desde": 2002,
-    "hasta": 2024
+    "hasta": 2026
    },
    {
     "satelite": "SNPP",
     "sensor": "VIIRS",
-    "total": 6410,
+    "total": 10422,
     "desde": 2012,
-    "hasta": 2024
+    "hasta": 2026
    },
    {
     "satelite": "NOAA20",
     "sensor": "VIIRS",
-    "total": 2811,
+    "total": 7277,
     "desde": 2019,
-    "hasta": 2024
+    "hasta": 2026
+   },
+   {
+    "satelite": "NOAA21",
+    "sensor": "VIIRS",
+    "total": 3827,
+    "desde": 2024,
+    "hasta": 2026
    }
   ],
   "porAnio": [
@@ -117,7 +124,7 @@
    },
    {
     "anio": 2012,
-    "total": 685
+    "total": 697
    },
    {
     "anio": 2013,
@@ -125,19 +132,19 @@
    },
    {
     "anio": 2014,
-    "total": 1061
+    "total": 1087
    },
    {
     "anio": 2015,
-    "total": 531
+    "total": 550
    },
    {
     "anio": 2016,
-    "total": 1318
+    "total": 1339
    },
    {
     "anio": 2017,
-    "total": 2429
+    "total": 2450
    },
    {
     "anio": 2018,
@@ -149,11 +156,11 @@
    },
    {
     "anio": 2020,
-    "total": 3421
+    "total": 3522
    },
    {
     "anio": 2021,
-    "total": 1264
+    "total": 1313
    },
    {
     "anio": 2022,
@@ -165,24 +172,206 @@
    },
    {
     "anio": 2024,
-    "total": 1035
+    "total": 3298
+   },
+   {
+    "anio": 2025,
+    "total": 7197
+   },
+   {
+    "anio": 2026,
+    "total": 3789
+   }
+  ],
+  "porOrigen": [
+   {
+    "origen": "CONAE",
+    "total": 38558,
+    "desde": 2002,
+    "hasta": 2024
+   },
+   {
+    "origen": "FIRMS",
+    "total": 13498,
+    "desde": 2012,
+    "hasta": 2026
+   }
+  ],
+  "porAnioOrigen": [
+   {
+    "anio": 2002,
+    "origenes": {
+     "CONAE": 3504
+    }
+   },
+   {
+    "anio": 2003,
+    "origenes": {
+     "CONAE": 4173
+    }
+   },
+   {
+    "anio": 2004,
+    "origenes": {
+     "CONAE": 657
+    }
+   },
+   {
+    "anio": 2005,
+    "origenes": {
+     "CONAE": 1466
+    }
+   },
+   {
+    "anio": 2006,
+    "origenes": {
+     "CONAE": 1022
+    }
+   },
+   {
+    "anio": 2007,
+    "origenes": {
+     "CONAE": 1012
+    }
+   },
+   {
+    "anio": 2008,
+    "origenes": {
+     "CONAE": 1468
+    }
+   },
+   {
+    "anio": 2009,
+    "origenes": {
+     "CONAE": 3292
+    }
+   },
+   {
+    "anio": 2010,
+    "origenes": {
+     "CONAE": 600
+    }
+   },
+   {
+    "anio": 2011,
+    "origenes": {
+     "CONAE": 946
+    }
+   },
+   {
+    "anio": 2012,
+    "origenes": {
+     "CONAE": 685,
+     "FIRMS": 12
+    }
+   },
+   {
+    "anio": 2013,
+    "origenes": {
+     "CONAE": 1675
+    }
+   },
+   {
+    "anio": 2014,
+    "origenes": {
+     "CONAE": 1061,
+     "FIRMS": 26
+    }
+   },
+   {
+    "anio": 2015,
+    "origenes": {
+     "CONAE": 531,
+     "FIRMS": 19
+    }
+   },
+   {
+    "anio": 2016,
+    "origenes": {
+     "CONAE": 1318,
+     "FIRMS": 21
+    }
+   },
+   {
+    "anio": 2017,
+    "origenes": {
+     "CONAE": 2429,
+     "FIRMS": 21
+    }
+   },
+   {
+    "anio": 2018,
+    "origenes": {
+     "CONAE": 1986
+    }
+   },
+   {
+    "anio": 2019,
+    "origenes": {
+     "CONAE": 899
+    }
+   },
+   {
+    "anio": 2020,
+    "origenes": {
+     "CONAE": 3421,
+     "FIRMS": 101
+    }
+   },
+   {
+    "anio": 2021,
+    "origenes": {
+     "CONAE": 1264,
+     "FIRMS": 49
+    }
+   },
+   {
+    "anio": 2022,
+    "origenes": {
+     "CONAE": 2499
+    }
+   },
+   {
+    "anio": 2023,
+    "origenes": {
+     "CONAE": 1615
+    }
+   },
+   {
+    "anio": 2024,
+    "origenes": {
+     "CONAE": 1035,
+     "FIRMS": 2263
+    }
+   },
+   {
+    "anio": 2025,
+    "origenes": {
+     "FIRMS": 7197
+    }
+   },
+   {
+    "anio": 2026,
+    "origenes": {
+     "FIRMS": 3789
+    }
    }
   ],
   "mesAnioPico": {
-   "anio": 2009,
-   "mes": 10,
-   "total": 1225
+   "anio": 2025,
+   "mes": 12,
+   "total": 1695
   },
   "anioPico": {
-   "anio": 2003,
-   "total": 4173
+   "anio": 2025,
+   "total": 7197
   },
   "potenciaNoConfiable": 6802
  },
  "aqua": {
   "desde": "2002-07",
-  "hasta": "2024-04",
-  "total": 16734,
+  "hasta": "2026-10",
+  "total": 17695,
   "mesesFaltantes": [
    "2012-04",
    "2014-02",
@@ -197,85 +386,85 @@
   "estacionalidad": [
    {
     "mes": 1,
-    "promedio": 47.09090909090909,
-    "anios": 22,
+    "promedio": 44.708333333333336,
+    "anios": 24,
     "maximo": 176,
     "anioMaximo": 2017
    },
    {
     "mes": 2,
-    "promedio": 30.095238095238095,
-    "anios": 21,
+    "promedio": 28.416666666666668,
+    "anios": 24,
     "maximo": 329,
     "anioMaximo": 2003
    },
    {
     "mes": 3,
-    "promedio": 24.272727272727273,
-    "anios": 22,
+    "promedio": 22.375,
+    "anios": 24,
     "maximo": 72,
     "anioMaximo": 2003
    },
    {
     "mes": 4,
-    "promedio": 12.444444444444445,
-    "anios": 18,
+    "promedio": 9.791666666666666,
+    "anios": 24,
     "maximo": 46,
     "anioMaximo": 2003
    },
    {
     "mes": 5,
-    "promedio": 17,
-    "anios": 19,
+    "promedio": 13.75,
+    "anios": 24,
     "maximo": 41,
     "anioMaximo": 2008
    },
    {
     "mes": 6,
-    "promedio": 24.42105263157895,
-    "anios": 19,
+    "promedio": 19.875,
+    "anios": 24,
     "maximo": 78,
     "anioMaximo": 2008
    },
    {
     "mes": 7,
-    "promedio": 47.36363636363637,
-    "anios": 22,
+    "promedio": 43.84,
+    "anios": 25,
     "maximo": 186,
     "anioMaximo": 2002
    },
    {
     "mes": 8,
-    "promedio": 126.0909090909091,
-    "anios": 22,
+    "promedio": 115.52,
+    "anios": 25,
     "maximo": 360,
     "anioMaximo": 2009
    },
    {
     "mes": 9,
-    "promedio": 140.5909090909091,
-    "anios": 22,
-    "maximo": 390,
-    "anioMaximo": 2002
+    "promedio": 143.48,
+    "anios": 25,
+    "maximo": 397,
+    "anioMaximo": 2024
    },
    {
     "mes": 10,
-    "promedio": 179.0909090909091,
-    "anios": 22,
+    "promedio": 161.08,
+    "anios": 25,
     "maximo": 727,
     "anioMaximo": 2009
    },
    {
     "mes": 11,
-    "promedio": 83.27272727272727,
-    "anios": 22,
+    "promedio": 78.20833333333333,
+    "anios": 24,
     "maximo": 460,
     "anioMaximo": 2003
    },
    {
     "mes": 12,
-    "promedio": 38.18181818181818,
-    "anios": 22,
+    "promedio": 36.916666666666664,
+    "anios": 24,
     "maximo": 143,
     "anioMaximo": 2022
    }
@@ -1022,8 +1211,8 @@
    {
     "anio": 2012,
     "mes": 4,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2012,
@@ -1154,8 +1343,8 @@
    {
     "anio": 2014,
     "mes": 2,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2014,
@@ -1238,8 +1427,8 @@
    {
     "anio": 2015,
     "mes": 4,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2015,
@@ -1310,14 +1499,14 @@
    {
     "anio": 2016,
     "mes": 4,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2016,
     "mes": 5,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2016,
@@ -1388,8 +1577,8 @@
    {
     "anio": 2017,
     "mes": 5,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2017,
@@ -1598,8 +1787,8 @@
    {
     "anio": 2020,
     "mes": 4,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2020,
@@ -1610,8 +1799,8 @@
    {
     "anio": 2020,
     "mes": 6,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 1,
+    "estado": "dato"
    },
    {
     "anio": 2020,
@@ -1682,8 +1871,8 @@
    {
     "anio": 2021,
     "mes": 6,
-    "valor": null,
-    "estado": "sin-dato"
+    "valor": 0,
+    "estado": "dato"
    },
    {
     "anio": 2021,
@@ -1892,47 +2081,191 @@
    {
     "anio": 2024,
     "mes": 5,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 2,
+    "estado": "dato"
    },
    {
     "anio": 2024,
     "mes": 6,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 1,
+    "estado": "dato"
    },
    {
     "anio": 2024,
     "mes": 7,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 38,
+    "estado": "dato"
    },
    {
     "anio": 2024,
     "mes": 8,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 24,
+    "estado": "dato"
    },
    {
     "anio": 2024,
     "mes": 9,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 397,
+    "estado": "dato"
    },
    {
     "anio": 2024,
     "mes": 10,
-    "valor": null,
-    "estado": "fuera"
+    "valor": 55,
+    "estado": "dato"
    },
    {
     "anio": 2024,
+    "mes": 11,
+    "valor": 10,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 12,
+    "valor": 14,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 1,
+    "valor": 18,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 2,
+    "valor": 45,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 3,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 4,
+    "valor": 9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 5,
+    "valor": 4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 6,
+    "valor": 6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 7,
+    "valor": 10,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 8,
+    "valor": 72,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 9,
+    "valor": 45,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 10,
+    "valor": 24,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 11,
+    "valor": 35,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 12,
+    "valor": 32,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 1,
+    "valor": 19,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 2,
+    "valor": 5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 3,
+    "valor": 3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 4,
+    "valor": 2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 5,
+    "valor": 1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 6,
+    "valor": 5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 7,
+    "valor": 6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 8,
+    "valor": 18,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 9,
+    "valor": 52,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 10,
+    "valor": 8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
     "mes": 11,
     "valor": null,
     "estado": "fuera"
    },
    {
-    "anio": 2024,
+    "anio": 2026,
     "mes": 12,
     "valor": null,
     "estado": "fuera"
@@ -1941,39 +2274,39 @@
   "ranking": [
    {
     "nombre": "Gobernador Dupuy",
-    "total": 3365
+    "total": 3802
    },
    {
     "nombre": "General Pedernera",
-    "total": 3198
+    "total": 3310
    },
    {
     "nombre": "Juan Martín de Pueyrredón",
-    "total": 2956
-   },
-   {
-    "nombre": "Coronel Pringles",
-    "total": 1431
-   },
-   {
-    "nombre": "Junín",
-    "total": 1399
+    "total": 2994
    },
    {
     "nombre": "Libertador General San Martín",
-    "total": 1305
+    "total": 1590
+   },
+   {
+    "nombre": "Coronel Pringles",
+    "total": 1447
+   },
+   {
+    "nombre": "Junín",
+    "total": 1422
    },
    {
     "nombre": "Chacabuco",
-    "total": 1111
+    "total": 1136
    },
    {
     "nombre": "Ayacucho",
-    "total": 1092
+    "total": 1115
    },
    {
     "nombre": "Belgrano",
-    "total": 877
+    "total": 879
    }
   ],
   "anual": [
@@ -2025,7 +2358,7 @@
    {
     "anio": 2012,
     "total": 271,
-    "mesesSinDato": 1
+    "mesesSinDato": 0
    },
    {
     "anio": 2013,
@@ -2035,22 +2368,22 @@
    {
     "anio": 2014,
     "total": 407,
-    "mesesSinDato": 1
+    "mesesSinDato": 0
    },
    {
     "anio": 2015,
     "total": 244,
-    "mesesSinDato": 1
+    "mesesSinDato": 0
    },
    {
     "anio": 2016,
     "total": 546,
-    "mesesSinDato": 2
+    "mesesSinDato": 0
    },
    {
     "anio": 2017,
     "total": 912,
-    "mesesSinDato": 1
+    "mesesSinDato": 0
    },
    {
     "anio": 2018,
@@ -2064,13 +2397,13 @@
    },
    {
     "anio": 2020,
-    "total": 1016,
-    "mesesSinDato": 2
+    "total": 1017,
+    "mesesSinDato": 0
    },
    {
     "anio": 2021,
     "total": 404,
-    "mesesSinDato": 1
+    "mesesSinDato": 0
    },
    {
     "anio": 2022,
@@ -2081,28 +2414,38 @@
     "anio": 2023,
     "total": 443,
     "mesesSinDato": 0
+   },
+   {
+    "anio": 2024,
+    "total": 551,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2025,
+    "total": 300,
+    "mesesSinDato": 0
    }
   ],
   "tendencia": {
-   "n": 21,
+   "n": 23,
    "desde": 2003,
-   "hasta": 2023,
-   "pendienteAnual": -31.31168831168831,
-   "ordenada": 63744.09523809524,
-   "senAnual": -9.883333333333333,
-   "ordenadaSen": 20436.983333333334,
-   "p": 0.4502950184809418,
+   "hasta": 2025,
+   "pendienteAnual": -29.921936758893274,
+   "ordenada": 60951.4328063241,
+   "senAnual": -11.555555555555555,
+   "ordenadaSen": 23819.888888888887,
+   "p": 0.3155727585410193,
    "significativa": false
   },
   "tendenciaSinFaltantes": {
-   "n": 14,
+   "n": 23,
    "desde": 2003,
-   "hasta": 2023,
-   "pendienteAnual": -36.2247191011236,
-   "ordenada": 73657.33146067416,
-   "senAnual": -13.928571428571429,
-   "ordenadaSen": 28612.571428571428,
-   "p": 0.27356149730955437,
+   "hasta": 2025,
+   "pendienteAnual": -29.921936758893274,
+   "ordenada": 60951.4328063241,
+   "senAnual": -11.555555555555555,
+   "ordenadaSen": 23819.888888888887,
+   "p": 0.3155727585410193,
    "significativa": false
   },
   "mesPico": 10,
@@ -2113,29 +2456,29 @@
     9,
     10
    ],
-   "porcentaje": 57.89893232283839
+   "porcentaje": 58.510087585920324
   }
  },
  "hallazgos": [
   {
-   "titulo": "Octubre de 2009 fue el mes con más focos",
-   "texto": "Los satélites registraron 1.225 focos de calor en San Luis ese mes, el máximo mensual entre 2002 y 2024. El año con más detecciones fue 2003, con 4.173."
+   "titulo": "Diciembre de 2025 fue el mes con más focos",
+   "texto": "Los satélites registraron 1.695 focos de calor en San Luis ese mes, el máximo mensual entre 2002 y 2026. El año con más detecciones fue 2025, con 7.197."
   },
   {
    "titulo": "El fuego tiene temporada: agosto, septiembre y octubre",
-   "texto": "En la serie del satélite Aqua, esos tres meses reúnen el 58 % de los focos de un año promedio. Octubre es el mes más activo (179 focos en promedio) y abril el más tranquilo (12,4)."
+   "texto": "En la serie del satélite Aqua, esos tres meses reúnen el 59 % de los focos de un año promedio. Octubre es el mes más activo (161 focos en promedio) y abril el más tranquilo (9,8)."
   },
   {
    "titulo": "No hay una tendencia clara en la cantidad de focos",
-   "texto": "Entre 2003 y 2023 la serie anual de Aqua baja unos 99 focos por década (pendiente de Sen) y la prueba de Mann-Kendall da p = 0,450. Con años tan distintos entre sí, esa diferencia puede deberse al azar. Sin los 7 años que tienen meses sin dato, p = 0,274."
+   "texto": "Entre 2003 y 2025 la serie anual de Aqua baja unos 116 focos por década (pendiente de Sen) y la prueba de Mann-Kendall da p = 0,316. Con años tan distintos entre sí, esa diferencia puede deberse al azar. Sin los 0 años que tienen meses sin dato, p = 0,316."
   },
   {
-   "titulo": "2003 fue el año más activo",
-   "texto": "Lo es tanto con un solo satélite (Aqua: 2.387 focos) como sumando todos (4.173). El año más tranquilo de Aqua fue 2015, con 244. Años muy activos alternan con años tranquilos, y eso vuelve difícil leer una tendencia."
+   "titulo": "El año más activo depende de qué satélites se cuenten",
+   "texto": "Con un solo satélite (Aqua) fue 2003, con 2.387 focos; sumando todos fue 2025, con 7.197. El año más tranquilo de Aqua fue 2015, con 244. Años muy activos alternan con años tranquilos, y eso vuelve difícil leer una tendencia."
   },
   {
    "titulo": "Gobernador Dupuy es el departamento con más focos",
-   "texto": "Reúne 8.610 detecciones, el 22 % del total provincial, seguido por General Pedernera y Juan Martín de Pueyrredón."
+   "texto": "Reúne 16.285 detecciones, el 31 % del total provincial, seguido por General Pedernera y Juan Martín de Pueyrredón."
   }
  ]
 }

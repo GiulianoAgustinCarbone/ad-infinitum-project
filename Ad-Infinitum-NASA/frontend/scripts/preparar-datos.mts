@@ -13,29 +13,37 @@ import type { FocosCompactos, SerieMensualDeptos } from "../src/lib/focos/tipos.
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..");
 const origen = join(raiz, "..", "backend", "data");
+// Focos de CONAE + NASA FIRMS (generado por: python -m incendios.cruce)
+const focosUnificados = join(origen, "incendios", "focos_confirmados.compact.json");
+// Serie mensual de Aqua: CONAE donde hay dato y NASA FIRMS donde no (generado por: python -m incendios.serie_aqua)
+const serieAqua = join(origen, "incendios", "serie_aqua.json");
 const publico = join(raiz, "public", "datos");
 const generado = join(raiz, "src", "lib", "generado");
 
 const ARCHIVOS: [string, string][] = [
-  ["focos.compact.json", "focos.json"],
   ["departamentos.geojson", "departamentos.geojson"],
   ["departamentos.mensual.json", "departamentos.mensual.json"],
   ["embalses.geojson", "embalses.geojson"],
 ];
 
-for (const [archivo] of ARCHIVOS) {
-  if (!existsSync(join(origen, archivo))) {
-    console.error(`Falta backend/data/${archivo}. Ejecuta: node backend/scripts/descargar_datos.mjs`);
+for (const archivo of [focosUnificados, serieAqua, ...ARCHIVOS.map(([a]) => join(origen, a))]) {
+  if (!existsSync(archivo)) {
+    console.error(
+      `Falta ${archivo}. Genera los focos con: python -m incendios.cruce (en backend/) ` +
+        `y los datos de CONAE con: node backend/scripts/descargar_datos.mjs`,
+    );
     process.exit(1);
   }
 }
 
 mkdirSync(publico, { recursive: true });
 mkdirSync(generado, { recursive: true });
+copyFileSync(focosUnificados, join(publico, "focos.json"));
+copyFileSync(serieAqua, join(publico, "serie-aqua.json"));
 for (const [desde, hacia] of ARCHIVOS) copyFileSync(join(origen, desde), join(publico, hacia));
 
-const focos = JSON.parse(readFileSync(join(origen, "focos.compact.json"), "utf8")) as FocosCompactos;
-const serie = JSON.parse(readFileSync(join(origen, "departamentos.mensual.json"), "utf8")) as SerieMensualDeptos;
+const focos = JSON.parse(readFileSync(focosUnificados, "utf8")) as FocosCompactos;
+const serie = JSON.parse(readFileSync(serieAqua, "utf8")) as SerieMensualDeptos;
 validarEntrada(focos, serie);
 
 // La fecha de generacion es la de descarga: el resumen no cambia entre compilaciones

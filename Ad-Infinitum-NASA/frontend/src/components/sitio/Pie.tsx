@@ -14,7 +14,7 @@ export function Pie({ resumen }: { resumen: Resumen }) {
           <p>Alcance: provincia de San Luis, Argentina.</p>
         </div>
         <div>
-          <p className={estilos.atribucion}>Datos: CONAE / Gobierno de San Luis</p>
+          <p className={estilos.atribucion}>Datos: CONAE / Gobierno de San Luis y NASA FIRMS</p>
           <p>
             Focos de calor, departamentos y embalses publicados en{" "}
             <a href={SERVICIOS} rel="noopener noreferrer">

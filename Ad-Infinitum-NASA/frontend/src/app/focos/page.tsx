@@ -7,6 +7,7 @@ import { Metodo } from "@/components/sitio/Metodo";
 import { Navegacion } from "@/components/sitio/Navegacion";
 import { Pie } from "@/components/sitio/Pie";
 import type { Resumen } from "@/lib/focos/tipos";
+import { entero } from "@/lib/formato";
 import datosResumen from "@/lib/generado/resumen.json";
 import estilos from "./focos.module.css";
 
@@ -28,6 +29,7 @@ const ATAJOS = [
 export default function Focos() {
   const desde = Number(resumen.todos.fechaMin.slice(0, 4));
   const hasta = Number(resumen.todos.fechaMax.slice(0, 4));
+  const totalDe = (origen: string) => resumen.todos.porOrigen.find((o) => o.origen === origen)?.total ?? 0;
   return (
     <>
       <Navegacion />
@@ -58,6 +60,11 @@ export default function Focos() {
                 reproducí el registro mes a mes.
               </p>
             </div>
+            <p className="nota">
+              {entero(resumen.todos.total)} focos en total: {entero(totalDe("CONAE"))} de CONAE y{" "}
+              {entero(totalDe("FIRMS"))} de NASA FIRMS, que completa los meses que CONAE no registró y el periodo posterior
+              a su serie. La serie de Aqua que se usa para comparar años sigue siendo solo la de CONAE.
+            </p>
             <ExploradorEnlazado desde={desde} hasta={hasta} />
           </div>
         </section>

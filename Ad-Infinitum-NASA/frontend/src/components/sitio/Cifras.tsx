@@ -1,13 +1,7 @@
+import { NOMBRE_SATELITE } from "@/lib/focos/satelites";
 import type { Resumen } from "@/lib/focos/tipos";
 import { capitalizar, decimal, entero, fechaLarga, nombreMes } from "@/lib/formato";
 import estilos from "./Cifras.module.css";
-
-const NOMBRE_SATELITE: Record<string, string> = {
-  TERRA: "Terra",
-  AQUA: "Aqua",
-  SNPP: "Suomi NPP",
-  NOAA20: "NOAA-20",
-};
 
 function duracion(desde: string, hasta: string): string {
   const [a0, m0] = desde.split("-").map(Number);

@@ -86,7 +86,7 @@ export const fuenteFocos: FuenteFocos = {
   ilustrativo: false,
   getFocos: () => pedir<FocosCompactos>("focos.json"),
   getDepartamentos: () => pedir<Departamentos>("departamentos.geojson"),
-  getSerieMensual: () => pedir<SerieMensualDeptos>("departamentos.mensual.json"),
+  getSerieMensual: () => pedir<SerieMensualDeptos>("serie-aqua.json"),
   getEmbalses: () => pedir<Embalses>("embalses.geojson"),
   getGrilla() {
     grilla ??= this.getFocos()
