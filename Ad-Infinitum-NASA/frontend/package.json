@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
-    "dev": "next dev",
+    "dev": "vite",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
