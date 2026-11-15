@@ -237,6 +237,22 @@
   width: 100%;
 }
 
+.tablaExtrapolada .tablaScroll {
+  max-height: none;
+  overflow: visible;
+}
+
+.tablaExtrapolada .tablaScroll th,
+.tablaExtrapolada .tablaScroll td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.tablaExtrapolada .tablaScroll thead th {
+  position: static;
+}
+
+
 .tablaScroll th,
 .tablaScroll td {
   padding: 6px 10px;

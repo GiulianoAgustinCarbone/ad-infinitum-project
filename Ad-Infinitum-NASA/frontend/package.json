@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
+    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
-    "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts"
+    "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs",
+    "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
+    "escenario:incendios": "node scripts/preparar-escenario-incendios.mjs"
   },
   "dependencies": {
     "@turf/helpers": "7.4.0",

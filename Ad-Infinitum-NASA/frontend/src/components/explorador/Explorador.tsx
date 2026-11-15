@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { fuenteFocos, type Departamentos, type Embalses } from "@/lib/data/focos";
 import { CLASES_POTENCIA, SIN_DATO } from "@/lib/focos/escala";
 import { NOMBRE_SATELITE, ORIGEN_CONAE } from "@/lib/focos/satelites";
@@ -41,7 +41,7 @@ function describirPeriodo(anio: number | null, mes: number | null): string {
 }
 
 // inicial: mes y anio preseleccionados (por ejemplo desde un enlace de la pagina de inicio)
-export function Explorador({ inicial, modo = "focos" }: { inicial?: { anio: number; mes: number }; modo?: Modo } = {}) {
+export function Explorador({ inicial, modo = "focos", panelInicio }: { inicial?: { anio: number; mes: number }; modo?: Modo; panelInicio?: ReactNode } = {}) {
   const T = TEXTOS[modo];
   const [datos, setDatos] = useState<Datos | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -198,11 +198,18 @@ export function Explorador({ inicial, modo = "focos" }: { inicial?: { anio: numb
       </div>
 
       <div className={estilos.panel}>
+        {panelInicio}
         <p className={estilos.resultado} aria-live="polite">
           <span className={estilos.resultadoNumero}>{datos ? entero(cantidad) : "…"}</span>
-          <span>
-            {cantidad === 1 ? T.singular : T.plural} {periodo} {lugar}
-            {soloAqua ? ", solo satélite Aqua" : ""}.
+          <span className={estilos.resultadoDescripcion}>
+            <span>
+              {cantidad === 1 ? T.singular : T.plural} {periodo} {lugar}
+              {soloAqua ? ", solo satélite Aqua" : ""}.
+            </span>
+            <span className={estilos.reservaDescripcion} aria-hidden="true">
+              {T.plural} {todosLosAnios ? "de todos los meses de septiembre" : `de septiembre de ${anio}`} {lugar}
+              {soloAqua ? ", solo satélite Aqua" : ""}.
+            </span>
           </span>
         </p>
 
@@ -332,14 +339,14 @@ export function Explorador({ inicial, modo = "focos" }: { inicial?: { anio: numb
             </>
           ) : (
             <>
-              <p className={estilos.leyendaTitulo}>ConcentraciÃ³n de {T.plural}, ponderada por su potencia</p>
+              <p className={estilos.leyendaTitulo}>Concentración de {T.plural}, ponderada por su potencia</p>
               <div className={estilos.gradiente} />
               <div className={estilos.gradienteEjes}>
                 <span>menor</span>
                 <span>mayor</span>
               </div>
               <p className="nota">
-                Muestra dÃ³nde se agrupan los {T.plural}, no la superficie quemada. Los focos sin potencia confiable pesan
+                Muestra dónde se agrupan los {T.plural}, no la superficie quemada. Los focos sin potencia confiable pesan
                 como uno de 30 MW.
               </p>
             </>

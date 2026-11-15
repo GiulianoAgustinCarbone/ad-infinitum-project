@@ -143,7 +143,7 @@ export function HeroFocos() {
         b.moveTo(0, y);
         b.lineTo(10, y);
         b.stroke();
-        b.fillText(`${-lat}Â° S`, 14, y + 4);
+        b.fillText(`${-lat}° S`, 14, y + 4);
       }
       for (let lon = -67; lon <= -65; lon++) {
         const x = proy.x(lon);
@@ -152,7 +152,7 @@ export function HeroFocos() {
         b.moveTo(x, alto);
         b.lineTo(x, alto - 10);
         b.stroke();
-        b.fillText(`${-lon}Â° O`, x - 14, alto - 14);
+        b.fillText(`${-lon}° O`, x - 14, alto - 14);
       }
     };
 
@@ -312,15 +312,15 @@ export function HeroFocos() {
         {!datos && !error && <p className={estilos.estado}>Cargando los focos de calor…</p>}
         {error && (
           <p className={estilos.estado}>
-            No se pudieron cargar los focos. RecargÃ¡ la pÃ¡gina para intentar de nuevo.
+            No se pudieron cargar los focos. Recargá la página para intentar de nuevo.
           </p>
         )}
         <div className={estilos.lectura} aria-hidden="true">
           <span ref={textoMes} className={estilos.mes}>
-            {"Â "}
+            {" "}
           </span>
           <span ref={textoCuenta} className={estilos.cuenta}>
-            {"Â "}
+            {" "}
           </span>
         </div>
       </div>
@@ -332,14 +332,14 @@ export function HeroFocos() {
           <span>{datos?.anioHasta}</span>
         </div>
         <div className={estilos.controles}>
-          <figcaption className="nota">Cada barra es un mes: altura segÃºn la cantidad de focos.</figcaption>
+          <figcaption className="nota">Cada barra es un mes: altura según la cantidad de focos.</figcaption>
           {animar ? (
             <button type="button" className="boton" onClick={() => setPausado((p) => !p)} aria-pressed={pausado}>
               {pausado ? "Reanudar" : "Pausar"}
             </button>
           ) : (
             <button type="button" className="boton" onClick={() => setActiva(true)}>
-              Reproducir animaciÃ³n
+              Reproducir animación
             </button>
           )}
         </div>

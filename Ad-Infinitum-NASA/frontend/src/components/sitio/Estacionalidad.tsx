@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { DemoEscenario } from "./DemoEscenario";
 import { BarrasMes } from "@/components/graficos/BarrasMes";
 import { MatrizAnioMes } from "@/components/graficos/MatrizAnioMes";
 import { RankingDeptos } from "@/components/graficos/RankingDeptos";
@@ -36,7 +34,6 @@ function titular(t: Resumen["aqua"]["tendencia"], modo: Modo): string {
 }
 
 export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; modo?: Modo }) {
-  const [escenarioAbierto, setEscenarioAbierto] = useState(false);
   const T = TEXTOS[modo];
   const incendios = modo === "incendios";
   const { aqua, todos } = resumen;
@@ -50,22 +47,13 @@ export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; 
       <div className="contenedor">
         <div className="seccion-cabeza">
           <h2 id="titulo-estacionalidad">
-            {incendios ? "Cuándo se quema y si está cambiando" : "Cuándo hay fuego y si está cambiando"}
+            Análisis del registro histórico
           </h2>
           <p>
             {incendios
               ? "Usamos un solo producto, MCD64A1 (área quemada mensual de MODIS), desde noviembre de 2000 hasta hoy. No depende de qué satélite estaba activo, así que sirve para comparar años completos."
               : "Para comparar años entre sí usamos un solo satélite, Aqua, que observó San Luis con el mismo sensor durante todo el período. Sumar satélites nuevos haría parecer que hay más fuego solo porque hay más ojos mirando."}
           </p>
-        </div>
-
-        <div className={estilos.dos}>
-          <BarrasMes estacionalidad={aqua.estacionalidad} mesPico={aqua.mesPico} desde={aqua.desde} hasta={aqua.hasta} t={T} />
-          <RankingDeptos ranking={aqua.ranking} t={T} />
-        </div>
-
-        <div className={estilos.matriz}>
-          <MatrizAnioMes matriz={aqua.matriz} t={T} modo={modo} />
         </div>
 
         <div className={estilos.tendencia} id="tendencia">
@@ -109,6 +97,12 @@ export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; 
               {t.n} años tienen algún mes sin dato; si se los deja afuera, {valorP(t2.p)}
               {t2.significativa === t.significativa ? " y la conclusión no cambia." : " y la conclusión cambia: tomala con cuidado."}
             </p>
+
+            <p className={`nota ${estilos.pieNota}`}>
+              {incendios
+                ? `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} hectáreas quemadas según MCD64A1, sobre ${entero(todos.total)} incendios confirmados. Solo se analizan años completos.`
+                : `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} focos de Aqua${aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años completos.`}
+            </p>
           </div>
           <figure className={estilos.tendenciaGrafico}>
             <figcaption className={estilos.leyendaSerie}>
@@ -136,18 +130,21 @@ export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; 
               anual={aqua.anual}
               tendencia={t}
               t={T}
-              escenarioAbierto={escenarioAbierto}
-              onAlternarEscenario={incendios ? undefined : () => setEscenarioAbierto((abierto) => !abierto)}
             />
           </figure>
+
         </div>
-        <p className={`nota ${estilos.pieNota}`}>
-          {incendios
-            ? `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} hectáreas quemadas según MCD64A1, sobre ${entero(todos.total)} incendios confirmados. Solo se analizan años completos.`
-            : `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} focos de Aqua${aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años completos.`}
-        </p>
+
+
+        <div className={estilos.dos}>
+          <BarrasMes estacionalidad={aqua.estacionalidad} mesPico={aqua.mesPico} desde={aqua.desde} hasta={aqua.hasta} t={T} />
+          <RankingDeptos ranking={aqua.ranking} t={T} />
+        </div>
+
+        <div className={estilos.matriz}>
+          <MatrizAnioMes matriz={aqua.matriz} t={T} modo={modo} />
+        </div>
       </div>
-      {!incendios && escenarioAbierto && <DemoEscenario />}
     </section>
   );
 }

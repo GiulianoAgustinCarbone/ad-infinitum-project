@@ -12,7 +12,7 @@ import estilos from "./Navegacion.module.css";
 export type Seccion = { texto: string; href: string | null };
 
 export const SECCIONES: Seccion[] = [
-  { texto: "Focos de calor", href: "/focos" },
+  { texto: "Focos e incendios", href: "/focos" },
   { texto: "Sequía y diques", href: null },
   { texto: "Método", href: null },
   { texto: "Datos", href: null },

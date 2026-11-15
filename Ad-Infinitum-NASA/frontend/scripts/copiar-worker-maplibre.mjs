@@ -18,11 +18,11 @@ const workerCsp = join(distDir, 'maplibre-gl-csp-worker.js');
 const destinoWorker = join(publicDir, 'maplibre-gl-worker.mjs');
 
 if (existsSync(workerMjs)) {
-  copyFileSync(workerMjs, destinoWorker);
-} else if (existsSync(workerCsp)) {
-  copyFileSync(workerCsp, destinoWorker);
-} else {
-  throw new Error(`No se encontró el worker de MapLibre en ${distDir}`);
+    copyFileSync(workerMjs, destinoWorker);
+    } else if (existsSync(workerCsp)) {
+    copyFileSync(workerCsp, destinoWorker);
+    } else {
+    throw new Error(`No se encontró el worker de MapLibre en ${distDir}`);
 }
 
 // 3. Si existe el módulo compartido de MapLibre v6, copiarlo también

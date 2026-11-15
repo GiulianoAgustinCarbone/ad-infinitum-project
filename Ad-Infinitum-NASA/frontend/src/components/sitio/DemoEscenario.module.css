@@ -11,3 +11,6 @@
   min-height: 100svh;
   border: 0;
 }
+
+.integrado { width: 100%; }
+.integrado .demo { min-height: 0; }

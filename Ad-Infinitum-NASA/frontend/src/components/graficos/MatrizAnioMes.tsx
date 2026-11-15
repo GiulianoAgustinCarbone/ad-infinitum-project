@@ -24,7 +24,7 @@ export function MatrizAnioMes({ matriz, t, modo }: { matriz: CeldaMatriz[]; t: T
         </p>
       </figcaption>
       <div className={estilos.lienzo} onMouseLeave={ocultar}>
-        <div className={estilos.matriz} role="img" aria-label={modo === "incendios" ? "Matriz de hectÃ¡reas quemadas por aÃ±o y mes. La tabla equivalente estÃ¡ debajo." : "Matriz de focos por aÃ±o y mes. La tabla equivalente estÃ¡ debajo."}>
+        <div className={estilos.matriz} role="img" aria-label={modo === "incendios" ? "Matriz de hectáreas quemadas por año y mes. La tabla equivalente está debajo." : "Matriz de focos por año y mes. La tabla equivalente está debajo."}>
           <span />
           {MESES_CORTOS.map((m) => (
             <span key={m} className={estilos.encabezado}>
@@ -40,7 +40,7 @@ export function MatrizAnioMes({ matriz, t, modo }: { matriz: CeldaMatriz[]; t: T
       <ul className={estilos.leyenda}>
         <li>
           <span className={estilos.muestra} style={{ background: CERO }} />
-          {modo === "incendios" ? "sin Ã¡rea quemada" : "sin focos"}
+          {modo === "incendios" ? "sin área quemada" : "sin focos"}
         </li>
         {clases.map((c) => (
           <li key={c.etiqueta}>
@@ -61,7 +61,7 @@ export function MatrizAnioMes({ matriz, t, modo }: { matriz: CeldaMatriz[]; t: T
         <summary>Ver como tabla</summary>
         <div className={estilos.tablaScroll}>
           <table>
-            <caption className="sr-only">{modo === "incendios" ? "HectÃ¡reas quemadas por aÃ±o y mes" : "Focos por aÃ±o y mes, satÃ©lite Aqua"}</caption>
+            <caption className="sr-only">{modo === "incendios" ? "Hectáreas quemadas por año y mes" : "Focos por año y mes, satélite Aqua"}</caption>
             <thead>
               <tr>
                 <th scope="col">Año</th>

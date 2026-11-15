@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import estilos from "@/app/focos/focos.module.css";
-import { ExploradorEnlazado } from "@/components/explorador/ExploradorEnlazado";
+import acabado from "./AcabadoFocos.module.css";
+import { ExploracionTemporal } from "./ExploracionTemporal";
 import { Descargas } from "@/components/sitio/Descargas";
 import { Estacionalidad } from "@/components/sitio/Estacionalidad";
 import { EstadoDato } from "@/components/sitio/EstadoDato";
@@ -24,6 +25,54 @@ const ATAJOS = [
   { href: "#descargas", texto: "Descargas" },
 ];
 
+function Atajos() {
+  const [activa, setActiva] = useState("#explorar");
+  useEffect(() => {
+    let cuadro = 0;
+    const actualizar = () => {
+      cuadro = 0;
+      let actual = ATAJOS[0].href;
+      for (const atajo of ATAJOS) {
+        const seccion = document.getElementById(atajo.href.slice(1));
+        if (seccion && seccion.getBoundingClientRect().top <= window.innerHeight * .35) actual = atajo.href;
+      }
+      setActiva(actual);
+    };
+    const alDesplazar = () => { if (!cuadro) cuadro = requestAnimationFrame(actualizar); };
+    const alCambiarEnlace = () => {
+      if (ATAJOS.some((a) => a.href === window.location.hash)) setActiva(window.location.hash);
+    };
+    actualizar();
+    alCambiarEnlace();
+    window.addEventListener("scroll", alDesplazar, { passive: true });
+    window.addEventListener("hashchange", alCambiarEnlace);
+    return () => {
+      cancelAnimationFrame(cuadro);
+      window.removeEventListener("scroll", alDesplazar);
+      window.removeEventListener("hashchange", alCambiarEnlace);
+    };
+  }, []);
+  return (
+    <nav aria-label="En esta página" className={estilos.navegacionSecciones}>
+      <ul className={estilos.atajos}>
+        {ATAJOS.map((a, i) => (
+          <li key={a.href}>
+            <a href={a.href} aria-current={activa === a.href ? "location" : undefined} onClick={() => setActiva(a.href)}>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                {i === 0 && <path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5ZM9 3v16M15 5v16" />}
+                {i === 1 && <path d="m3 17 6-6 4 4 8-10M15 5h6v6" />}
+                {i === 2 && <path d="M12 5c-3-2-6-2-10-1v16c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1Zm0 0v16" />}
+                {i === 3 && <path d="M12 3v12m-5-5 5 5 5-5M3 16v5h18v-5" />}
+              </svg>
+              {a.texto}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 function Selector({ modo }: { modo: Modo }) {
   return (
     <nav aria-label="Qué mostrar" className={modoEstilos.selector}>
@@ -37,7 +86,22 @@ function Selector({ modo }: { modo: Modo }) {
             aria-current={activa ? "page" : undefined}
             className={`${modoEstilos.opcion} ${activa ? modoEstilos.activa : ""}`}
           >
-            {m.etiqueta}
+            <span className={modoEstilos.icono} aria-hidden="true">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                {m.valor === "focos" ? (
+                  <><path d="m8 4 4 4-4 4-4-4 4-4Zm8 8 4 4-4 4-4-4 4-4ZM13 3l2-2 4 4-2 2M3 13l-2 2 4 4 2-2M10 10l4 4M17 10l3-3M7 17l-3 3" /></>
+                ) : (
+                  <path d="M13 2c1 5-3 5-2 9 1 2 3 2 4 0 3 3 4 5 3 8-1 3-4 4-7 3-4-1-6-5-4-9 0 3 2 4 3 3-3-6 3-8 3-14Z" />
+                )}
+              </svg>
+            </span>
+            <span className={modoEstilos.textos}>
+              <strong>{m.etiqueta}</strong>
+              <span>{m.valor === "focos"
+                ? "Anomalías térmicas detectadas por satélite. Incluyen quemas controladas y otras fuentes de calor."
+                : "Detecciones asociadas a una cicatriz de quema cercana en el mismo mes. Incluye el análisis de superficie quemada."}</span>
+            </span>
+            <span className={modoEstilos.indicador} aria-hidden="true">{activa && <span />}</span>
           </Link>
         );
       })}
@@ -56,7 +120,7 @@ function Contenido({ modo, resumenFocos, resumenIncendios }: Props & { modo: Mod
   const firms = totalDe("FIRMS");
 
   return (
-    <main id="contenido">
+    <main id="contenido" className={acabado.pagina}>
       <header className={`contenedor ${estilos.cabeza}`}>
         <EstadoDato estado="real" />
         <h1>{incendios ? "Incendios confirmados en San Luis" : "Focos de calor en San Luis"}</h1>
@@ -65,36 +129,24 @@ function Contenido({ modo, resumenFocos, resumenIncendios }: Props & { modo: Mod
             ? `Incendios confirmados entre ${desde} y ${hasta}: dónde y cuándo aparecen, cuánta superficie quemaron y si hay una tendencia.`
             : `Detecciones satelitales de ${desde} a ${hasta}: dónde y cuándo aparecen, cómo se reparten en el año y si hay una tendencia.`}
         </p>
-        <Selector modo={modo} />
-        <nav aria-label="En esta página">
-          <ul className={estilos.atajos}>
-            {ATAJOS.map((a) => (
-              <li key={a.href}>
-                <a href={a.href}>{a.texto}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className={modoEstilos.registro}>
+          <div className={modoEstilos.cabecera}>
+            <span className={modoEstilos.titulo}>Tipo de registro</span>
+            <span className={modoEstilos.ayuda}>Elegí qué mostrar en el mapa y las métricas</span>
+          </div>
+          <Selector modo={modo} />
+        </div>
+        <Atajos />
       </header>
 
-      <section id="explorar" className="seccion seccion-alterna" aria-labelledby="titulo-explorar">
-        <div className="contenedor">
-          <div className="seccion-cabeza">
-            <h2 id="titulo-explorar">Explorá dónde y cuándo aparecen</h2>
-            <p>
-              {incendios
-                ? "Cada punto es un foco de calor confirmado como incendio: tuvo un píxel quemado a menos de 1 km en el mismo mes. Elegí un año y un mes, filtrá por departamento o reproducí el registro mes a mes."
-                : "Cada punto es un foco de calor detectado por satélite. Elegí un año y un mes, filtrá por departamento o reproducí el registro mes a mes."}
-            </p>
-          </div>
-          <p className="nota">
-            {incendios
-              ? `${entero(resumen.todos.total)} incendios confirmados: ${entero(historica)} de la serie histórica (hasta octubre de 2024) y ${entero(firms)} de NASA FIRMS. Las hectáreas quemadas de la tendencia y la matriz vienen de MCD64A1 y no son una cantidad de focos.`
-              : `${entero(resumen.todos.total)} focos en total: ${entero(historica)} de la serie histórica (hasta octubre de 2024) y ${entero(firms)} de NASA FIRMS, que completa los meses que la serie no registra y el período posterior. La serie de Aqua que se usa para comparar años sigue siendo solo la serie histórica.`}
-          </p>
-          <ExploradorEnlazado desde={desde} hasta={hasta} modo={modo} />
-        </div>
-      </section>
+      <ExploracionTemporal
+        desde={desde}
+        hasta={hasta}
+        modo={modo}
+        nota={incendios
+          ? `${entero(resumen.todos.total)} incendios confirmados: ${entero(historica)} de la serie histórica y ${entero(firms)} de NASA FIRMS.`
+          : `${entero(resumen.todos.total)} focos en total: ${entero(historica)} de la serie histórica y ${entero(firms)} de NASA FIRMS. Para la tendencia se analizan años completos de Aqua.`}
+      />
 
       <Estacionalidad resumen={resumen} modo={modo} />
       {incendios ? <MetodoIncendios resumen={resumen} /> : <Metodo resumen={resumen} />}

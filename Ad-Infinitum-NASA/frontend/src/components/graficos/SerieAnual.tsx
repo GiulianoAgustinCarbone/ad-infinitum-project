@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { CENIZA, FUEGO } from "@/lib/focos/escala";
 import { pasoEje, rotuloEje, type Textos } from "@/lib/focos/modo";
@@ -16,12 +16,9 @@ type Props = {
   anual: Resumen["aqua"]["anual"];
   tendencia: TendenciaResumen;
   t: Textos;
-  escenarioAbierto?: boolean;
-  // Sin esta funcion no se muestra el boton del escenario futuro (en incendios)
-  onAlternarEscenario?: () => void;
 };
 
-export function SerieAnual({ anual, tendencia, t, escenarioAbierto = false, onAlternarEscenario }: Props) {
+export function SerieAnual({ anual, tendencia, t }: Props) {
   const { globo, mostrar, ocultar } = useGlobo();
   const { ref, ancho: AN } = useAncho<HTMLDivElement>(720);
   if (anual.length === 0) return <p className="nota">Sin datos anuales para proyectar.</p>;
@@ -159,20 +156,7 @@ export function SerieAnual({ anual, tendencia, t, escenarioAbierto = false, onAl
             </table>
           </div>
         </details>
-        {onAlternarEscenario && (
-          <button
-            type="button"
-            className={estilos.botonEscenario}
-            aria-expanded={escenarioAbierto}
-            aria-controls="demo-escenario-futuro"
-            onClick={onAlternarEscenario}
-          >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M15 3h6v6M21 3l-7 7M9 21H3v-6M3 21l7-7" />
-            </svg>
-            {escenarioAbierto ? "Cerrar escenario futuro" : "Ver escenario futuro"}
-          </button>
-        )}
+
       </div>
     </div>
   );

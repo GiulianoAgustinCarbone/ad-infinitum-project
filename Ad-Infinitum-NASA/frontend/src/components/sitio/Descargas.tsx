@@ -90,6 +90,32 @@ async function mensual(resumen: Resumen, modo: Modo) {
   );
 }
 
+async function escenarioFuturo(modo: Modo) {
+  const ruta = modo === "incendios" ? "/demo/escenario-incendios.html" : "/demo/escenario-futuro.html";
+  const marco = document.querySelector<HTMLIFrameElement>(`iframe[src="${ruta}"]`);
+  const ventana = marco?.contentWindow as (Window & { exportarEscenario?: () => { csv: string; nombre: string } }) | null;
+  const seleccion = ventana?.exportarEscenario?.();
+  if (seleccion) {
+    descargar(seleccion.nombre, "\ufeff" + seleccion.csv, "text/csv;charset=utf-8");
+    return;
+  }
+  // Sin el explorador futuro abierto se exporta el horizonte completo.
+  const respuesta = await fetch(ruta);
+  if (!respuesta.ok) throw new Error("No se pudieron cargar los datos del escenario");
+  const documento = new DOMParser().parseFromString(await respuesta.text(), "text/html");
+  const contenido = documento.getElementById("scenario")?.textContent;
+  if (!contenido) throw new Error("El escenario no contiene datos exportables");
+  const datos = JSON.parse(contenido) as { start: number; end: number; names: string[]; events: [number, number, number, number][] };
+  const filas = [
+    ["periodo", "departamento", "longitud", "latitud", "tipo"],
+    ...datos.events.map(([lon, lat, departamento, mes]) => [
+      `${datos.start + Math.floor(mes / 12)}-${String(mes % 12 + 1).padStart(2, "0")}`,
+      datos.names[departamento], lon, lat, "SIMULADO",
+    ]),
+  ];
+  descargar(`escenario-${modo}-simulado-${datos.start}-${datos.end}.csv`, aCsv(filas), "text/csv;charset=utf-8");
+}
+
 export function Descargas({ resumen, modo = "focos" }: { resumen: Resumen; modo?: Modo }) {
   const [error, setError] = useState<string | null>(null);
   const incendios = modo === "incendios";
@@ -146,6 +172,15 @@ export function Descargas({ resumen, modo = "focos" }: { resumen: Resumen; modo?
               Descargar CSV
             </button>
           </li>
+            <li>
+              <div>
+                <h3>{incendios ? "Escenario futuro basado en incendios" : "Escenario futuro de focos de calor"}</h3>
+                <p>Puntos simulados para diez años. Exporta los filtros del escenario abierto o el horizonte completo si estás en la vista histórica. No son observaciones ni ubicaciones futuras confirmadas.</p>
+              </div>
+              <button type="button" className="boton boton-principal" onClick={() => escenarioFuturo(modo).catch((e: Error) => setError(e.message))}>
+              Descargar CSV
+              </button>
+            </li>
         </ul>
         {error && (
           <p role="alert" className={estilos.error}>
