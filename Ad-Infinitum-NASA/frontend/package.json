@@ -2,19 +2,16 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "22.x"
-  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
     "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
-    "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
-    "preview": "vite preview"
+    "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts"
   },
   "dependencies": {
     "@turf/helpers": "7.4.0",
