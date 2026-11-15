@@ -26,35 +26,35 @@ export function ComoFunciona({ resumen, language = "es" }: { resumen: Resumen; l
     <section id="como-funciona" className="seccion" aria-labelledby="titulo-como" lang={language}>
       <div className="contenedor">
         <div className="seccion-cabeza" data-revelar>
-          <h2 id="titulo-como">{language === "en" ? "How it works" : "Cómo funciona"}</h2>
-          <p>{language === "en" ? "Three steps from satellite observations to a conclusion you can check." : "Tres pasos desde el satélite hasta una conclusión que se puede revisar."}</p>
+          <h2 id="titulo-como">{language === "en" ? "From satellite detections to trend analysis" : "Cómo funciona"}</h2>
+          <p>{language === "en" ? "A reproducible workflow, with the data choices and statistical evidence made explicit." : "Tres pasos desde el satélite hasta una conclusión que se puede revisar."}</p>
         </div>
         <ol className={estilos.pasos}>
           <li data-revelar>
             <span className={estilos.numeroPaso} aria-hidden="true">
               1
             </span>
-            <h3>{language === "en" ? "Satellite observations" : "Datos satelitales"}</h3>
+            <h3>{language === "en" ? "Thermal detections" : "Datos satelitales"}</h3>
             <p>
-              {language === "en" ? `Satellites ${satelites} pass over San Luis several times a day and flag locations that are much hotter than their surroundings. Each detection is a heat hotspot.` : `Los satélites ${satelites} pasan sobre San Luis varias veces por día y marcan cada punto mucho más caliente que su entorno. Cada marca es un foco de calor.`}
+              {language === "en" ? `Instruments on ${satelites} flag thermal anomalies over San Luis. Each point is a satellite detection, not a verified fire report or a measure of burned area.` : `Los satélites ${satelites} pasan sobre San Luis varias veces por día y marcan cada punto mucho más caliente que su entorno. Cada marca es un foco de calor.`}
             </p>
           </li>
           <li data-revelar>
             <span className={estilos.numeroPaso} aria-hidden="true">
               2
             </span>
-            <h3>{language === "en" ? "Monthly record" : "Serie mensual"}</h3>
+            <h3>{language === "en" ? "Comparable monthly series" : "Serie mensual"}</h3>
             <p>
-              {language === "en" ? `We count hotspots by month and department. To compare years, we use Aqua alone, which covers the full period (${dateMonth(a0, m0)} to ${dateMonth(a1, m1)}). Adding satellites introduced later would inflate recent counts.` : `Contamos los focos de cada mes y departamento. Para comparar años usamos solo Aqua, presente en todo el período (de ${dateMonth(a0, m0)} a ${dateMonth(a1, m1)}): sumar los satélites que se agregaron después inflaría los años recientes.`}
+              {language === "en" ? `Detections are aggregated by month and department. Long-term comparisons use Aqua alone across ${dateMonth(a0, m0)}–${dateMonth(a1, m1)}; adding instruments introduced later could create artificial increases in recent years.` : `Contamos los focos de cada mes y departamento. Para comparar años usamos solo Aqua, presente en todo el período (de ${dateMonth(a0, m0)} a ${dateMonth(a1, m1)}): sumar los satélites que se agregaron después inflaría los años recientes.`}
             </p>
           </li>
           <li data-revelar>
             <span className={estilos.numeroPaso} aria-hidden="true">
               3
             </span>
-            <h3>{language === "en" ? "Trend and significance" : "Tendencia con significancia"}</h3>
+            <h3>{language === "en" ? "Trend and statistical evidence" : "Tendencia con significancia"}</h3>
             <p>
-              {language === "en" ? `We test whether hotspot counts rise or fall using the Mann–Kendall test and Sen’s slope. From ${t.desde} to ${t.hasta}, the result is ${t.significativa ? "statistically significant" : "inconclusive"} (${pDisplay}).` : `Medimos si los focos suben o bajan con la prueba de Mann-Kendall y la pendiente de Sen. Entre ${t.desde} y ${t.hasta} el resultado es ${t.significativa ? "significativo" : "no concluyente"} (${pDisplay}).`}
+              {language === "en" ? `Mann–Kendall tests for a monotonic trend; Sen’s slope estimates its annual rate. For ${t.desde}–${t.hasta}, evidence is ${t.significativa ? "statistically significant" : "not conclusive"} (${pDisplay}). This result does not identify causes or predict future fires.` : `Medimos si los focos suben o bajan con la prueba de Mann-Kendall y la pendiente de Sen. Entre ${t.desde} y ${t.hasta} el resultado es ${t.significativa ? "significativo" : "no concluyente"} (${pDisplay}).`}
             </p>
           </li>
         </ol>

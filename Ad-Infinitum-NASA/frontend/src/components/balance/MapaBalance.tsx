@@ -63,7 +63,7 @@ export function MapaBalance({ dams, selectedId, onSelect }: Props) {
           import("maplibre-gl"),
         ]);
         if (!departmentsResponse.ok || !reservoirsResponse.ok) {
-          throw new Error("Map boundary files could not be loaded.");
+          throw new Error("Geographic boundary data could not be loaded.");
         }
         const departments = (await departmentsResponse.json()) as Departamentos;
         const reservoirs = (await reservoirsResponse.json()) as Embalses;
@@ -207,13 +207,13 @@ export function MapaBalance({ dams, selectedId, onSelect }: Props) {
 
   return (
     <div className={estilos.mapFrame}>
-      <div ref={container} className={estilos.mapCanvas} aria-label="Interactive map of San Luis dams" />
+      <div ref={container} className={estilos.mapCanvas} aria-label="Interactive map of reservoir study locations in San Luis" />
       {loading && <div className={estilos.mapMessage}>Loading the San Luis map…</div>}
       {error && <div className={estilos.mapMessage} role="alert">{error}</div>}
       <div className={estilos.mapLegend} aria-label="Map legend">
         <span><i className={estilos.departmentKey} />Department boundaries</span>
-        <span><i className={estilos.waterKey} />Reservoir shapes</span>
-        <span><i className={estilos.markerKey} />Selectable dams</span>
+        <span><i className={estilos.waterKey} />Reservoir outlines</span>
+        <span><i className={estilos.markerKey} />Reservoir study locations</span>
       </div>
     </div>
   );

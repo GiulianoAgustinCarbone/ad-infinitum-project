@@ -16,12 +16,12 @@ export function DatosFuentes({ resumen, language = "es" }: { resumen: Resumen; l
         </div>
         <div className={estilos.fuentesTexto}>
           <p className={estilos.atribucion}>
-            {language === "en" ? "MODIS detections (NASA), distributed by CONAE and published by the Government of San Luis." : "Detecciones MODIS (NASA), distribuidas por CONAE y publicadas por el Gobierno de San Luis."}
+            {language === "en" ? "MODIS thermal detections from NASA, distributed by CONAE and published by the Government of San Luis. These are satellite observations, not verified fire perimeters or burned-area measurements." : "Detecciones MODIS (NASA), distribuidas por CONAE y publicadas por el Gobierno de San Luis."}
           </p>
           <EstadoDato estado="real" language={language} />
           {viirs.length > 0 && (
             <p>
-              {language === "en" ? "The record also includes VIIRS detections from " : "El registro incluye además detecciones VIIRS de "}
+              {language === "en" ? "The combined record also includes VIIRS detections from " : "El registro incluye además detecciones VIIRS de "}
               {viirs.map((s) => `${NOMBRE_SATELITE[s.satelite] ?? s.satelite} (${language === "en" ? "since" : "desde"} ${s.desde})`).join(language === "en" ? " and " : " y ")}.
             </p>
           )}

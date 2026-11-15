@@ -37,22 +37,22 @@ export function Cifras({ resumen, language = "es" }: { resumen: Resumen; languag
       <div className={`contenedor ${estilos.grilla}`}>
         <div className={estilos.principal}>
           <h2 id="titulo-cifras" className={estilos.titulo}>
-            {language === "en" ? "The numbers" : "Los datos en cifras"}
+            {language === "en" ? "Fire detections at a glance" : "Los datos en cifras"}
           </h2>
           <p className={estilos.numero}>{todos.total.toLocaleString(language === "en" ? "en-US" : "es-AR")}</p>
           <p className={estilos.leyenda}>
             {language === "en"
-              ? `satellite-detected heat hotspots in San Luis between ${new Date(`${todos.fechaMin}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })} and ${new Date(`${todos.fechaMax}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.`
+              ? `satellite thermal hotspot detections in San Luis between ${new Date(`${todos.fechaMin}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })} and ${new Date(`${todos.fechaMax}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.`
               : `focos de calor detectados por satélite en San Luis entre el ${fechaLarga(todos.fechaMin)} y el ${fechaLarga(todos.fechaMax)}.`}
           </p>
         </div>
         <dl className={estilos.lista}>
           <div>
-            <dt>{language === "en" ? "Time span" : "Período cubierto"}</dt>
+            <dt>{language === "en" ? "Observation period" : "Período cubierto"}</dt>
             <dd>
               <span className={estilos.valor}>{language === "en" ? duracionEn(todos.fechaMin, todos.fechaMax) : duracion(todos.fechaMin, todos.fechaMax)}</span>
               <span className={estilos.detalle}>
-                {language === "en" ? `of detections, across ${sats.length} satellites: ` : `de detecciones, con ${sats.length} satélites: `}
+                {language === "en" ? `of thermal detections across ${sats.length} satellites: ` : `de detecciones, con ${sats.length} satélites: `}
                 {sats.map((s, i) => (
                   <span key={s.satelite}>
                     {NOMBRE_SATELITE[s.satelite] ?? s.satelite} ({s.sensor}, {language === "en" ? "since" : "desde"} {s.desde})
@@ -63,7 +63,7 @@ export function Cifras({ resumen, language = "es" }: { resumen: Resumen; languag
             </dd>
           </div>
           <div>
-            <dt>{language === "en" ? "Department with the most hotspots" : "Departamento con más focos"}</dt>
+            <dt>{language === "en" ? "Department with the most detections" : "Departamento con más focos"}</dt>
             <dd>
               <span className={estilos.valor}>{primero.nombre}</span>
               <span className={estilos.detalle}>
@@ -72,11 +72,11 @@ export function Cifras({ resumen, language = "es" }: { resumen: Resumen; languag
             </dd>
           </div>
           <div>
-            <dt>{language === "en" ? "Peak month" : "Mes pico"}</dt>
+            <dt>{language === "en" ? "Peak calendar month (Aqua average)" : "Mes pico"}</dt>
             <dd>
               <span className={estilos.valor}>{capitalizar(language === "en" ? new Date(Date.UTC(2020, aqua.mesPico - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" }) : nombreMes(aqua.mesPico))}</span>
               <span className={estilos.detalle}>
-                {language === "en" ? `${pico.promedio.toLocaleString("en-US", { maximumFractionDigits: 0 })} hotspots per year on average, based on Aqua (${pico.anios} years with data).` : `${decimal(pico.promedio, 0)} focos en promedio cada año, según el satélite Aqua (${pico.anios} años con dato).`}
+                {language === "en" ? `${pico.promedio.toLocaleString("en-US", { maximumFractionDigits: 0 })} detections per year on average, based on Aqua (${pico.anios} years with data).` : `${decimal(pico.promedio, 0)} focos en promedio cada año, según el satélite Aqua (${pico.anios} años con dato).`}
               </span>
             </dd>
           </div>

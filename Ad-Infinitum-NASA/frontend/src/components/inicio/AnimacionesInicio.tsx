@@ -17,7 +17,7 @@ export function AnimacionesInicio() {
       gsap.fromTo(
         "[data-entrada]",
         { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.09, delay: 0.08 },
+        { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.09, delay: 0.05 },
       );
 
       for (const el of gsap.utils.toArray<HTMLElement>("[data-revelar]")) {

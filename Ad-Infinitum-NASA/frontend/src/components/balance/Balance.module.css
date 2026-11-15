@@ -1,3 +1,8 @@
+.explorerSection {
+  border-top: 0;
+  background: linear-gradient(to bottom, transparent 0, var(--noche) 320px, var(--noche-2) 480px);
+}
+
 .pageHead {
   padding-top: clamp(38px, 6vw, 76px);
   padding-bottom: clamp(28px, 4vw, 48px);

@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EstadoDato } from "./EstadoDato";
 import estilos from "./Navegacion.module.css";
@@ -28,6 +28,7 @@ const SECCIONES_EN: Seccion[] = [
 
 export function Navegacion({ language = "es" }: { language?: "es" | "en" }) {
   const ruta = usePathname();
+  const router = useRouter();
   const [abierta, setAbierta] = useState(false);
   const [solida, setSolida] = useState(false);
 
@@ -36,6 +37,10 @@ export function Navegacion({ language = "es" }: { language?: "es" | "en" }) {
     const saltar = document.querySelector<HTMLAnchorElement>(".saltar");
     if (saltar) saltar.textContent = language === "en" ? "Skip to main content" : "Saltar al contenido";
   }, [language]);
+
+  useEffect(() => {
+    if (ruta === "/water-balance") window.scrollTo({ top: 0, behavior: "instant" });
+  }, [ruta]);
 
   // Transparente arriba de todo; al hacer scroll la barra toma fondo
   useEffect(() => {
@@ -64,7 +69,11 @@ export function Navegacion({ language = "es" }: { language?: "es" | "en" }) {
           aria-current={ruta === "/" ? "page" : undefined}
           onClick={(e) => {
             setAbierta(false);
-            if (ruta !== "/") return;
+            if (ruta !== "/") {
+              e.preventDefault();
+              router.push("/", { scroll: true });
+              return;
+            }
             e.preventDefault();
             const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             window.scrollTo({ top: 0, behavior: reducirMovimiento ? "auto" : "smooth" });

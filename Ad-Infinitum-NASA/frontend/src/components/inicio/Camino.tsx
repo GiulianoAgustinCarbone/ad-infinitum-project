@@ -52,7 +52,7 @@ export function Camino({ resumen, language = "es" }: { resumen: Resumen; languag
       <div className="contenedor">
         <div className="seccion-cabeza" data-revelar>
           <h2 id="titulo-camino">{language === "en" ? "Choose your path" : "Elegí tu camino"}</h2>
-          <p>{language === "en" ? "Each topic has its own page and data. We’ll show what is ready and what is still in progress." : "Cada tema es una página con sus propios datos. Te avisamos qué está listo y qué está en camino."}</p>
+          <p>{language === "en" ? "Explore the records, compare locations, and review how each indicator was calculated and what it can support." : "Cada tema es una página con sus propios datos. Te avisamos qué está listo y qué está en camino."}</p>
         </div>
         <ul className={estilos.tarjetas}>
           <li className={`${estilos.tarjeta} ${estilos.tarjetaActiva}`} data-revelar>
@@ -62,38 +62,38 @@ export function Camino({ resumen, language = "es" }: { resumen: Resumen; languag
             </div>
             <h3>
               <Link href="/focos" className={estilos.enlaceTarjeta}>
-                {language === "en" ? "When and where does fire activity occur?" : "¿Cuándo y dónde aparece el fuego?"}
+                {language === "en" ? "When and where are heat hotspots detected?" : "¿Cuándo y dónde aparece el fuego?"}
               </Link>
             </h3>
             <figure className={estilos.figura}>
               <MiniaturaFocos resumen={resumen} />
               <figcaption>
-                {language === "en" ? `Average hotspots by month. ${capitalizar(new Date(Date.UTC(2020, pico.mes - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" }))} is the peak, with ${pico.promedio.toLocaleString("en-US", { maximumFractionDigits: 0 })} per year.` : `Focos promedio por mes. ${capitalizar(nombreMes(pico.mes))} es el pico, con ${decimal(pico.promedio, 0)} por año.`}
+                {language === "en" ? `Mean monthly detections in the Aqua record. ${capitalizar(new Date(Date.UTC(2020, pico.mes - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" }))} is highest, averaging ${pico.promedio.toLocaleString("en-US", { maximumFractionDigits: 0 })} detections per year with data.` : `Focos promedio por mes. ${capitalizar(nombreMes(pico.mes))} es el pico, con ${decimal(pico.promedio, 0)} por año.`}
               </figcaption>
             </figure>
             <ul className={estilos.incluye}>
-              <li>{language === "en" ? "Month-by-month and department maps" : "Mapa mes a mes y por departamento"}</li>
-              <li>{language === "en" ? "Seasonality and trend" : "Estacionalidad y tendencia"}</li>
+              <li>{language === "en" ? "Monthly and departmental detection patterns" : "Mapa mes a mes y por departamento"}</li>
+              <li>{language === "en" ? "Seasonality and statistical trend analysis" : "Estacionalidad y tendencia"}</li>
               <li>
                 {language === "en" ? "Compare departments" : "Comparar departamentos"} <EstadoDato estado="proximamente" compacta language={language} />
               </li>
             </ul>
             <span className={estilos.ir} aria-hidden="true">
-              {language === "en" ? "Explore hotspots →" : "Explorar los focos →"}
+              {language === "en" ? "Explore fire detections →" : "Explorar los focos →"}
             </span>
           </li>
           <li className={estilos.tarjeta} data-revelar>
             <div className={estilos.tarjetaCabeza}>
-              <EstadoDato estado="proximamente" language={language} />
-              <span className={estilos.tema}>{language === "en" ? "Drought and reservoirs" : "Sequía y diques"}</span>
+              <EstadoDato estado={language === "en" ? "real" : "proximamente"} language={language} />
+              <span className={estilos.tema}>{language === "en" ? "Water balance" : "Sequía y diques"}</span>
             </div>
-            <h3>{language === "en" ? "Is there less water than before?" : "¿Hay menos agua que antes?"}</h3>
+            <h3>{language === "en" ? <Link href="/water-balance" className={estilos.enlaceTarjeta}>How are rainfall and evapotranspiration changing?</Link> : "¿Hay menos agua que antes?"}</h3>
             <figure className={estilos.figura}>
               <MiniaturaSequia />
-              <figcaption>{language === "en" ? "Concept sketch; data are not available yet." : "Dibujo de referencia, todavía sin datos."}</figcaption>
+              <figcaption>{language === "en" ? "Climate indicators and estimates near selected reservoir locations." : "Dibujo de referencia, todavía sin datos."}</figcaption>
             </figure>
             <p className={estilos.descripcion}>
-              {language === "en" ? "An approximate water balance (rainfall minus evapotranspiration) by area, plus reservoir conditions once records become available." : "Un balance hídrico aproximado (lluvia menos evapotranspiración) por zona y el estado de los diques de la provincia, cuando consigamos sus registros."}
+              {language === "en" ? "Explore monthly rainfall, potential and actual evapotranspiration, and annual aridity trends. The P − ETP balance is a climate indicator, not a measurement of reservoir storage." : "Un balance hídrico aproximado (lluvia menos evapotranspiración) por zona y el estado de los diques de la provincia, cuando consigamos sus registros."}
             </p>
           </li>
         </ul>

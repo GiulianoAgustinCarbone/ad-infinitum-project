@@ -1,4 +1,8 @@
-import { useId } from "react";
+"use client";
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useId, useRef } from "react";
 import { MONTHS_EN } from "@/lib/balance/calculos";
 import type { AnnualClimate, MonthlyClimate } from "@/lib/balance/types";
 import type { Tendencia } from "@/lib/estadistica";
@@ -8,6 +12,32 @@ const COLORS = { rain: "#75c58c", etp: "#a195e6", etr: "#efa06a", observed: "#60
 const WIDTH = 800;
 const HEIGHT = 360;
 const PAD = { left: 56, right: 16, top: 30, bottom: 46 };
+
+function useRevealOnScroll() {
+  const graphRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      const graph = graphRef.current;
+      if (!graph) return;
+      gsap.fromTo(graph,
+        { clipPath: "inset(0 100% 0 0)", autoAlpha: 0 },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          autoAlpha: 1,
+          duration: 2,
+          ease: "power2.out",
+          scrollTrigger: { trigger: graph, start: "top 65%", once: true },
+        },
+      );
+    });
+    return () => media.revert();
+  }, []);
+
+  return graphRef;
+}
 
 function lineSegments(rows: MonthlyClimate[], key: "p" | "etp" | "etr", x: (index: number) => number, y: (value: number) => number) {
   const segments: { path: string; estimated: boolean }[] = [];
@@ -63,6 +93,7 @@ function comparisonZone(
 
 export function MonthlyComparison({ rows, selectedMonth, year }: { rows: MonthlyClimate[]; selectedMonth: number; year: number }) {
   const patternId = useId().replaceAll(":", "");
+  const graphRef = useRevealOnScroll();
   const plotWidth = WIDTH - PAD.left - PAD.right;
   const plotHeight = HEIGHT - PAD.top - PAD.bottom;
   const maximum = Math.max(40, Math.ceil(Math.max(...rows.flatMap((row) => [row.p ?? 0, row.etp ?? 0, row.etr ?? 0])) / 40) * 40);
@@ -70,15 +101,15 @@ export function MonthlyComparison({ rows, selectedMonth, year }: { rows: Monthly
   const y = (value: number) => PAD.top + plotHeight - (value / maximum) * plotHeight;
   const series = [
     { key: "etp" as const, label: "Potential evapotranspiration (ETP)", color: COLORS.etp },
-    { key: "p" as const, label: "Precipitation (P)", color: COLORS.rain },
+    { key: "p" as const, label: "Rainfall (precipitation · P)", color: COLORS.rain },
     { key: "etr" as const, label: "Actual evapotranspiration (ETR)", color: COLORS.etr },
   ];
   return (
     <>
       <div className={estilos.chartScroll}>
-        <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="monthly-chart-title monthly-chart-desc" className={estilos.chartSvg}>
-          <title id="monthly-chart-title">Monthly precipitation and evapotranspiration comparison for {year}</title>
-          <desc id="monthly-chart-desc">Three lines compare precipitation, potential evapotranspiration, and observed actual evapotranspiration in millimeters. Hatched areas mark climatic relationships between the variables.</desc>
+        <svg ref={graphRef} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="monthly-chart-title monthly-chart-desc" className={estilos.chartSvg}>
+          <title id="monthly-chart-title">Monthly rainfall and evapotranspiration comparison for {year}</title>
+          <desc id="monthly-chart-desc">Monthly rainfall, potential evapotranspiration, and actual evapotranspiration in millimeters. Solid lines show observed records; dashed lines show estimates. Hatched areas mark potential climate signals, not reservoir storage.</desc>
           <defs>
             <pattern id={`${patternId}-reserve`} width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#4d9bc322" /><path d="M 0 0 V 8" stroke="#76c9ee" strokeWidth="1.2" /></pattern>
             <pattern id={`${patternId}-deficit`} width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#e9787820" /><path d="M 0 0 V 8" stroke="#f08c8c" strokeWidth="1.2" /></pattern>
@@ -115,6 +146,7 @@ export function MonthlyComparison({ rows, selectedMonth, year }: { rows: Monthly
 
 export function AridityChart({ rows, trend, selectedYear }: { rows: (AnnualClimate & { status: "observed" | "partial" | "estimated" })[]; trend: Tendencia; selectedYear: number }) {
   const clipId = useId().replaceAll(":", "");
+  const graphRef = useRevealOnScroll();
   const plotWidth = WIDTH - PAD.left - PAD.right;
   const plotHeight = HEIGHT - PAD.top - PAD.bottom;
   const forecast = rows.filter((row) => row.status === "estimated");
@@ -133,9 +165,9 @@ export function AridityChart({ rows, trend, selectedYear }: { rows: (AnnualClima
   return (
     <>
       <div className={estilos.chartScroll}>
-        <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="aridity-chart-title aridity-chart-desc" className={estilos.chartSvg}>
-          <title id="aridity-chart-title">Annual aridity index, Sen trend, and estimates through 2031</title>
-          <desc id="aridity-chart-desc">Observed annual aridity index from 2016 to 2025, partial January to August 2026 as an isolated marker, Sen trend fitted to complete observed years from 2002 to 2025, and modeled estimates from 2027 to 2031.</desc>
+        <svg ref={graphRef} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="aridity-chart-title aridity-chart-desc" className={estilos.chartSvg}>
+          <title id="aridity-chart-title">Annual aridity index, observed trend, and statistical estimates through 2031</title>
+          <desc id="aridity-chart-desc">Annual aridity index observations from 2016 to 2025, a partial January to August 2026 value, the Sen trend fitted to complete annual records from 2002 to 2025, and statistical estimates from 2027 to 2031.</desc>
           <defs><clipPath id={`${clipId}-clip`}><rect x={PAD.left} y={PAD.top} width={plotWidth} height={plotHeight} /></clipPath></defs>
           {[0, 1, 2, 3].map((step) => {
             const value = upper * (1 - step / 3);
@@ -154,11 +186,11 @@ export function AridityChart({ rows, trend, selectedYear }: { rows: (AnnualClima
         </svg>
       </div>
       <div className={estilos.chartLegend}>
-        <span><i className={estilos.observedLine} />Observed IA · turquoise</span>
+        <span><i className={estilos.observedLine} />Observed aridity index (IA) · turquoise</span>
         <span><i className={estilos.senLine} />Sen trend · white dashed</span>
-        <span><i className={estilos.partialPoint} />2026 partial · hollow point</span>
-        <span><i className={estilos.estimateLine} />Estimate · amber dashed</span>
-        <span><i className={estilos.uncertaintyKey} />Validation variability band</span>
+        <span><i className={estilos.partialPoint} />2026 partial year · hollow point</span>
+        <span><i className={estilos.estimateLine} />Statistical estimate · amber dashed</span>
+        <span><i className={estilos.uncertaintyKey} />Variability in validation years</span>
       </div>
     </>
   );
