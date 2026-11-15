@@ -24,17 +24,17 @@ export default function Inicio() {
       <FondoInicio>
         <Image src={fondoSanLuis} alt="" fill sizes="100vw" fetchPriority="high" loading="eager" placeholder="blur" />
       </FondoInicio>
-      <Navegacion />
-      <main id="contenido">
-        <Hero resumen={resumen} />
-        <Cifras resumen={resumen} />
-        <Camino resumen={resumen} />
-        <Hallazgo resumen={resumen} />
-        <ComoFunciona resumen={resumen} />
-        <PorQueImporta />
-        <DatosFuentes resumen={resumen} />
+      <Navegacion language="en" />
+      <main id="contenido" lang="en">
+        <Hero resumen={resumen} language="en" />
+        <Cifras resumen={resumen} language="en" />
+        <Camino resumen={resumen} language="en" />
+        <Hallazgo resumen={resumen} language="en" />
+        <ComoFunciona resumen={resumen} language="en" />
+        <PorQueImporta language="en" />
+        <DatosFuentes resumen={resumen} language="en" />
       </main>
-      <Pie resumen={resumen} />
+      <Pie resumen={resumen} language="en" />
       <AnimacionesInicio />
     </>
   );

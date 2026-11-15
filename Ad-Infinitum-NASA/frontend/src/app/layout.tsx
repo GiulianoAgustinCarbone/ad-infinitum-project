@@ -1,10 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible_Next, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-import datosResumen from "@/lib/generado/resumen.json";
-
-const desde = datosResumen.todos.fechaMin.slice(0, 4);
-const hasta = datosResumen.todos.fechaMax.slice(0, 4);
 
 const titulos = Bricolage_Grotesque({
   variable: "--fuente-titulos",
@@ -20,9 +16,9 @@ const texto = Atkinson_Hyperlegible_Next({
 });
 
 export const metadata: Metadata = {
-  title: "Detective de Tendencias: el fuego en San Luis",
+  title: "Eco Forensic | Fire in San Luis",
   description:
-    `Cómo cambiaron los focos de calor detectados por satélite en la provincia de San Luis entre ${desde} y ${hasta}: cuándo, dónde y si hay una tendencia.`,
+    "How satellite-detected heat hotspots changed in San Luis Province between 2002 and 2024: when, where, and whether a trend is present.",
 };
 
 export const viewport: Viewport = {

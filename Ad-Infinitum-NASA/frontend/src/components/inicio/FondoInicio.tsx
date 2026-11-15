@@ -7,9 +7,9 @@ import estilos from "./FondoInicio.module.css";
 //   <FondoInicio><img src="/fondo/san-luis.webp" alt="" /></FondoInicio>
 // El contenido se recorta y se cubre con un degradado hacia el color de fondo para mantener el contraste del texto.
 // Sin hijos se muestra un resplandor suave con la escala de fuego.
-export function FondoInicio({ children }: { children?: ReactNode }) {
+export function FondoInicio({ children, extendido = false }: { children?: ReactNode; extendido?: boolean }) {
   return (
-    <div className={estilos.fondo} aria-hidden="true">
+    <div className={`${estilos.fondo} ${extendido ? estilos.extendido : ""}`} aria-hidden="true">
       <div className={estilos.capa} data-fondo>
         {children ?? <div className={estilos.resplandor} />}
       </div>

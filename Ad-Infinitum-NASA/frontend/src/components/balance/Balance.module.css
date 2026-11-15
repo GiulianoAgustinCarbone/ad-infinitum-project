@@ -1,0 +1,525 @@
+.explorerSection {
+  border-top: 0;
+  background: linear-gradient(to bottom, transparent 0, var(--noche) 320px, var(--noche-2) 480px);
+}
+
+.pageHead {
+  padding-top: clamp(38px, 6vw, 76px);
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: var(--ceniza-2);
+  font-size: 0.95rem;
+}
+
+.pageTitle {
+  max-width: 18ch;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-variation-settings: "wdth" 80, "opsz" 96;
+  letter-spacing: -0.035em;
+}
+
+.pageLead {
+  max-width: 66ch;
+  margin-top: 20px;
+  color: var(--ceniza-2);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+
+.periodNote {
+  margin-top: 18px;
+  color: var(--ceniza-3);
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+}
+
+.control {
+  display: grid;
+  gap: 5px;
+  min-width: 160px;
+}
+
+.control label {
+  color: var(--ceniza-3);
+  font-size: 0.78rem;
+}
+
+.control select {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: var(--radio-chico);
+  background: var(--superficie);
+}
+
+.stateLabel {
+  margin-left: auto;
+  color: var(--ceniza-2);
+  font-size: 0.88rem;
+}
+
+.locationCount {
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 999px;
+  color: var(--ceniza-2);
+  font-size: 0.76rem;
+}
+
+.dashboardSection {
+  padding: clamp(28px, 5vw, 52px) 0;
+}
+
+.sectionTitle {
+  margin-bottom: 8px;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.sectionIntro {
+  margin-bottom: 20px;
+  color: var(--ceniza-2);
+  font-size: 0.98rem;
+}
+
+.mapGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.8fr);
+  gap: 14px;
+}
+
+.mapPanel,
+.listPanel,
+.chartPanel,
+.methodCard {
+  min-width: 0;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.panelHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 14px;
+  padding: 18px 18px 12px;
+}
+
+.panelHeading h3 {
+  font-size: 1.12rem;
+}
+
+.panelHeading p {
+  margin-top: 4px;
+  color: var(--ceniza-3);
+  font-size: 0.83rem;
+}
+
+.mapFrame {
+  position: relative;
+  height: clamp(390px, 54vw, 560px);
+  min-height: 500px;
+  overflow: hidden;
+  border-top: 1px solid #ffffff0b;
+  border-bottom: 1px solid #ffffff0b;
+  background: radial-gradient(ellipse at 50% 46%, #1e3542, #152431 70%);
+}
+
+.mapCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mapMessage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  color: var(--ceniza-2);
+  background: color-mix(in srgb, var(--noche) 68%, transparent);
+  text-align: center;
+}
+
+.mapLegend {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  max-width: calc(100% - 24px);
+  padding: 9px 12px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: var(--radio-chico);
+  background: color-mix(in srgb, var(--noche) 92%, transparent);
+  color: var(--ceniza-2);
+  font-size: 0.74rem;
+}
+
+.mapLegend span,
+.chartLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.departmentKey,
+.waterKey,
+.markerKey {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 10px;
+}
+
+.departmentKey {
+  border: 1px solid #4a6077;
+  background: #1b2a3a;
+}
+
+.waterKey {
+  border: 1px solid #a6d9ee;
+  border-radius: 2px;
+  background: #5e9cc9;
+}
+
+.markerKey {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--ceniza);
+  border-radius: 50%;
+  background: var(--noche-2);
+}
+
+.damMarker {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  padding: 0;
+  border: 2px solid var(--ceniza);
+  border-radius: 50%;
+  background: var(--noche-2);
+  color: var(--ceniza);
+  font: 700 0.7rem/1 var(--fuente-texto), sans-serif;
+  cursor: pointer;
+  box-shadow: 0 1px 5px #0008;
+}
+
+.selectedMarker {
+  border-color: var(--ceniza);
+  background: var(--foco);
+  color: var(--noche);
+}
+
+.listPanel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.damList {
+  display: grid;
+  gap: 3px;
+  padding: 4px 10px 12px;
+}
+
+.damButton {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radio-chico);
+  background: transparent;
+  color: var(--ceniza-2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.damButton:hover {
+  background: var(--superficie-2);
+  color: var(--ceniza);
+}
+
+.damButton[aria-pressed="true"] {
+  border-color: #5e9cc988;
+  background: #5e9cc922;
+  color: var(--ceniza);
+}
+
+.damNumber {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid #5e9cc9;
+  border-radius: 50%;
+  color: #b9e1f2;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.selectedDam {
+  margin: auto 12px 12px;
+  padding: 14px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-chico);
+  background: var(--noche-2);
+}
+
+.selectedDam p {
+  color: var(--ceniza-2);
+  font-size: 0.85rem;
+}
+
+.selectedDam h3 {
+  margin: 4px 0 6px;
+  font-size: 1.02rem;
+}
+
+.coordinates {
+  color: var(--ceniza-3) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0 12px;
+}
+
+.metric {
+  min-width: 0;
+  min-height: 124px;
+  padding: 14px;
+  border: 1px solid var(--linea);
+  border-top: 2px solid var(--linea-fuerte);
+  border-radius: var(--radio-chico);
+  background: var(--superficie);
+}
+
+.metricRain { border-top-color: #75c58c; }
+.metricEtp { border-top-color: #a195e6; }
+.metricBalance { border-top-color: var(--agua); }
+.metricEtr { border-top-color: #efa06a; }
+.metricIa { border-top-color: var(--fuego-4); }
+
+.metricLabel {
+  color: var(--ceniza-3);
+  font-size: 0.8rem;
+}
+
+.metricValue {
+  margin: 6px 0 4px;
+  overflow-wrap: anywhere;
+  font-family: var(--fuente-titulos), sans-serif;
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.metricUnit {
+  color: var(--ceniza-2);
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.interpretation,
+.notice {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--agua);
+  border-radius: 0 var(--radio-chico) var(--radio-chico) 0;
+  background: var(--superficie-2);
+  color: var(--ceniza-2);
+}
+
+.interpretation strong,
+.notice strong {
+  color: var(--ceniza);
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.chartPanel {
+  padding: 18px;
+}
+
+.chartPanel h3 {
+  font-size: 1.12rem;
+}
+
+.chartIntro {
+  margin: 5px 0 14px;
+  color: var(--ceniza-3);
+  font-size: 0.84rem;
+}
+
+.chartScroll {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.chartSvg {
+  display: block;
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  overflow: visible;
+}
+
+.chartGrid {
+  stroke: var(--linea);
+  stroke-width: 1;
+}
+
+.chartAxis {
+  fill: var(--ceniza-3);
+  font-family: var(--fuente-texto), sans-serif;
+  font-size: 12px;
+}
+
+.selectedMonth {
+  stroke: var(--foco);
+  stroke-dasharray: 3 4;
+  stroke-opacity: 0.55;
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 16px;
+  margin-top: 12px;
+  color: var(--ceniza-2);
+  font-size: 0.78rem;
+}
+
+.chartLegend i {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  flex: 0 0 auto;
+  border-radius: 99px;
+}
+
+.estimatedLine,
+.estimateLine { border-top: 2px dashed var(--fuego-4); background: transparent !important; }
+.observedLine { background: #60c4c2; }
+.senLine { border-top: 2px dashed var(--ceniza); background: transparent !important; }
+.partialPoint { width: 10px !important; height: 10px !important; border: 2px solid var(--ceniza-2); border-radius: 50%; background: var(--superficie) !important; }
+.uncertaintyKey { width: 14px !important; height: 10px !important; border: 1px solid #f8b44e88; background: #f8b44e24 !important; }
+.zoneReserve,
+.zoneDeficit,
+.zoneStorage { width: 15px !important; height: 11px !important; border: 1px solid currentColor; }
+.zoneReserve { color: #76c9ee; background: repeating-linear-gradient(135deg, #4d9bc322 0 3px, #76c9ee 3px 4px) !important; }
+.zoneDeficit { color: #f08c8c; background: repeating-linear-gradient(135deg, #e9787820 0 3px, #f08c8c 3px 4px) !important; }
+.zoneStorage { color: #e9d678; background: repeating-linear-gradient(135deg, #e8cf6520 0 3px, #e9d678 3px 4px) !important; }
+
+.trendNote {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: var(--radio-chico);
+  background: var(--superficie-2);
+  color: var(--ceniza-2);
+  font-size: 0.86rem;
+}
+
+.trendNote strong { color: var(--ceniza); }
+
+.methodSection {
+  padding: clamp(36px, 6vw, 72px) 0;
+  border-top: 1px solid var(--linea);
+  background: var(--noche-2);
+}
+
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.methodCard {
+  padding: 16px;
+}
+
+.methodCard h3 {
+  margin-bottom: 7px;
+  font-size: 1rem;
+}
+
+.methodCard p,
+.notice {
+  font-size: 0.87rem;
+}
+
+.methodCard p { color: var(--ceniza-2); }
+
+.sourceLine {
+  margin-top: 18px;
+  color: var(--ceniza-3);
+  font-size: 0.84rem;
+}
+
+.sourceLine a { color: #b9e1f2; }
+
+.error {
+  margin: 22px 0;
+  padding: 18px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--ceniza-2);
+}
+
+@media (max-width: 980px) {
+  .mapGrid { grid-template-columns: 1fr; }
+  .damList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .selectedDam { margin-top: 0; }
+  .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .charts { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .control { min-width: calc(50% - 8px); flex: 1; }
+  .stateLabel { width: 100%; margin-left: 0; }
+  .mapFrame { height: 390px; min-height: 390px; }
+  .mapLegend { font-size: 0.68rem; }
+  .damList { grid-template-columns: 1fr; max-height: 250px; overflow: auto; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .metric { min-height: 112px; padding: 11px; }
+  .metricIa { grid-column: span 2; }
+  .methodGrid { grid-template-columns: 1fr; }
+  .chartPanel { padding: 14px; }
+  .chartSvg { min-width: 570px; }
+}

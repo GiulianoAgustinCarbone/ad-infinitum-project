@@ -2,8 +2,9 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EstadoDato } from "./EstadoDato";
 import estilos from "./Navegacion.module.css";
@@ -13,15 +14,33 @@ export type Seccion = { texto: string; href: string | null };
 
 export const SECCIONES: Seccion[] = [
   { texto: "Focos e incendios", href: "/focos" },
-  { texto: "Sequía y diques", href: null },
+  { texto: "Balance hídrico", href: "/water-balance" },
   { texto: "Método", href: null },
   { texto: "Datos", href: null },
 ];
 
-export function Navegacion() {
+const SECCIONES_EN: Seccion[] = [
+  { texto: "Heat hotspots", href: "/focos" },
+  { texto: "Water balance", href: "/water-balance" },
+  { texto: "Method", href: null },
+  { texto: "Data", href: null },
+];
+
+export function Navegacion({ language = "es" }: { language?: "es" | "en" }) {
   const ruta = usePathname();
+  const router = useRouter();
   const [abierta, setAbierta] = useState(false);
   const [solida, setSolida] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    const saltar = document.querySelector<HTMLAnchorElement>(".saltar");
+    if (saltar) saltar.textContent = language === "en" ? "Skip to main content" : "Saltar al contenido";
+  }, [language]);
+
+  useEffect(() => {
+    if (ruta === "/water-balance") window.scrollTo({ top: 0, behavior: "instant" });
+  }, [ruta]);
 
   // Transparente arriba de todo; al hacer scroll la barra toma fondo
   useEffect(() => {
@@ -42,15 +61,33 @@ export function Navegacion() {
   }, [abierta]);
 
   return (
-    <header className={estilos.barra} data-solida={solida || abierta}>
+    <header className={estilos.barra} data-solida={solida || abierta} lang={language}>
       <div className={`contenedor ${estilos.interior}`}>
-        <Link href="/" className={estilos.marca} aria-current={ruta === "/" ? "page" : undefined}>
-          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="12" cy="12" r="3.2" className={estilos.marcaCentro} />
-            <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <span>Detective de Tendencias</span>
+        <Link
+          href="/"
+          className={estilos.marca}
+          aria-current={ruta === "/" ? "page" : undefined}
+          onClick={(e) => {
+            setAbierta(false);
+            if (ruta !== "/") {
+              e.preventDefault();
+              router.push("/", { scroll: true });
+              return;
+            }
+            e.preventDefault();
+            const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            window.scrollTo({ top: 0, behavior: reducirMovimiento ? "auto" : "smooth" });
+          }}
+        >
+          <Image
+            src="/branding/eco-forensic-mark.webp"
+            alt=""
+            width={320}
+            height={284}
+            priority
+            className={estilos.logo}
+          />
+          <span className={estilos.marcaTexto}>Eco Forensic</span>
         </Link>
         <button
           type="button"
@@ -59,11 +96,11 @@ export function Navegacion() {
           aria-controls="menu-secciones"
           onClick={() => setAbierta((v) => !v)}
         >
-          {abierta ? "Cerrar" : "Menú"}
+          {language === "en" ? (abierta ? "Close" : "Menu") : abierta ? "Cerrar" : "Menú"}
         </button>
-        <nav id="menu-secciones" aria-label="Principal" className={estilos.nav} data-abierta={abierta}>
+        <nav id="menu-secciones" aria-label={language === "en" ? "Main" : "Principal"} className={estilos.nav} data-abierta={abierta}>
           <ul>
-            {SECCIONES.map((s) => (
+            {(language === "en" ? SECCIONES_EN : SECCIONES).map((s) => (
               <li key={s.texto}>
                 {s.href ? (
                   <Link
@@ -76,7 +113,7 @@ export function Navegacion() {
                 ) : (
                   <span className={estilos.inactivo} aria-disabled="true">
                     {s.texto}
-                    <EstadoDato estado="proximamente" compacta />
+                    <EstadoDato estado="proximamente" compacta language={language} />
                   </span>
                 )}
               </li>
