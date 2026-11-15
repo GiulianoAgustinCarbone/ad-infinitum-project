@@ -1,0 +1,2625 @@
+{
+ "generado": "2026-11-15",
+ "descargado": "2026-11-15",
+ "fuente": "Incendios confirmados: focos de CONAE y NASA FIRMS con area quemada (MCD64A1/VNP64A1) a menos de 1 km en el mismo mes.",
+ "todos": {
+  "total": 34269,
+  "fechaMin": "2002-01-01",
+  "fechaMax": "2026-09-30",
+  "porDepto": [
+   {
+    "nombre": "Gobernador Dupuy",
+    "total": 11423
+   },
+   {
+    "nombre": "Juan Martín de Pueyrredón",
+    "total": 6137
+   },
+   {
+    "nombre": "General Pedernera",
+    "total": 4302
+   },
+   {
+    "nombre": "Libertador General San Martín",
+    "total": 3026
+   },
+   {
+    "nombre": "Coronel Pringles",
+    "total": 2743
+   },
+   {
+    "nombre": "Chacabuco",
+    "total": 1858
+   },
+   {
+    "nombre": "Junín",
+    "total": 1745
+   },
+   {
+    "nombre": "Belgrano",
+    "total": 1651
+   },
+   {
+    "nombre": "Ayacucho",
+    "total": 1384
+   }
+  ],
+  "porSatelite": [
+   {
+    "satelite": "AQUA",
+    "sensor": "MODIS",
+    "total": 11312,
+    "desde": 2002,
+    "hasta": 2026
+   },
+   {
+    "satelite": "TERRA",
+    "sensor": "MODIS",
+    "total": 8657,
+    "desde": 2002,
+    "hasta": 2026
+   },
+   {
+    "satelite": "SNPP",
+    "sensor": "VIIRS",
+    "total": 7635,
+    "desde": 2012,
+    "hasta": 2026
+   },
+   {
+    "satelite": "NOAA20",
+    "sensor": "VIIRS",
+    "total": 4784,
+    "desde": 2019,
+    "hasta": 2026
+   },
+   {
+    "satelite": "NOAA21",
+    "sensor": "VIIRS",
+    "total": 1881,
+    "desde": 2024,
+    "hasta": 2026
+   }
+  ],
+  "porAnio": [
+   {
+    "anio": 2002,
+    "total": 2616
+   },
+   {
+    "anio": 2003,
+    "total": 3145
+   },
+   {
+    "anio": 2004,
+    "total": 243
+   },
+   {
+    "anio": 2005,
+    "total": 784
+   },
+   {
+    "anio": 2006,
+    "total": 469
+   },
+   {
+    "anio": 2007,
+    "total": 379
+   },
+   {
+    "anio": 2008,
+    "total": 644
+   },
+   {
+    "anio": 2009,
+    "total": 2600
+   },
+   {
+    "anio": 2010,
+    "total": 258
+   },
+   {
+    "anio": 2011,
+    "total": 443
+   },
+   {
+    "anio": 2012,
+    "total": 365
+   },
+   {
+    "anio": 2013,
+    "total": 1197
+   },
+   {
+    "anio": 2014,
+    "total": 700
+   },
+   {
+    "anio": 2015,
+    "total": 256
+   },
+   {
+    "anio": 2016,
+    "total": 993
+   },
+   {
+    "anio": 2017,
+    "total": 1981
+   },
+   {
+    "anio": 2018,
+    "total": 1581
+   },
+   {
+    "anio": 2019,
+    "total": 617
+   },
+   {
+    "anio": 2020,
+    "total": 2986
+   },
+   {
+    "anio": 2021,
+    "total": 1021
+   },
+   {
+    "anio": 2022,
+    "total": 2146
+   },
+   {
+    "anio": 2023,
+    "total": 1241
+   },
+   {
+    "anio": 2024,
+    "total": 2081
+   },
+   {
+    "anio": 2025,
+    "total": 3709
+   },
+   {
+    "anio": 2026,
+    "total": 1814
+   }
+  ],
+  "porOrigen": [
+   {
+    "origen": "CONAE",
+    "total": 27578,
+    "desde": 2002,
+    "hasta": 2024
+   },
+   {
+    "origen": "FIRMS",
+    "total": 6691,
+    "desde": 2016,
+    "hasta": 2026
+   }
+  ],
+  "porAnioOrigen": [
+   {
+    "anio": 2002,
+    "origenes": {
+     "CONAE": 2616
+    }
+   },
+   {
+    "anio": 2003,
+    "origenes": {
+     "CONAE": 3145
+    }
+   },
+   {
+    "anio": 2004,
+    "origenes": {
+     "CONAE": 243
+    }
+   },
+   {
+    "anio": 2005,
+    "origenes": {
+     "CONAE": 784
+    }
+   },
+   {
+    "anio": 2006,
+    "origenes": {
+     "CONAE": 469
+    }
+   },
+   {
+    "anio": 2007,
+    "origenes": {
+     "CONAE": 379
+    }
+   },
+   {
+    "anio": 2008,
+    "origenes": {
+     "CONAE": 644
+    }
+   },
+   {
+    "anio": 2009,
+    "origenes": {
+     "CONAE": 2600
+    }
+   },
+   {
+    "anio": 2010,
+    "origenes": {
+     "CONAE": 258
+    }
+   },
+   {
+    "anio": 2011,
+    "origenes": {
+     "CONAE": 443
+    }
+   },
+   {
+    "anio": 2012,
+    "origenes": {
+     "CONAE": 365
+    }
+   },
+   {
+    "anio": 2013,
+    "origenes": {
+     "CONAE": 1197
+    }
+   },
+   {
+    "anio": 2014,
+    "origenes": {
+     "CONAE": 700
+    }
+   },
+   {
+    "anio": 2015,
+    "origenes": {
+     "CONAE": 256
+    }
+   },
+   {
+    "anio": 2016,
+    "origenes": {
+     "CONAE": 989,
+     "FIRMS": 4
+    }
+   },
+   {
+    "anio": 2017,
+    "origenes": {
+     "CONAE": 1981
+    }
+   },
+   {
+    "anio": 2018,
+    "origenes": {
+     "CONAE": 1581
+    }
+   },
+   {
+    "anio": 2019,
+    "origenes": {
+     "CONAE": 617
+    }
+   },
+   {
+    "anio": 2020,
+    "origenes": {
+     "CONAE": 2976,
+     "FIRMS": 10
+    }
+   },
+   {
+    "anio": 2021,
+    "origenes": {
+     "CONAE": 1021
+    }
+   },
+   {
+    "anio": 2022,
+    "origenes": {
+     "CONAE": 2146
+    }
+   },
+   {
+    "anio": 2023,
+    "origenes": {
+     "CONAE": 1241
+    }
+   },
+   {
+    "anio": 2024,
+    "origenes": {
+     "CONAE": 927,
+     "FIRMS": 1154
+    }
+   },
+   {
+    "anio": 2025,
+    "origenes": {
+     "FIRMS": 3709
+    }
+   },
+   {
+    "anio": 2026,
+    "origenes": {
+     "FIRMS": 1814
+    }
+   }
+  ],
+  "mesAnioPico": {
+   "anio": 2025,
+   "mes": 12,
+   "total": 1329
+  },
+  "anioPico": {
+   "anio": 2025,
+   "total": 3709
+  },
+  "potenciaNoConfiable": 5108
+ },
+ "aqua": {
+  "desde": "2000-11",
+  "hasta": "2026-10",
+  "total": 5257036.599999997,
+  "mesesFaltantes": [
+   "2026-10"
+  ],
+  "estacionalidad": [
+   {
+    "mes": 1,
+    "promedio": 27338.450000000008,
+    "anios": 26,
+    "maximo": 95265.4,
+    "anioMaximo": 2001
+   },
+   {
+    "mes": 2,
+    "promedio": 18545.676923076928,
+    "anios": 26,
+    "maximo": 145366.80000000002,
+    "anioMaximo": 2001
+   },
+   {
+    "mes": 3,
+    "promedio": 14378.023076923077,
+    "anios": 26,
+    "maximo": 62293.9,
+    "anioMaximo": 2003
+   },
+   {
+    "mes": 4,
+    "promedio": 6372.080769230771,
+    "anios": 26,
+    "maximo": 43661.50000000001,
+    "anioMaximo": 2016
+   },
+   {
+    "mes": 5,
+    "promedio": 1095.6038461538462,
+    "anios": 26,
+    "maximo": 4915.7,
+    "anioMaximo": 2005
+   },
+   {
+    "mes": 6,
+    "promedio": 1240.892307692308,
+    "anios": 26,
+    "maximo": 6461.2,
+    "anioMaximo": 2002
+   },
+   {
+    "mes": 7,
+    "promedio": 5582.7730769230775,
+    "anios": 26,
+    "maximo": 49328.6,
+    "anioMaximo": 2002
+   },
+   {
+    "mes": 8,
+    "promedio": 18793.373076923075,
+    "anios": 26,
+    "maximo": 120874.40000000001,
+    "anioMaximo": 2009
+   },
+   {
+    "mes": 9,
+    "promedio": 26430.257692307692,
+    "anios": 26,
+    "maximo": 70923.3,
+    "anioMaximo": 2020
+   },
+   {
+    "mes": 10,
+    "promedio": 31777.231999999996,
+    "anios": 25,
+    "maximo": 238013.7,
+    "anioMaximo": 2009
+   },
+   {
+    "mes": 11,
+    "promedio": 25753.288461538465,
+    "anios": 26,
+    "maximo": 199782.80000000002,
+    "anioMaximo": 2003
+   },
+   {
+    "mes": 12,
+    "promedio": 26108.265384615384,
+    "anios": 26,
+    "maximo": 169408.6,
+    "anioMaximo": 2000
+   }
+  ],
+  "matriz": [
+   {
+    "anio": 2000,
+    "mes": 1,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 2,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 3,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 4,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 5,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 6,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 7,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 8,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 9,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 10,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2000,
+    "mes": 11,
+    "valor": 32027.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2000,
+    "mes": 12,
+    "valor": 169408.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 1,
+    "valor": 95265.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 2,
+    "valor": 145366.80000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 3,
+    "valor": 52376.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 4,
+    "valor": 815.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 5,
+    "valor": 665.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 6,
+    "valor": 3735.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 7,
+    "valor": 5151.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 8,
+    "valor": 59567.799999999996,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 9,
+    "valor": 41686.700000000004,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 10,
+    "valor": 4915.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 11,
+    "valor": 6139.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2001,
+    "mes": 12,
+    "valor": 89963.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 1,
+    "valor": 40248.50000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 2,
+    "valor": 71159.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 3,
+    "valor": 21551.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 4,
+    "valor": 7749.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 5,
+    "valor": 3391.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 6,
+    "valor": 6461.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 7,
+    "valor": 49328.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 8,
+    "valor": 47353.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 9,
+    "valor": 58666,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 10,
+    "valor": 117203.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 11,
+    "valor": 159491.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2002,
+    "mes": 12,
+    "valor": 6826,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 1,
+    "valor": 25329.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 2,
+    "valor": 103487,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 3,
+    "valor": 62293.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 4,
+    "valor": 8650.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 5,
+    "valor": 901.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 6,
+    "valor": 665.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 7,
+    "valor": 3992.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 8,
+    "valor": 21508.899999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 9,
+    "valor": 53492.90000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 10,
+    "valor": 111708.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 11,
+    "valor": 199782.80000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2003,
+    "mes": 12,
+    "valor": 46752.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 1,
+    "valor": 18696.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 2,
+    "valor": 3992.7999999999997,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 3,
+    "valor": 3134.0000000000005,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 4,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 5,
+    "valor": 21.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 6,
+    "valor": 64.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 7,
+    "valor": 1373.8000000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 8,
+    "valor": 7899.599999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 9,
+    "valor": 23011.399999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 10,
+    "valor": 3220,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 11,
+    "valor": 794.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2004,
+    "mes": 12,
+    "valor": 300.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 1,
+    "valor": 3069.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 2,
+    "valor": 5946,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 3,
+    "valor": 11784.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 4,
+    "valor": 7148,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 5,
+    "valor": 4915.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 6,
+    "valor": 1438.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 7,
+    "valor": 6718.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 8,
+    "valor": 8672.199999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 9,
+    "valor": 30030.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 10,
+    "valor": 22753.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 11,
+    "valor": 42588.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2005,
+    "mes": 12,
+    "valor": 39089.399999999994,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 1,
+    "valor": 25952.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 2,
+    "valor": 21702,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 3,
+    "valor": 7749.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 4,
+    "valor": 1266.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 5,
+    "valor": 622.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 6,
+    "valor": 1116.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 7,
+    "valor": 2189.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 8,
+    "valor": 8328.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 9,
+    "valor": 22238.699999999997,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 10,
+    "valor": 3563.3999999999996,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 11,
+    "valor": 2897.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2006,
+    "mes": 12,
+    "valor": 22217.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 1,
+    "valor": 1567,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 2,
+    "valor": 1910.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 3,
+    "valor": 171.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 4,
+    "valor": 1824.6000000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 5,
+    "valor": 1953.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 6,
+    "valor": 2125.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 7,
+    "valor": 4700.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 8,
+    "valor": 17795.300000000003,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 9,
+    "valor": 30438.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 10,
+    "valor": 2168,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 11,
+    "valor": 2683.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2007,
+    "mes": 12,
+    "valor": 19040.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 1,
+    "valor": 8500.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 2,
+    "valor": 5237.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 3,
+    "valor": 6418.400000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 4,
+    "valor": 6826.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 5,
+    "valor": 880.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 6,
+    "valor": 2146.6000000000004,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 7,
+    "valor": 3026.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 8,
+    "valor": 14768.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 9,
+    "valor": 39153.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 10,
+    "valor": 6332.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 11,
+    "valor": 23698.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2008,
+    "mes": 12,
+    "valor": 4142.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 1,
+    "valor": 60082.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 2,
+    "valor": 16314.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 3,
+    "valor": 4100,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 4,
+    "valor": 4572.299999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 5,
+    "valor": 4464.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 6,
+    "valor": 5989.000000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 7,
+    "valor": 9809.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 8,
+    "valor": 120874.40000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 9,
+    "valor": 27433.199999999997,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 10,
+    "valor": 238013.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 11,
+    "valor": 68154.09999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2009,
+    "mes": 12,
+    "valor": 1352.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 1,
+    "valor": 7899.500000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 2,
+    "valor": 5473.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 3,
+    "valor": 1803.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 4,
+    "valor": 1975,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 5,
+    "valor": 429.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 6,
+    "valor": 364.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 7,
+    "valor": 2060.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 8,
+    "valor": 14339.199999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 9,
+    "valor": 20049.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 10,
+    "valor": 4421.900000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 11,
+    "valor": 2940.9000000000005,
+    "estado": "dato"
+   },
+   {
+    "anio": 2010,
+    "mes": 12,
+    "valor": 18224.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 1,
+    "valor": 43296.700000000004,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 2,
+    "valor": 7105.199999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 3,
+    "valor": 2576,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 4,
+    "valor": 2511.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 5,
+    "valor": 150.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 6,
+    "valor": 21.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 7,
+    "valor": 729.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 8,
+    "valor": 4142.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 9,
+    "valor": 16700.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 10,
+    "valor": 5388,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 11,
+    "valor": 2640.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2011,
+    "mes": 12,
+    "valor": 14682.699999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 1,
+    "valor": 80132.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 2,
+    "valor": 3735,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 3,
+    "valor": 1481.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 4,
+    "valor": 1051.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 5,
+    "valor": 601,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 6,
+    "valor": 3305.7000000000003,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 7,
+    "valor": 7105.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 8,
+    "valor": 4228.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 9,
+    "valor": 5602.499999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 10,
+    "valor": 1116.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 11,
+    "valor": 1073.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2012,
+    "mes": 12,
+    "valor": 4786.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 1,
+    "valor": 30739.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 2,
+    "valor": 12428.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 3,
+    "valor": 16550.300000000003,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 4,
+    "valor": 3391.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 5,
+    "valor": 1953.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 6,
+    "valor": 472.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 7,
+    "valor": 2232.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 8,
+    "valor": 12557.499999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 9,
+    "valor": 43124.99999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 10,
+    "valor": 11956.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 11,
+    "valor": 3756.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2013,
+    "mes": 12,
+    "valor": 29300.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 1,
+    "valor": 56455.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 2,
+    "valor": 386.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 3,
+    "valor": 3906.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 4,
+    "valor": 12686.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 5,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 6,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 7,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 8,
+    "valor": 1545.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 9,
+    "valor": 4980.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 10,
+    "valor": 4057.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 11,
+    "valor": 20113.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2014,
+    "mes": 12,
+    "valor": 23784.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 1,
+    "valor": 5666.999999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 2,
+    "valor": 2468.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 3,
+    "valor": 2661.7999999999997,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 4,
+    "valor": 4765.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 5,
+    "valor": 21.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 6,
+    "valor": 536.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 7,
+    "valor": 2168.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 8,
+    "valor": 5752.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 9,
+    "valor": 12042.400000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 10,
+    "valor": 3477.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 11,
+    "valor": 729.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2015,
+    "mes": 12,
+    "valor": 2919.2999999999997,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 1,
+    "valor": 3026.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 2,
+    "valor": 3348.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 3,
+    "valor": 6246.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 4,
+    "valor": 43661.50000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 5,
+    "valor": 128.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 6,
+    "valor": 343.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 7,
+    "valor": 1953.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 8,
+    "valor": 26510.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 9,
+    "valor": 22775.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 10,
+    "valor": 6246.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 11,
+    "valor": 7642,
+    "estado": "dato"
+   },
+   {
+    "anio": 2016,
+    "mes": 12,
+    "valor": 25351.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 1,
+    "valor": 65213.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 2,
+    "valor": 7706.200000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 3,
+    "valor": 22474.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 4,
+    "valor": 11012.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 5,
+    "valor": 171.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 6,
+    "valor": 42.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 7,
+    "valor": 450.79999999999995,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 8,
+    "valor": 12257.000000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 9,
+    "valor": 16485.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 10,
+    "valor": 68819.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 11,
+    "valor": 15777.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2017,
+    "mes": 12,
+    "valor": 9681.100000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 1,
+    "valor": 33615.600000000006,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 2,
+    "valor": 20693,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 3,
+    "valor": 28013,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 4,
+    "valor": 6826.199999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 5,
+    "valor": 1588.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 6,
+    "valor": 2468.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 7,
+    "valor": 3005.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 8,
+    "valor": 46258.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 9,
+    "valor": 6439.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 10,
+    "valor": 22775.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 11,
+    "valor": 3885.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2018,
+    "mes": 12,
+    "valor": 23183.100000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 1,
+    "valor": 751.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 2,
+    "valor": 2318.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 3,
+    "valor": 14596.900000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 4,
+    "valor": 5688.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 5,
+    "valor": 64.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 6,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 7,
+    "valor": 2447.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 8,
+    "valor": 16679,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 9,
+    "valor": 10539.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 10,
+    "valor": 8844,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 11,
+    "valor": 19791.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2019,
+    "mes": 12,
+    "valor": 6268.099999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 1,
+    "valor": 4422,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 2,
+    "valor": 1803.1999999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 3,
+    "valor": 35805.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 4,
+    "valor": 3413.1000000000004,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 5,
+    "valor": 2532.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 6,
+    "valor": 601,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 7,
+    "valor": 3434.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 8,
+    "valor": 5323.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 9,
+    "valor": 70923.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 10,
+    "valor": 68776.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 11,
+    "valor": 25737.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2020,
+    "mes": 12,
+    "valor": 30009.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 1,
+    "valor": 2318.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 2,
+    "valor": 4529.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 3,
+    "valor": 23032.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 4,
+    "valor": 3949.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 5,
+    "valor": 450.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 6,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 7,
+    "valor": 128.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 8,
+    "valor": 3799.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 9,
+    "valor": 3391.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 10,
+    "valor": 24771.600000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 11,
+    "valor": 7255.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2021,
+    "mes": 12,
+    "valor": 815.8000000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 1,
+    "valor": 31640.899999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 2,
+    "valor": 450.79999999999995,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 3,
+    "valor": 3413.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 4,
+    "valor": 1438.1999999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 5,
+    "valor": 1159.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 6,
+    "valor": 21.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 7,
+    "valor": 30460.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 8,
+    "valor": 2790.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 9,
+    "valor": 43833.299999999996,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 10,
+    "valor": 24084.600000000002,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 11,
+    "valor": 5581.200000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2022,
+    "mes": 12,
+    "valor": 62379.700000000004,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 1,
+    "valor": 52934.899999999994,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 2,
+    "valor": 1567,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 3,
+    "valor": 29794.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 4,
+    "valor": 1588.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 5,
+    "valor": 1416.8,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 6,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 7,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 8,
+    "valor": 17430.300000000003,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 9,
+    "valor": 7727.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 10,
+    "valor": 23913.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 11,
+    "valor": 2060.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2023,
+    "mes": 12,
+    "valor": 3134.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 1,
+    "valor": 6654.599999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 2,
+    "valor": 1674.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 3,
+    "valor": 1309.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 4,
+    "valor": 22324.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 5,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 6,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 7,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 8,
+    "valor": 901.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 9,
+    "valor": 68154.1,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 10,
+    "valor": 5838.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 11,
+    "valor": 300.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2024,
+    "mes": 12,
+    "valor": 7513.099999999999,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 1,
+    "valor": 3928.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 2,
+    "valor": 29923.400000000005,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 3,
+    "valor": 8328.800000000001,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 4,
+    "valor": 536.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 5,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 6,
+    "valor": 322,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 7,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 8,
+    "valor": 4422,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 9,
+    "valor": 3820.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 10,
+    "valor": 64.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 11,
+    "valor": 12042.4,
+    "estado": "dato"
+   },
+   {
+    "anio": 2025,
+    "mes": 12,
+    "valor": 17687.899999999998,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 1,
+    "valor": 3391.6,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 2,
+    "valor": 1459.7,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 3,
+    "valor": 2253.9,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 4,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 5,
+    "valor": 0,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 6,
+    "valor": 21.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 7,
+    "valor": 2683.2,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 8,
+    "valor": 2919.3,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 9,
+    "valor": 4443.5,
+    "estado": "dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 10,
+    "valor": null,
+    "estado": "sin-dato"
+   },
+   {
+    "anio": 2026,
+    "mes": 11,
+    "valor": null,
+    "estado": "fuera"
+   },
+   {
+    "anio": 2026,
+    "mes": 12,
+    "valor": null,
+    "estado": "fuera"
+   }
+  ],
+  "ranking": [
+   {
+    "nombre": "Gobernador Dupuy",
+    "total": 1649888.199999999
+   },
+   {
+    "nombre": "Juan Martín de Pueyrredón",
+    "total": 1576968.6999999986
+   },
+   {
+    "nombre": "General Pedernera",
+    "total": 835731
+   },
+   {
+    "nombre": "Coronel Pringles",
+    "total": 351311.10000000003
+   },
+   {
+    "nombre": "Libertador General San Martín",
+    "total": 278820.00000000006
+   },
+   {
+    "nombre": "Chacabuco",
+    "total": 157108.99999999997
+   },
+   {
+    "nombre": "Belgrano",
+    "total": 139742.79999999996
+   },
+   {
+    "nombre": "Ayacucho",
+    "total": 135858.19999999998
+   },
+   {
+    "nombre": "Junín",
+    "total": 131607.59999999992
+   }
+  ],
+  "anual": [
+   {
+    "anio": 2001,
+    "total": 505650,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2002,
+    "total": 589430.8,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2003,
+    "total": 638566.7000000001,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2004,
+    "total": 62508.899999999994,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2005,
+    "total": 184155.5,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2006,
+    "total": 119844.19999999998,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2007,
+    "total": 86378.59999999999,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2008,
+    "total": 121132.09999999998,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2009,
+    "total": 561160.8,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2010,
+    "total": 79982,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2011,
+    "total": 99945.20000000001,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2012,
+    "total": 114219.9,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2013,
+    "total": 168464.4,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2014,
+    "total": 127915.30000000002,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2015,
+    "total": 43210.9,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2016,
+    "total": 147234.50000000003,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2017,
+    "total": 230092.7,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2018,
+    "total": 198752.6,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2019,
+    "total": 87988.79999999999,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2020,
+    "total": 252782.3,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2021,
+    "total": 74443.5,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2022,
+    "total": 207253.1,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2023,
+    "total": 141567.6,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2024,
+    "total": 114671.00000000001,
+    "mesesSinDato": 0
+   },
+   {
+    "anio": 2025,
+    "total": 81076.8,
+    "mesesSinDato": 0
+   }
+  ],
+  "tendencia": {
+   "n": 25,
+   "desde": 2001,
+   "hasta": 2025,
+   "pendienteAnual": -11350.910076923077,
+   "ordenada": 23050919.112846155,
+   "senAnual": -2619.925,
+   "ordenadaSen": 5417399.2,
+   "p": 0.3382878413353625,
+   "significativa": false
+  },
+  "tendenciaSinFaltantes": {
+   "n": 25,
+   "desde": 2001,
+   "hasta": 2025,
+   "pendienteAnual": -11350.910076923077,
+   "ordenada": 23050919.112846155,
+   "senAnual": -2619.925,
+   "ordenadaSen": 5417399.2,
+   "p": 0.3382878413353625,
+   "significativa": false
+  },
+  "mesPico": 10,
+  "mesMinimo": 5,
+  "trimestrePico": {
+   "meses": [
+    9,
+    10,
+    11
+   ],
+   "porcentaje": 41.27542207653188
+  }
+ },
+ "hallazgos": [
+  {
+   "titulo": "Diciembre de 2025 fue el mes con más focos",
+   "texto": "Los satélites registraron 1.329 focos de calor en San Luis ese mes, el máximo mensual entre 2002 y 2026. El año con más detecciones fue 2025, con 3.709."
+  },
+  {
+   "titulo": "El fuego tiene temporada: septiembre, octubre y noviembre",
+   "texto": "En la serie del satélite Aqua, esos tres meses reúnen el 41 % de los focos de un año promedio. Octubre es el mes más activo (31.777 focos en promedio) y mayo el más tranquilo (1.095,6)."
+  },
+  {
+   "titulo": "No hay una tendencia clara en la cantidad de focos",
+   "texto": "Entre 2001 y 2025 la serie anual de Aqua baja unos 26.199 focos por década (pendiente de Sen) y la prueba de Mann-Kendall da p = 0,338. Con años tan distintos entre sí, esa diferencia puede deberse al azar. Sin los 0 años que tienen meses sin dato, p = 0,338."
+  },
+  {
+   "titulo": "El año más activo depende de qué satélites se cuenten",
+   "texto": "Con un solo satélite (Aqua) fue 2003, con 638.567 focos; sumando todos fue 2025, con 3.709. El año más tranquilo de Aqua fue 2015, con 43.211. Años muy activos alternan con años tranquilos, y eso vuelve difícil leer una tendencia."
+  },
+  {
+   "titulo": "Gobernador Dupuy es el departamento con más focos",
+   "texto": "Reúne 11.423 detecciones, el 33 % del total provincial, seguido por Juan Martín de Pueyrredón y General Pedernera."
+  }
+ ]
+}

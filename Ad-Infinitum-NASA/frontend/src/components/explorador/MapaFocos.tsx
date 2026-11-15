@@ -6,6 +6,7 @@ import type { ExpressionSpecification, FilterSpecification, Map as MapaGL, Marke
 import { useEffect, useRef, useState } from "react";
 import type { Departamentos, Embalses } from "@/lib/data/focos";
 import { AGUA, CENIZA, CORTES_POTENCIA, FUEGO, SIN_DATO } from "@/lib/focos/escala";
+import { ORIGEN_CONAE } from "@/lib/focos/satelites";
 import { cajaDe } from "@/lib/focos/proyeccion";
 import type { FocosCompactos } from "@/lib/focos/tipos";
 import provincias from "@/lib/geo/provincias.json";
@@ -50,7 +51,7 @@ function puntosGeojson(f: FocosCompactos): FeatureCollection<Point> {
   const c = f.columnas;
   const features: Feature<Point>[] = new Array(f.n);
   for (let i = 0; i < f.n; i++) {
-    const p: Record<string, number> = { i, a: c.anio[i], m: c.mes[i], d: c.depto[i], s: c.sat[i] };
+    const p: Record<string, number> = { i, a: c.anio[i], m: c.mes[i], d: c.depto[i], s: c.sat[i], o: c.origen ? c.origen[i] : ORIGEN_CONAE };
     const pw = c.power[i];
     if (pw !== null) p.p = pw;
     features[i] = { type: "Feature", id: i, properties: p, geometry: { type: "Point", coordinates: [c.lon[i], c.lat[i]] } };
@@ -63,7 +64,10 @@ function expresionFiltro(filtro: FiltroFocos, indiceAqua: number): FilterSpecifi
   if (filtro.anio !== null) partes.push(["==", ["get", "a"], filtro.anio]);
   if (filtro.mes !== null) partes.push(["==", ["get", "m"], filtro.mes]);
   if (filtro.depto !== null) partes.push(["==", ["get", "d"], filtro.depto]);
-  if (filtro.soloAqua) partes.push(["==", ["get", "s"], indiceAqua]);
+  if (filtro.soloAqua) {
+    partes.push(["==", ["get", "s"], indiceAqua]);
+    partes.push(["==", ["get", "o"], ORIGEN_CONAE]);
+  }
   return ["all", true, ...partes] as FilterSpecification;
 }
 
@@ -137,7 +141,7 @@ export default function MapaFocos({
         fitBoundsOptions: { padding: 24 },
         maxBounds: [caja.oeste - 3, caja.sur - 2.5, caja.este + 3, caja.norte + 2.5],
         canvasContextAttributes: { preserveDrawingBuffer: true },
-        attributionControl: { compact: true, customAttribution: "Datos: CONAE / Gobierno de San Luis" },
+        attributionControl: { compact: true, customAttribution: "Datos: Gobierno de San Luis y NASA FIRMS" },
         cooperativeGestures: true,
         dragRotate: false,
         touchPitch: false,

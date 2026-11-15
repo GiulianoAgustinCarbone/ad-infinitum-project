@@ -1,0 +1,49 @@
+{
+  "meses_comparados": 16,
+  "periodo": [
+    "2023-01",
+    "2024-04"
+  ],
+  "total_conae": 453,
+  "total_firms": 510,
+  "correlacion_mensual_total": 0.992,
+  "por_departamento": {
+    "Ayacucho": {
+      "conae": 43,
+      "firms": 43
+    },
+    "Belgrano": {
+      "conae": 1,
+      "firms": 1
+    },
+    "Coronel Pringles": {
+      "conae": 104,
+      "firms": 124
+    },
+    "Chacabuco": {
+      "conae": 2,
+      "firms": 2
+    },
+    "General Pedernera": {
+      "conae": 48,
+      "firms": 50
+    },
+    "Gobernador Dupuy": {
+      "conae": 153,
+      "firms": 181
+    },
+    "Junín": {
+      "conae": 6,
+      "firms": 7
+    },
+    "Juan Martín de Pueyrredón": {
+      "conae": 57,
+      "firms": 61
+    },
+    "Libertador General San Martín": {
+      "conae": 39,
+      "firms": 41
+    }
+  },
+  "nota": "Aqua de FIRMS (MODIS) frente a la tabla de CONAE en los meses con dato de ambas fuentes."
+}

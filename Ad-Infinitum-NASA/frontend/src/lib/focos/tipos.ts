@@ -13,17 +13,27 @@ export type ColumnasFocos = {
   depto: number[];
   // Indice en FocosCompactos.satelites (-1 = desconocido)
   sat: number[];
+  // Origen del foco: indice en FocosCompactos.origenes (0 = CONAE, 1 = NASA FIRMS). Ausente en archivos anteriores.
+  origen?: number[];
+  // Incendio confirmado por area quemada (MCD64A1/VNP64A1) a menos de 1 km en el mismo mes; null = no evaluable
+  quemado?: (boolean | null)[];
+  sensor_quemado?: string[];
+  distancia_quemado_m?: (number | null)[];
+  // Solo FIRMS VIIRS: -1 n/a, 0 baja, 1 nominal, 2 alta
+  confianza_viirs?: number[];
 };
 
 export type FocosCompactos = {
   fuente: string;
   descargado: string;
+  generado?: string;
   n: number;
   fechaMin: string;
   fechaMax: string;
   departamentos: string[];
   satelites: string[];
   sensores: string[];
+  origenes?: Record<string, string>;
   notas: string[];
   columnas: ColumnasFocos;
 };
@@ -33,6 +43,7 @@ export type FocosCompactos = {
 export type SerieMensualDeptos = {
   meses: string[];
   mesesFaltantes: string[];
+  fuentePorMes?: string[];
   departamentos: { nombre: string; conteos: (number | null)[] }[];
 };
 
@@ -63,6 +74,8 @@ export type Resumen = {
     porDepto: { nombre: string; total: number }[];
     porSatelite: { satelite: string; sensor: string; total: number; desde: number; hasta: number }[];
     porAnio: { anio: number; total: number }[];
+    porOrigen: { origen: string; total: number; desde: number; hasta: number }[];
+    porAnioOrigen: { anio: number; origenes: Record<string, number> }[];
     mesAnioPico: { anio: number; mes: number; total: number };
     anioPico: { anio: number; total: number };
     potenciaNoConfiable: number;

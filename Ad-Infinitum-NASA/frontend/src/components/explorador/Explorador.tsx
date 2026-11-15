@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fuenteFocos, type Departamentos, type Embalses } from "@/lib/data/focos";
 import { CLASES_POTENCIA, SIN_DATO } from "@/lib/focos/escala";
+import { NOMBRE_SATELITE, ORIGEN_CONAE } from "@/lib/focos/satelites";
+import { TEXTOS, type Modo } from "@/lib/focos/modo";
 import type { FocosCompactos } from "@/lib/focos/tipos";
 import { capitalizar, decimal, entero, MESES, nombreMes } from "@/lib/formato";
 import type { FiltroFocos, Lectura, Vista } from "./MapaFocos";
@@ -15,8 +17,6 @@ const MapaFocos = dynamic(() => import("./MapaFocos"), {
 });
 
 const MS_POR_MES = 700;
-const NOMBRE_SATELITE: Record<string, string> = { TERRA: "Terra", AQUA: "Aqua", SNPP: "Suomi NPP", NOAA20: "NOAA-20" };
-
 type Datos = { focos: FocosCompactos; departamentos: Departamentos; embalses: Embalses };
 
 function contar(f: FocosCompactos, filtro: FiltroFocos, indiceAqua: number): number {
@@ -26,7 +26,8 @@ function contar(f: FocosCompactos, filtro: FiltroFocos, indiceAqua: number): num
     if (filtro.anio !== null && c.anio[i] !== filtro.anio) continue;
     if (filtro.mes !== null && c.mes[i] !== filtro.mes) continue;
     if (filtro.depto !== null && c.depto[i] !== filtro.depto) continue;
-    if (filtro.soloAqua && c.sat[i] !== indiceAqua) continue;
+    // La serie comparable de Aqua es solo la de CONAE: FIRMS tambien tiene Aqua, pero desde 2024 y sin esa tabla
+    if (filtro.soloAqua && (c.sat[i] !== indiceAqua || (c.origen && c.origen[i] !== ORIGEN_CONAE))) continue;
     n++;
   }
   return n;
@@ -40,7 +41,8 @@ function describirPeriodo(anio: number | null, mes: number | null): string {
 }
 
 // inicial: mes y anio preseleccionados (por ejemplo desde un enlace de la pagina de inicio)
-export function Explorador({ inicial }: { inicial?: { anio: number; mes: number } } = {}) {
+export function Explorador({ inicial, modo = "focos" }: { inicial?: { anio: number; mes: number }; modo?: Modo } = {}) {
+  const T = TEXTOS[modo];
   const [datos, setDatos] = useState<Datos | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [vista, setVista] = useState<Vista>("calor");
@@ -57,7 +59,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
 
   const cargar = useCallback(() => {
     setError(null);
-    Promise.all([fuenteFocos.getFocos(), fuenteFocos.getDepartamentos(), fuenteFocos.getEmbalses()])
+    Promise.all([(modo === "incendios" ? fuenteFocos.getIncendios() : fuenteFocos.getFocos()), fuenteFocos.getDepartamentos(), fuenteFocos.getEmbalses()])
       .then(([focos, departamentos, embalses]) => setDatos({ focos, departamentos, embalses }))
       .catch((e: Error) => setError(e.message));
   }, []);
@@ -132,7 +134,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
         <>
           <strong>{lectura.nombre}</strong>
           <span>
-            {entero(n)} {n === 1 ? "foco" : "focos"} {describirPeriodo(filtro.anio, filtro.mes)}
+            {entero(n)} {n === 1 ? T.singular : T.plural} {describirPeriodo(filtro.anio, filtro.mes)}
           </span>
         </>
       );
@@ -184,7 +186,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
                 </button>
               </>
             ) : (
-              "Cargando los focos de calor…"
+              T.cargando
             )}
           </div>
         )}
@@ -199,7 +201,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
         <p className={estilos.resultado} aria-live="polite">
           <span className={estilos.resultadoNumero}>{datos ? entero(cantidad) : "…"}</span>
           <span>
-            {cantidad === 1 ? "foco" : "focos"} {periodo} {lugar}
+            {cantidad === 1 ? T.singular : T.plural} {periodo} {lugar}
             {soloAqua ? ", solo satélite Aqua" : ""}.
           </span>
         </p>
@@ -301,10 +303,10 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
                 ))}
             </select>
           </label>
-          <label className={estilos.casilla}>
+          {modo === "focos" && (<label className={estilos.casilla}>
             <input type="checkbox" checked={soloAqua} onChange={(e) => setSoloAqua(e.target.checked)} />
-            <span>Solo satélite Aqua (la serie que se puede comparar entre años)</span>
-          </label>
+            <span>Solo satélite Aqua (serie histórica)</span>
+          </label>)}
         </fieldset>
 
         <div className={estilos.leyenda}>
@@ -330,14 +332,14 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
             </>
           ) : (
             <>
-              <p className={estilos.leyendaTitulo}>Concentración de focos, ponderada por su potencia</p>
+              <p className={estilos.leyendaTitulo}>ConcentraciÃ³n de {T.plural}, ponderada por su potencia</p>
               <div className={estilos.gradiente} />
               <div className={estilos.gradienteEjes}>
                 <span>menor</span>
                 <span>mayor</span>
               </div>
               <p className="nota">
-                Muestra dónde se agrupan los focos, no la superficie quemada. Los focos sin potencia confiable pesan
+                Muestra dÃ³nde se agrupan los {T.plural}, no la superficie quemada. Los focos sin potencia confiable pesan
                 como uno de 30 MW.
               </p>
             </>

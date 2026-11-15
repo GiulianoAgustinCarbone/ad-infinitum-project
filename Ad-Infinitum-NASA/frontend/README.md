@@ -33,7 +33,7 @@ Capas públicas de ArcGIS Online (CONAE / Gobierno de San Luis), descargadas una
 
 | Archivo en `backend/data/` | Contenido |
 |---|---|
-| `focos.compact.json` | Focos en columnas: lon, lat, anio, mes, dia, power (MW), confianza, depto, sat |
+| `focos_confirmados.compact.json` (en `backend/data/incendios/`) | Focos de CONAE (2002 a 2024-10) más detecciones de NASA FIRMS (meses faltantes y desde 2024-10-02), con origen y área quemada. Se copia a `public/datos/focos.json`. Generar con `python -m incendios.cruce`. |
 | `departamentos.geojson` | 9 departamentos simplificados |
 | `departamentos.mensual.json` | Focos por mes y departamento, 2002-07 a 2024-04. `null` = mes sin dato (nunca cero) |
 | `embalses.geojson` | 22 embalses (solo forma, sin nivel de agua) |

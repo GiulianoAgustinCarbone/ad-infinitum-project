@@ -1,0 +1,11 @@
+// Etiquetas que ve el lector para el origen de cada foco. Los datos internos siguen usando
+// los nombres originales (CONAE, FIRMS, MCD64A1); aca solo cambia como se muestran.
+const ETIQUETAS: Record<string, string> = {
+  CONAE: "Serie histórica (hasta oct. 2024)",
+  FIRMS: "NASA FIRMS",
+  MCD64A1: "MCD64A1",
+};
+
+export function etiquetaOrigen(origen: string): string {
+  return ETIQUETAS[origen] ?? origen;
+}

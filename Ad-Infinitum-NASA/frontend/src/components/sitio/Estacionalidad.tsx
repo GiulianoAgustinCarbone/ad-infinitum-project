@@ -1,20 +1,44 @@
+"use client";
+
+import { useState } from "react";
+import { DemoEscenario } from "./DemoEscenario";
 import { BarrasMes } from "@/components/graficos/BarrasMes";
 import { MatrizAnioMes } from "@/components/graficos/MatrizAnioMes";
 import { RankingDeptos } from "@/components/graficos/RankingDeptos";
 import { SerieAnual } from "@/components/graficos/SerieAnual";
+import { TEXTOS, type Modo } from "@/lib/focos/modo";
 import type { Resumen } from "@/lib/focos/tipos";
 import { decimal, entero, valorP } from "@/lib/formato";
 import estilos from "./Estacionalidad.module.css";
 
-function titular(t: Resumen["aqua"]["tendencia"]): string {
+function titular(t: Resumen["aqua"]["tendencia"], modo: Modo): string {
+  const T = TEXTOS[modo];
+  const incendios = modo === "incendios";
   const porDecada = Math.abs(t.senAnual * 10);
-  if (t.senAnual === 0) return `Entre ${t.desde} y ${t.hasta}, la cantidad de focos no muestra cambio neto.`;
+  if (t.senAnual === 0) return `Entre ${t.desde} y ${t.hasta}, ${T.sujetoSerie} no muestra cambio neto.`;
   const baja = t.senAnual < 0;
-  const verbo = t.significativa ? (baja ? "disminuyeron" : "aumentaron") : baja ? "tendieron a disminuir" : "tendieron a aumentar";
-  return `Entre ${t.desde} y ${t.hasta}, los focos ${verbo}: unos ${decimal(porDecada, 0)} ${baja ? "menos" : "más"} por década.`;
+  const verbo = incendios
+    ? t.significativa
+      ? baja
+        ? "disminuyó"
+        : "aumentó"
+      : baja
+        ? "tendió a disminuir"
+        : "tendió a aumentar"
+    : t.significativa
+      ? baja
+        ? "disminuyeron"
+        : "aumentaron"
+      : baja
+        ? "tendieron a disminuir"
+        : "tendieron a aumentar";
+  return `Entre ${t.desde} y ${t.hasta}, ${T.sujetoSerie} ${verbo}: unos ${decimal(porDecada, 0)} ${T.unidadSerie} ${baja ? "menos" : "más"} por década.`;
 }
 
-export function Estacionalidad({ resumen }: { resumen: Resumen }) {
+export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; modo?: Modo }) {
+  const [escenarioAbierto, setEscenarioAbierto] = useState(false);
+  const T = TEXTOS[modo];
+  const incendios = modo === "incendios";
   const { aqua, todos } = resumen;
   const t = aqua.tendencia;
   const t2 = aqua.tendenciaSinFaltantes;
@@ -25,26 +49,29 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
     <section id="estacionalidad" className="seccion seccion-alterna" aria-labelledby="titulo-estacionalidad">
       <div className="contenedor">
         <div className="seccion-cabeza">
-          <h2 id="titulo-estacionalidad">Cuándo hay fuego y si está cambiando</h2>
+          <h2 id="titulo-estacionalidad">
+            {incendios ? "Cuándo se quema y si está cambiando" : "Cuándo hay fuego y si está cambiando"}
+          </h2>
           <p>
-            Para comparar años entre sí usamos un solo satélite, Aqua, que observó San Luis con el mismo sensor durante
-            todo el período. Sumar satélites nuevos haría parecer que hay más fuego solo porque hay más ojos mirando.
+            {incendios
+              ? "Usamos un solo producto, MCD64A1 (área quemada mensual de MODIS), desde noviembre de 2000 hasta hoy. No depende de qué satélite estaba activo, así que sirve para comparar años completos."
+              : "Para comparar años entre sí usamos un solo satélite, Aqua, que observó San Luis con el mismo sensor durante todo el período. Sumar satélites nuevos haría parecer que hay más fuego solo porque hay más ojos mirando."}
           </p>
         </div>
 
         <div className={estilos.dos}>
-          <BarrasMes estacionalidad={aqua.estacionalidad} mesPico={aqua.mesPico} desde={aqua.desde} hasta={aqua.hasta} />
-          <RankingDeptos ranking={aqua.ranking} />
+          <BarrasMes estacionalidad={aqua.estacionalidad} mesPico={aqua.mesPico} desde={aqua.desde} hasta={aqua.hasta} t={T} />
+          <RankingDeptos ranking={aqua.ranking} t={T} />
         </div>
 
         <div className={estilos.matriz}>
-          <MatrizAnioMes matriz={aqua.matriz} />
+          <MatrizAnioMes matriz={aqua.matriz} t={T} modo={modo} />
         </div>
 
         <div className={estilos.tendencia} id="tendencia">
           <div className={estilos.tendenciaTexto}>
             <h3 className={estilos.tendenciaTitulo}>Tendencia de {t.desde} a {t.hasta}</h3>
-            <p className={estilos.titular}>{titular(t)}</p>
+            <p className={estilos.titular}>{titular(t, modo)}</p>
             <p className={estilos.insignia} data-significativa={t.significativa}>
               <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
                 {t.significativa ? (
@@ -65,7 +92,7 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
                 <dt>Cambio por década</dt>
                 <dd>
                   {t.senAnual < 0 ? "−" : "+"}
-                  {decimal(Math.abs(t.senAnual * 10), 0)} focos
+                  {decimal(Math.abs(t.senAnual * 10), 0)} {T.unidadSerie}
                 </dd>
               </div>
               <div>
@@ -78,8 +105,8 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
               </div>
             </dl>
             <p className="nota">
-              Cambio por década según la pendiente de Sen, que no se deja arrastrar por un año extremo. {conFaltantes} de
-              los {t.n} años tienen algún mes sin dato; si se los deja afuera, {valorP(t2.p)}
+              Cambio por década según la pendiente de Sen, que no se deja arrastrar por un año extremo. {conFaltantes} de los{" "}
+              {t.n} años tienen algún mes sin dato; si se los deja afuera, {valorP(t2.p)}
               {t2.significativa === t.significativa ? " y la conclusión no cambia." : " y la conclusión cambia: tomala con cuidado."}
             </p>
           </div>
@@ -90,7 +117,7 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
                   <line x1="0" y1="6" x2="22" y2="6" stroke="#b8c0c8" strokeWidth="2" />
                   <circle cx="11" cy="6" r="4" fill="#ece8df" />
                 </svg>
-                focos por año (Aqua)
+                {T.eje}
               </span>
               <span>
                 <svg width="14" height="14" aria-hidden="true">
@@ -105,15 +132,22 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
                 tendencia (pendiente de Sen)
               </span>
             </figcaption>
-            <SerieAnual anual={aqua.anual} tendencia={t} />
+            <SerieAnual
+              anual={aqua.anual}
+              tendencia={t}
+              t={T}
+              escenarioAbierto={escenarioAbierto}
+              onAlternarEscenario={incendios ? undefined : () => setEscenarioAbierto((abierto) => !abierto)}
+            />
           </figure>
         </div>
         <p className={`nota ${estilos.pieNota}`}>
-          Serie de {aqua.desde.replace("-", "/")} a {aqua.hasta.replace("-", "/")}: {entero(aqua.total)} focos de Aqua
-          {aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años
-          completos.
+          {incendios
+            ? `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} hectáreas quemadas según MCD64A1, sobre ${entero(todos.total)} incendios confirmados. Solo se analizan años completos.`
+            : `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} focos de Aqua${aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años completos.`}
         </p>
       </div>
+      {!incendios && escenarioAbierto && <DemoEscenario />}
     </section>
   );
 }

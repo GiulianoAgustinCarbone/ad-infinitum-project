@@ -48,6 +48,8 @@ export function calcularResumen(focos: FocosCompactos, serie: SerieMensualDeptos
   const porSat = new Map<number, { total: number; desde: number; hasta: number }>();
   const porAnio = new Map<number, number>();
   const porMesAnio = new Map<number, number>();
+  const porOrigen = new Map<number, { total: number; desde: number; hasta: number }>();
+  const porAnioOrigen = new Map<number, Map<number, number>>();
   let potenciaNoConfiable = 0;
   for (let i = 0; i < focos.n; i++) {
     const d = focos.departamentos[c.depto[i]];
@@ -58,6 +60,15 @@ export function calcularResumen(focos: FocosCompactos, serie: SerieMensualDeptos
     s.hasta = Math.max(s.hasta, c.anio[i]);
     porSat.set(c.sat[i], s);
     porAnio.set(c.anio[i], (porAnio.get(c.anio[i]) ?? 0) + 1);
+    const o = c.origen ? c.origen[i] : 0;
+    const og = porOrigen.get(o) ?? { total: 0, desde: Infinity, hasta: -Infinity };
+    og.total++;
+    og.desde = Math.min(og.desde, c.anio[i]);
+    og.hasta = Math.max(og.hasta, c.anio[i]);
+    porOrigen.set(o, og);
+    const pa = porAnioOrigen.get(c.anio[i]) ?? new Map<number, number>();
+    pa.set(o, (pa.get(o) ?? 0) + 1);
+    porAnioOrigen.set(c.anio[i], pa);
     const k = c.anio[i] * 100 + c.mes[i];
     porMesAnio.set(k, (porMesAnio.get(k) ?? 0) + 1);
     if (c.power[i] === null) potenciaNoConfiable++;
@@ -185,6 +196,15 @@ export function calcularResumen(focos: FocosCompactos, serie: SerieMensualDeptos
         .map(([i, s]) => ({ satelite: focos.satelites[i] ?? "Desconocido", sensor: focos.sensores[i] ?? "", ...s }))
         .sort((a, b) => a.desde - b.desde || b.total - a.total),
       porAnio: [...porAnio].map(([anio, total]) => ({ anio, total })).sort((a, b) => a.anio - b.anio),
+      porOrigen: [...porOrigen]
+        .map(([o, s]) => ({ origen: focos.origenes?.[String(o)] ?? "CONAE", ...s }))
+        .sort((a, b) => a.desde - b.desde),
+      porAnioOrigen: [...porAnioOrigen]
+        .map(([anio, mapa]) => ({
+          anio,
+          origenes: Object.fromEntries([...mapa].map(([o, n]) => [focos.origenes?.[String(o)] ?? "CONAE", n])),
+        }))
+        .sort((a, b) => a.anio - b.anio),
       mesAnioPico: { anio: Math.floor(kPico / 100), mes: kPico % 100, total: nPico },
       anioPico: { anio: aPico, total: nAPico },
       potenciaNoConfiable,

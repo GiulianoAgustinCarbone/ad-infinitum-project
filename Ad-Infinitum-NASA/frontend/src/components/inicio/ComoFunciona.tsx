@@ -1,8 +1,7 @@
 import type { Resumen } from "@/lib/focos/tipos";
+import { NOMBRE_SATELITE } from "@/lib/focos/satelites";
 import { mesAnio, valorP } from "@/lib/formato";
 import estilos from "./Inicio.module.css";
-
-const NOMBRE_SATELITE: Record<string, string> = { TERRA: "Terra", AQUA: "Aqua", SNPP: "Suomi NPP", NOAA20: "NOAA-20" };
 
 function lista(nombres: string[]): string {
   return nombres.length < 2 ? nombres.join("") : `${nombres.slice(0, -1).join(", ")} y ${nombres.at(-1)}`;

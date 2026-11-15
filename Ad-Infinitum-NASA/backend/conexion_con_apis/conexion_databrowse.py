@@ -1,5 +1,4 @@
-"""Descarga y extracción de series mensuales regionales de NASA POWER (MERRA-2)."""
-#Importación de librerias necesarias para la ejecución del código.
+"""Descarga y extracción de series mensuales de NASA POWER (MERRA-2) para San Luis."""
 import difflib
 import numbers
 import re
@@ -11,7 +10,18 @@ import xarray as xr
 
 ZARR_URL = "s3://nasa-power/merra2/temporal/power_merra2_monthly_temporal_utc.zarr"
 DIR_DATOS = Path(__file__).resolve().parent / "data"
-PASO_DEFAULT = 4
+
+# Resolución nativa máxima (1 = sin saltar celdas: 0.5° lat x 0.625° lon)
+PASO_DEFAULT = 1
+
+# Bounding Box oficial de la Provincia de San Luis (con margen para cubrir bordes departamentales)
+BBOX_SAN_LUIS = {
+    "lat_min": -36.0,
+    "lat_max": -31.8,
+    "lon_min": -67.4,
+    "lon_max": -64.9,
+}
+
 PATRON_FECHA = re.compile(r"\d{4}-(0[1-9]|1[0-2])")
 PATRON_HORARIA = re.compile(r"_\d{2}$")
 
@@ -55,19 +65,19 @@ def _validar_fecha(texto, nombre):
 
 def _validar_eje(nombre, minimo, maximo, limite):
     for valor in (minimo, maximo):
-        if ( #Si no es un valor numerico, o es un booleano, o no es finito (NaN, inf), lanza error.
+        if (
             not isinstance(valor, numbers.Real)
             or isinstance(valor, bool)
             or not np.isfinite(valor)
         ):
             raise ValueError(f"{nombre}: los valores deben ser numéricos, recibido: {valor!r}")
-        if abs(valor) > limite: #Si se pasa del limite (90 o 180, dependiendo si es latitud o longitud), lanza error.
+        if abs(valor) > limite:
             raise ValueError(f"{nombre}: {valor} está fuera del rango [-{limite}, {limite}]")
-    if nombre == "longitud" and minimo > maximo: #Si el minimo es mayor al maximo
+    if nombre == "longitud" and minimo > maximo:
         raise ValueError(
             "longitud: lon_min > lon_max. Las regiones que cruzan el antimeridiano (±180°) no están soportadas"
         )
-    if minimo >= maximo: #Si el minimo es mayor o igual al maximo, lanza error.
+    if minimo >= maximo:
         raise ValueError(
             f"{nombre}: el mínimo ({minimo}) debe ser menor que el máximo ({maximo})"
         )
@@ -81,8 +91,17 @@ def _indice_eje(coordenada, minimo, maximo):
     return [float(valores[np.argmin(np.abs(valores - centro))])], True
 
 
-def bajar_nc(variable, paso=PASO_DEFAULT, dir_salida=DIR_DATOS, forzar=False):
-    """Descarga una variable mensual de NASA POWER submuestreada cada `paso` celdas a `{variable}_monthly.nc`."""
+def bajar_nc(
+    variable,
+    paso=PASO_DEFAULT,
+    dir_salida=DIR_DATOS,
+    forzar=False,
+    solo_san_luis=True,
+):
+    """
+    Descarga una variable mensual de NASA POWER a `{variable}_monthly.nc`.
+    Por defecto recorta únicamente la región de San Luis a resolución completa.
+    """
     variable = _normalizar_variable(variable)
     if not isinstance(paso, int) or paso < 1:
         raise ValueError(f"paso debe ser un entero >= 1, recibido: {paso!r}")
@@ -94,7 +113,18 @@ def bajar_nc(variable, paso=PASO_DEFAULT, dir_salida=DIR_DATOS, forzar=False):
 
     with _abrir_zarr() as ds:
         _validar_variable(variable, list(ds.data_vars))
-        da = ds[variable].isel(lat=slice(None, None, paso), lon=slice(None, None, paso))
+        da = ds[variable]
+
+        if solo_san_luis:
+            # Recorta en el servidor S3 solo los chunks de San Luis antes de descargar
+            da = da.sel(
+                lat=slice(BBOX_SAN_LUIS["lat_min"], BBOX_SAN_LUIS["lat_max"]),
+                lon=slice(BBOX_SAN_LUIS["lon_min"], BBOX_SAN_LUIS["lon_max"]),
+            )
+
+        if paso > 1:
+            da = da.isel(lat=slice(None, None, paso), lon=slice(None, None, paso))
+
         da = da.load().dropna(dim="time", how="all")
 
     da.attrs = {
@@ -105,6 +135,7 @@ def bajar_nc(variable, paso=PASO_DEFAULT, dir_salida=DIR_DATOS, forzar=False):
     salida = da.to_dataset(name=variable)
     salida.attrs = {
         "fuente": "NASA POWER MERRA-2 (monthly, UTC)",
+        "region": "Provincia de San Luis, Argentina" if solo_san_luis else "Global",
         "zarr_url": ZARR_URL,
         "paso_espacial": f"{paso * 0.5:g}° lat x {paso * 0.625:g}° lon",
         "fecha_descarga": datetime.now().isoformat(timespec="seconds"),
@@ -116,31 +147,29 @@ def bajar_nc(variable, paso=PASO_DEFAULT, dir_salida=DIR_DATOS, forzar=False):
         engine="netcdf4",
         encoding={variable: {"zlib": True, "complevel": 4, "dtype": "float32"}},
     )
-    print(f"Guardado {ruta} ({ruta.stat().st_size / 1e6:.1f} MB, {dict(salida.sizes)})")
+    print(f"Guardado {ruta} ({ruta.stat().st_size / 1e3:.1f} KB, {dict(salida.sizes)})")
     return ruta
 
 
 def extraer_serie_region(
     variable,
-    lat_min,
-    lat_max,
-    lon_min,
-    lon_max,
-    fecha_min,
-    fecha_max,
+    lat_min=BBOX_SAN_LUIS["lat_min"],
+    lat_max=BBOX_SAN_LUIS["lat_max"],
+    lon_min=BBOX_SAN_LUIS["lon_min"],
+    lon_max=BBOX_SAN_LUIS["lon_max"],
+    fecha_min="1981-01",
+    fecha_max="2025-12",
     ponderar_por_area=True,
 ):
-    """Promedio mensual de `variable` sobre el rectángulo lat/lon, entre fecha_min y fecha_max ('YYYY-MM')."""
-    
-    #Validación de los parametros de entrada:
-    variable = _normalizar_variable(variable) #Revisa que la variable no sea un string vacio y lo pasa a mayusculas.
-    
+    """Promedio mensual de `variable` sobre el rectángulo lat/lon (por defecto San Luis)."""
+    variable = _normalizar_variable(variable)
+
     _validar_eje("latitud", lat_min, lat_max, 90)
     _validar_eje("longitud", lon_min, lon_max, 180)
-    
+
     inicio = _validar_fecha(fecha_min, "fecha_min")
     fin = _validar_fecha(fecha_max, "fecha_max")
-    
+
     if inicio > fin:
         raise ValueError(f"fecha_min ({fecha_min}) es posterior a fecha_max ({fecha_max})")
 
@@ -210,8 +239,11 @@ def listar_variables(filtro=None, incluir_horarias=False):
 
 
 if __name__ == "__main__":
-    bajar_nc("T2M")
-    df = extraer_serie_region("T2M", -90, 90, -90, 90, "1990-01", "2025-12")
+    # Si ya tenías un T2M_monthly.nc global viejo, forzar=True lo reemplaza por el recorte de San Luis
+    bajar_nc("T2M", forzar=True)
+
+    # Extrae directamente el promedio provincial de San Luis (usa BBOX_SAN_LUIS por defecto)
+    df = extraer_serie_region("T2M", fecha_min="1990-01", fecha_max="2025-12")
     print(df.head())
     print(df.tail())
     print(df.attrs)
