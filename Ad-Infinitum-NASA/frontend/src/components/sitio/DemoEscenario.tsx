@@ -7,7 +7,7 @@ import estilos from "./DemoEscenario.module.css";
 export function DemoEscenario({ integrado = false, espacioControles = 220, modo = "focos" }: { integrado?: boolean; espacioControles?: number; modo?: Modo }) {
   const marco = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
-    marco.current?.contentDocument?.documentElement.style.setProperty("--espacio-controles", `${espacioControles}px`);
+    marco.current?.contentDocument?.documentElement?.style.setProperty("--espacio-controles", `${espacioControles}px`);
   }, [espacioControles]);
   const observador = useRef<ResizeObserver | null>(null);
   const [alto, setAlto] = useState(1100);

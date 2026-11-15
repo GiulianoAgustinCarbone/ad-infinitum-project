@@ -14,7 +14,7 @@ export function Pie({ resumen, language = "es" }: { resumen: Resumen; language?:
           <p>{language === "en" ? "Scope: San Luis Province, Argentina." : "Alcance: provincia de San Luis, Argentina."}</p>
         </div>
         <div>
-          <p className={estilos.atribucion}>{language === "en" ? "Data: CONAE / Government of San Luis" : "Datos: CONAE / Gobierno de San Luis"}</p>
+          <p className={estilos.atribucion}>{language === "en" ? "Data: Government of San Luis and NASA FIRMS" : "Datos: Gobierno de San Luis y NASA FIRMS"}</p>
           <p>
             {language === "en" ? "Hotspots, departments, and reservoirs published on " : "Focos de calor, departamentos y embalses publicados en "}
             <a href={SERVICIOS} rel="noopener noreferrer">
