@@ -1,0 +1,55 @@
+{
+  "escenarios": {
+    "base: 1 km, mismo mes, MCD+VNP": {
+      "focos_tasa": 0.6629,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0105,
+      "veces_sobre_azar": 63.0
+    },
+    "radio 500 m": {
+      "focos_tasa": 0.5851,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0067,
+      "veces_sobre_azar": 86.8
+    },
+    "radio 2 km": {
+      "focos_tasa": 0.7097,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0184,
+      "veces_sobre_azar": 38.5
+    },
+    "solo MCD64A1": {
+      "focos_tasa": 0.6335,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0099,
+      "veces_sobre_azar": 64.2
+    },
+    "solo VNP64A1 (2012+)": {
+      "focos_tasa": 0.4051,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0037,
+      "veces_sobre_azar": 110.3
+    },
+    "filtro QA (bits 0-1 >= 1)": {
+      "focos_tasa": 0.6629,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0105,
+      "veces_sobre_azar": 63.0
+    },
+    "tolerancia +-1 mes": {
+      "focos_tasa": 0.6778,
+      "focos_evaluables": 51699,
+      "azar_tasa": 0.0221,
+      "veces_sobre_azar": 30.7
+    }
+  },
+  "por_origen": {
+    "CONAE": 0.7152,
+    "FIRMS": 0.5092
+  },
+  "por_periodo": {
+    "2002-2011": 0.6384,
+    "2012-2024": 0.7486,
+    "2025-2026": 0.5196
+  }
+}

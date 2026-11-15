@@ -1,0 +1,117 @@
+{
+  "total": 52056,
+  "por_origen": {
+    "CONAE": 38558,
+    "FIRMS": 13498
+  },
+  "evaluables": 51699,
+  "confirmados_incendio": 34269,
+  "tasa_confirmacion_evaluables": 0.6629,
+  "por_sensor_quemado": {
+    "MCD64A1+VNP64A1": 19427,
+    "MCD64A1": 13325,
+    "VNP64A1": 1517
+  },
+  "por_anio": {
+    "2002": {
+      "CONAE": 3504,
+      "FIRMS": 0
+    },
+    "2003": {
+      "CONAE": 4173,
+      "FIRMS": 0
+    },
+    "2004": {
+      "CONAE": 657,
+      "FIRMS": 0
+    },
+    "2005": {
+      "CONAE": 1466,
+      "FIRMS": 0
+    },
+    "2006": {
+      "CONAE": 1022,
+      "FIRMS": 0
+    },
+    "2007": {
+      "CONAE": 1012,
+      "FIRMS": 0
+    },
+    "2008": {
+      "CONAE": 1468,
+      "FIRMS": 0
+    },
+    "2009": {
+      "CONAE": 3292,
+      "FIRMS": 0
+    },
+    "2010": {
+      "CONAE": 600,
+      "FIRMS": 0
+    },
+    "2011": {
+      "CONAE": 946,
+      "FIRMS": 0
+    },
+    "2012": {
+      "CONAE": 685,
+      "FIRMS": 12
+    },
+    "2013": {
+      "CONAE": 1675,
+      "FIRMS": 0
+    },
+    "2014": {
+      "CONAE": 1061,
+      "FIRMS": 26
+    },
+    "2015": {
+      "CONAE": 531,
+      "FIRMS": 19
+    },
+    "2016": {
+      "CONAE": 1318,
+      "FIRMS": 21
+    },
+    "2017": {
+      "CONAE": 2429,
+      "FIRMS": 21
+    },
+    "2018": {
+      "CONAE": 1986,
+      "FIRMS": 0
+    },
+    "2019": {
+      "CONAE": 899,
+      "FIRMS": 0
+    },
+    "2020": {
+      "CONAE": 3421,
+      "FIRMS": 101
+    },
+    "2021": {
+      "CONAE": 1264,
+      "FIRMS": 49
+    },
+    "2022": {
+      "CONAE": 2499,
+      "FIRMS": 0
+    },
+    "2023": {
+      "CONAE": 1615,
+      "FIRMS": 0
+    },
+    "2024": {
+      "CONAE": 1035,
+      "FIRMS": 2263
+    },
+    "2025": {
+      "CONAE": 0,
+      "FIRMS": 7197
+    },
+    "2026": {
+      "CONAE": 0,
+      "FIRMS": 3789
+    }
+  }
+}
