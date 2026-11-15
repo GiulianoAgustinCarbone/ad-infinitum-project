@@ -14,14 +14,14 @@ export type Seccion = { texto: string; href: string | null };
 
 export const SECCIONES: Seccion[] = [
   { texto: "Focos de calor", href: "/focos" },
-  { texto: "Sequía y diques", href: null },
+  { texto: "Balance hídrico", href: "/water-balance" },
   { texto: "Método", href: null },
   { texto: "Datos", href: null },
 ];
 
 const SECCIONES_EN: Seccion[] = [
   { texto: "Heat hotspots", href: "/focos" },
-  { texto: "Drought & reservoirs", href: null },
+  { texto: "Water balance", href: "/water-balance" },
   { texto: "Method", href: null },
   { texto: "Data", href: null },
 ];
