@@ -1,0 +1,286 @@
+/* Elige tu camino */
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 28px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.tarjetaActiva {
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.tarjetaActiva:hover {
+  border-color: var(--linea-fuerte);
+  transform: translateY(-2px);
+}
+
+.tarjetaActiva:has(:focus-visible) {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.tarjeta:not(.tarjetaActiva) {
+  border-style: dashed;
+  background: transparent;
+}
+
+.tarjetaCabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tema {
+  color: var(--ceniza-2);
+  font-size: 0.9rem;
+}
+
+.tarjeta h3 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-variation-settings: "wdth" 88, "opsz" 48;
+}
+
+/* Toda la tarjeta es clicable; el foco se dibuja en la tarjeta */
+.enlaceTarjeta {
+  text-decoration: none;
+}
+
+.enlaceTarjeta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radio);
+}
+
+.enlaceTarjeta:focus-visible {
+  outline: none;
+}
+
+.figura {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.figura figcaption {
+  color: var(--ceniza-3);
+  font-size: 0.875rem;
+}
+
+.miniatura {
+  width: 100%;
+  height: 72px;
+  display: block;
+}
+
+.miniaturaVacia {
+  fill: none;
+  stroke: var(--ceniza-3);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.incluye {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ceniza-2);
+}
+
+.incluye li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.incluye li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ceniza-3);
+}
+
+.descripcion {
+  color: var(--ceniza-2);
+}
+
+.ir {
+  font-weight: 700;
+  color: var(--ceniza);
+}
+
+.secundarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ceniza-3);
+  font-size: 0.95rem;
+}
+
+.secundarios li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hallazgo destacado */
+.hallazgo {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+}
+
+.antetitulo {
+  color: var(--ceniza-2);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hallazgo h2 {
+  max-width: 20ch;
+}
+
+.cifraHallazgo {
+  color: var(--fuego-4);
+}
+
+.textoHallazgo {
+  max-width: 60ch;
+  color: var(--ceniza-2);
+  font-size: 1.1rem;
+}
+
+/* Como funciona */
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pasos li {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--linea-fuerte);
+}
+
+.pasos p {
+  color: var(--ceniza-2);
+}
+
+.numeroPaso {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--fuego-3);
+}
+
+.aviso {
+  margin-top: clamp(24px, 4vw, 40px);
+  padding: 16px 20px;
+  max-width: 70ch;
+  border-left: 3px solid var(--fuego-4);
+  background: var(--superficie);
+  border-radius: 0 var(--radio-chico) var(--radio-chico) 0;
+  color: var(--ceniza-2);
+}
+
+.aviso strong {
+  color: var(--ceniza);
+}
+
+/* Por que importa */
+.motivos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.motivos li {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.motivos p {
+  color: var(--ceniza-2);
+}
+
+/* Datos y fuentes */
+.fuentes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: clamp(16px, 4vw, 48px);
+}
+
+.fuentesTexto {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  color: var(--ceniza-2);
+}
+
+.atribucion {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: var(--ceniza);
+}
+
+.licencia {
+  padding: 12px 16px;
+  border: 1px dashed var(--linea-fuerte);
+  border-radius: var(--radio-chico);
+}
+
+.licencia strong {
+  color: var(--ceniza);
+}
+
+@media (max-width: 860px) {
+  .tarjetas,
+  .pasos,
+  .motivos,
+  .fuentes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.sinCorte {
+  white-space: nowrap;
+}

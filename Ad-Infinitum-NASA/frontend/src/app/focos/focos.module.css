@@ -1,0 +1,45 @@
+.cabeza {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding-top: clamp(32px, 6vw, 72px);
+  padding-bottom: clamp(32px, 5vw, 56px);
+}
+
+.cabeza h1 {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  font-variation-settings: "wdth" 80, "opsz" 96;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.cabeza p {
+  max-width: 60ch;
+  color: var(--ceniza-2);
+  font-size: 1.1rem;
+}
+
+.atajos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atajos a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ceniza-2);
+}
+
+.atajos a:hover {
+  color: var(--ceniza);
+  border-color: var(--ceniza-2);
+}
