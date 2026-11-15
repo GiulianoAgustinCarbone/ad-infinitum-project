@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { DemoEscenario } from "./DemoEscenario";
 import { BarrasMes } from "@/components/graficos/BarrasMes";
 import { MatrizAnioMes } from "@/components/graficos/MatrizAnioMes";
 import { RankingDeptos } from "@/components/graficos/RankingDeptos";
@@ -32,6 +36,7 @@ function titular(t: Resumen["aqua"]["tendencia"], modo: Modo): string {
 }
 
 export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; modo?: Modo }) {
+  const [escenarioAbierto, setEscenarioAbierto] = useState(false);
   const T = TEXTOS[modo];
   const incendios = modo === "incendios";
   const { aqua, todos } = resumen;
@@ -127,7 +132,13 @@ export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; 
                 tendencia (pendiente de Sen)
               </span>
             </figcaption>
-            <SerieAnual anual={aqua.anual} tendencia={t} t={T} />
+            <SerieAnual
+              anual={aqua.anual}
+              tendencia={t}
+              t={T}
+              escenarioAbierto={escenarioAbierto}
+              onAlternarEscenario={incendios ? undefined : () => setEscenarioAbierto((abierto) => !abierto)}
+            />
           </figure>
         </div>
         <p className={`nota ${estilos.pieNota}`}>
@@ -136,6 +147,7 @@ export function Estacionalidad({ resumen, modo = "focos" }: { resumen: Resumen; 
             : `Serie de ${aqua.desde.replace("-", "/")} a ${aqua.hasta.replace("-", "/")}: ${entero(aqua.total)} focos de Aqua${aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años completos.`}
         </p>
       </div>
+      {!incendios && escenarioAbierto && <DemoEscenario />}
     </section>
   );
 }
