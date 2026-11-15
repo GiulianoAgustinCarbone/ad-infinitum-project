@@ -29,7 +29,6 @@ const ATAJOS = [
 export default function Focos() {
   const desde = Number(resumen.todos.fechaMin.slice(0, 4));
   const hasta = Number(resumen.todos.fechaMax.slice(0, 4));
-  const totalDe = (origen: string) => resumen.todos.porOrigen.find((o) => o.origen === origen)?.total ?? 0;
   return (
     <>
       <Navegacion />
@@ -61,9 +60,7 @@ export default function Focos() {
               </p>
             </div>
             <p className="nota">
-              {entero(resumen.todos.total)} focos en total: {entero(totalDe("CONAE"))} de CONAE y{" "}
-              {entero(totalDe("FIRMS"))} de NASA FIRMS, que completa los meses que CONAE no registró y el periodo posterior
-              a su serie. La serie de Aqua que se usa para comparar años sigue siendo solo la de CONAE.
+              {entero(resumen.todos.total)} focos de calor en total. Fuente: NASA FIRMS. Para comparar años usamos la serie del satélite Aqua.
             </p>
             <ExploradorEnlazado desde={desde} hasta={hasta} />
           </div>

@@ -1705,190 +1705,463 @@ const M = {
     abajo: 30,
     izquierda: 48
 };
+const ANIOS_PROYECCION = 10;
 function SerieAnual({ anual, tendencia }) {
     _s();
     const { globo, mostrar, ocultar } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Globo$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useGlobo"])();
     const { ref, ancho: AN } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$useAncho$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAncho"])(720);
+    if (anual.length === 0) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+        className: "nota",
+        children: "Sin datos anuales para proyectar."
+    }, void 0, false, {
+        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+        lineNumber: 19,
+        columnNumber: 34
+    }, this);
     const a0 = anual[0].anio;
     const a1 = anual[anual.length - 1].anio;
-    const max = Math.max(...anual.map((d)=>d.total));
-    const tope = Math.ceil(max / 500) * 500;
+    const fin = a1 + ANIOS_PROYECCION;
+    // El escenario usa el ajuste existente sin agregar observaciones al analisis.
+    const recta = (a)=>tendencia.ordenadaSen + tendencia.senAnual * a;
+    const proyecciones = Array.from({
+        length: ANIOS_PROYECCION
+    }, (_, i)=>({
+            anio: a1 + i + 1,
+            total: Math.max(0, recta(a1 + i + 1))
+        }));
+    const max = Math.max(...anual.map((d)=>d.total), recta(a0), recta(a1), recta(fin));
+    const tope = Math.max(500, Math.ceil(max / 500) * 500);
     const ancho = AN - M.izquierda - M.derecha;
     const alto = AL - M.arriba - M.abajo;
-    const x = (a)=>M.izquierda + (a - a0) / (a1 - a0) * ancho;
+    const x = (a)=>M.izquierda + (a - a0) / (fin - a0) * ancho;
     const y = (v)=>M.arriba + alto - Math.max(0, v) / tope * alto;
-    // Recta de Sen: la misma pendiente que se informa como cambio por decada
-    const recta = (a)=>tendencia.ordenadaSen + tendencia.senAnual * a;
+    // Incluye el cruce por cero para no dibujar cantidades negativas de focos.
+    const trayectoria = (desde, hasta)=>{
+        const cruce = -tendencia.ordenadaSen / tendencia.senAnual;
+        const puntos = cruce > desde && cruce < hasta ? [
+            desde,
+            cruce,
+            hasta
+        ] : [
+            desde,
+            hasta
+        ];
+        return puntos.map((a, i)=>`${i ? "L" : "M"}${x(a)},${y(recta(a))}`).join(" ");
+    };
     const linea = anual.map((d, i)=>`${i ? "L" : "M"}${x(d.anio)},${y(d.total)}`).join(" ");
     const pasoY = tope > 2000 ? 500 : 250;
+    const pasoX = Math.max(4, Math.ceil((fin - a0) / 6));
+    const etiquetas = [
+        ...anual.filter((d)=>(d.anio - a0) % pasoX === 0 && a1 - d.anio >= 2).map((d)=>d.anio),
+        a1,
+        ...proyecciones.filter((d)=>(d.anio - a1) % 5 === 0).map((d)=>d.anio)
+    ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        ref: ref,
-        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].lienzo,
-        onMouseLeave: ocultar,
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].svg,
-                viewBox: `0 0 ${AN} ${AL}`,
-                role: "group",
-                "aria-label": `Focos por año de ${a0} a ${a1} con recta de tendencia`,
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                ref: ref,
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].lienzo,
+                onMouseLeave: ocultar,
                 children: [
-                    Array.from({
-                        length: tope / pasoY + 1
-                    }, (_, i)=>i * pasoY).map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
-                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].grilla,
-                                    x1: M.izquierda,
-                                    x2: AN - M.derecha,
-                                    y1: y(t),
-                                    y2: y(t)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                    lineNumber: 36,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].eje,
-                                    x: M.izquierda - 8,
-                                    y: y(t) + 4,
-                                    textAnchor: "end",
-                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(t)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                    lineNumber: 37,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, t, true, {
-                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                            lineNumber: 35,
-                            columnNumber: 11
-                        }, this)),
-                    anual.filter((d)=>d.anio % 4 === a0 % 4 || d.anio === a1).map((d)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].eje,
-                            x: x(d.anio),
-                            y: AL - 8,
-                            textAnchor: "middle",
-                            children: d.anio
-                        }, d.anio, false, {
-                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                            lineNumber: 45,
-                            columnNumber: 13
-                        }, this)),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                        d: linea,
-                        fill: "none",
-                        stroke: "#b8c0c8",
-                        strokeWidth: "2",
-                        strokeLinejoin: "round"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                        lineNumber: 49,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
-                        x1: x(a0),
-                        y1: y(recta(a0)),
-                        x2: x(a1),
-                        y2: y(recta(a1)),
-                        stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
-                        strokeWidth: "2.5",
-                        strokeDasharray: "7 5"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                        lineNumber: 50,
-                        columnNumber: 9
-                    }, this),
-                    anual.map((d)=>{
-                        const leer = ()=>mostrar({
-                                x: x(d.anio) / AN * 100,
-                                y: y(d.total) / AL * 100,
-                                contenido: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].svg,
+                        viewBox: `0 0 ${AN} ${AL}`,
+                        role: "group",
+                        "aria-label": `Focos observados de ${a0} a ${a1}, con extrapolación de tendencia hasta ${fin}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                x: x(a1),
+                                y: M.arriba,
+                                width: x(fin) - x(a1),
+                                height: alto,
+                                fill: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
+                                opacity: "0.08"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                lineNumber: 51,
+                                columnNumber: 9
+                            }, this),
+                            Array.from({
+                                length: tope / pasoY + 1
+                            }, (_, i)=>i * pasoY).map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                            children: d.anio
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].grilla,
+                                            x1: M.izquierda,
+                                            x2: AN - M.derecha,
+                                            y1: y(t),
+                                            y2: y(t)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                            lineNumber: 66,
-                                            columnNumber: 19
+                                            lineNumber: 54,
+                                            columnNumber: 13
                                         }, this),
-                                        (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(d.total),
-                                        " focos",
-                                        d.mesesSinDato > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].eje,
+                                            x: M.izquierda - 8,
+                                            y: y(t) + 4,
+                                            textAnchor: "end",
+                                            children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(t)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 55,
+                                            columnNumber: 13
+                                        }, this)
+                                    ]
+                                }, t, true, {
+                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                    lineNumber: 53,
+                                    columnNumber: 11
+                                }, this)),
+                            etiquetas.map((anio)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].eje,
+                                    x: x(anio),
+                                    y: AL - 8,
+                                    textAnchor: "middle",
+                                    children: anio
+                                }, anio, false, {
+                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                    lineNumber: 59,
+                                    columnNumber: 11
+                                }, this)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: linea,
+                                fill: "none",
+                                stroke: "#b8c0c8",
+                                strokeWidth: "2",
+                                strokeLinejoin: "round"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                lineNumber: 61,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: trayectoria(a0, a1),
+                                fill: "none",
+                                stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
+                                strokeWidth: "2.5",
+                                strokeDasharray: "7 5"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                lineNumber: 62,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                x1: x(a1),
+                                x2: x(a1),
+                                y1: M.arriba,
+                                y2: y(0),
+                                stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
+                                strokeDasharray: "3 5",
+                                opacity: "0.5"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                lineNumber: 63,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                d: trayectoria(a1, fin),
+                                fill: "none",
+                                stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
+                                strokeWidth: "2.5",
+                                strokeDasharray: "2 5"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                lineNumber: 64,
+                                columnNumber: 9
+                            }, this),
+                            proyecciones.map((d)=>{
+                                const texto = `${d.anio}: aproximadamente ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(Math.round(d.total))} focos si continúa la tendencia histórica`;
+                                const leer = ()=>mostrar({
+                                        x: x(d.anio) / AN * 100,
+                                        y: y(d.total) / AL * 100,
+                                        contenido: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                             children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    children: [
+                                                        d.anio,
+                                                        " · Extrapolación"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                    lineNumber: 70,
+                                                    columnNumber: 26
+                                                }, this),
+                                                "≈ ",
+                                                (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(Math.round(d.total)),
+                                                " focos",
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                     fileName: "[project]/src/components/graficos/SerieAnual.tsx",
                                                     lineNumber: 70,
-                                                    columnNumber: 23
+                                                    columnNumber: 104
                                                 }, this),
-                                                "Incluye ",
-                                                d.mesesSinDato,
-                                                " ",
-                                                d.mesesSinDato === 1 ? "mes" : "meses",
-                                                " sin dato"
+                                                "Si continúa la tendencia histórica."
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                            lineNumber: 69,
-                                            columnNumber: 21
+                                            lineNumber: 70,
+                                            columnNumber: 24
+                                        }, this)
+                                    });
+                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].marca,
+                                    tabIndex: 0,
+                                    onMouseEnter: leer,
+                                    onFocus: leer,
+                                    onBlur: ocultar,
+                                    "aria-label": texto,
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                            x: x(d.anio) - 10,
+                                            y: M.arriba,
+                                            width: "20",
+                                            height: alto,
+                                            fill: "transparent"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 74,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].resalte,
+                                            d: `M${x(d.anio)},${y(d.total) - 5}l5,5 -5,5 -5,-5Z`,
+                                            fill: "#13202d",
+                                            stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3],
+                                            strokeWidth: "2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 75,
+                                            columnNumber: 15
                                         }, this)
                                     ]
-                                }, void 0, true, {
+                                }, d.anio, true, {
                                     fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                    lineNumber: 65,
-                                    columnNumber: 17
-                                }, this)
-                            });
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
-                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].marca,
-                            tabIndex: 0,
-                            onMouseEnter: leer,
-                            onFocus: leer,
-                            onBlur: ocultar,
-                            "aria-label": `${d.anio}: ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(d.total)} focos${d.mesesSinDato ? `, con ${d.mesesSinDato} meses sin dato` : ""}`,
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
-                                    x: x(d.anio) - ancho / (a1 - a0) / 2,
-                                    y: M.arriba,
-                                    width: ancho / (a1 - a0),
-                                    height: alto,
-                                    fill: "transparent"
-                                }, void 0, false, {
+                                    lineNumber: 73,
+                                    columnNumber: 13
+                                }, this);
+                            }),
+                            anual.map((d)=>{
+                                const leer = ()=>mostrar({
+                                        x: x(d.anio) / AN * 100,
+                                        y: y(d.total) / AL * 100,
+                                        contenido: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    children: d.anio
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                    lineNumber: 85,
+                                                    columnNumber: 17
+                                                }, this),
+                                                (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(d.total),
+                                                " focos",
+                                                d.mesesSinDato > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                            lineNumber: 87,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        "Incluye ",
+                                                        d.mesesSinDato,
+                                                        " ",
+                                                        d.mesesSinDato === 1 ? "mes" : "meses",
+                                                        " sin dato"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                    lineNumber: 87,
+                                                    columnNumber: 40
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 84,
+                                            columnNumber: 15
+                                        }, this)
+                                    });
+                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].marca,
+                                    tabIndex: 0,
+                                    onMouseEnter: leer,
+                                    onFocus: leer,
+                                    onBlur: ocultar,
+                                    "aria-label": `${d.anio}: ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(d.total)} focos${d.mesesSinDato ? `, con ${d.mesesSinDato} meses sin dato` : ""}`,
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                                            x: x(d.anio) - ancho / (fin - a0) / 2,
+                                            y: M.arriba,
+                                            width: ancho / (fin - a0),
+                                            height: alto,
+                                            fill: "transparent"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 94,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].resalte,
+                                            cx: x(d.anio),
+                                            cy: y(d.total),
+                                            r: "5",
+                                            fill: d.mesesSinDato ? "#13202d" : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CENIZA"],
+                                            stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CENIZA"],
+                                            strokeWidth: "2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 95,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, d.anio, true, {
                                     fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                    lineNumber: 87,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
-                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].resalte,
-                                    cx: x(d.anio),
-                                    cy: y(d.total),
-                                    r: "5",
-                                    fill: d.mesesSinDato ? "#13202d" : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CENIZA"],
-                                    stroke: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CENIZA"],
-                                    strokeWidth: "2"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                                    lineNumber: 88,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, d.anio, true, {
-                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                            lineNumber: 78,
-                            columnNumber: 13
-                        }, this);
-                    })
+                                    lineNumber: 92,
+                                    columnNumber: 13
+                                }, this);
+                            })
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                        lineNumber: 50,
+                        columnNumber: 7
+                    }, this),
+                    globo
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-                lineNumber: 33,
+                lineNumber: 49,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "nota",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        style: {
+                            color: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FUEGO"][3]
+                        },
+                        children: [
+                            "◇ Extrapolación ",
+                            a1 + 1,
+                            "–",
+                            fin,
+                            " (zona sombreada)."
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                        lineNumber: 103,
+                        columnNumber: 9
+                    }, this),
+                    " ",
+                    "Extiende la pendiente de Sen del período observado; no son datos medidos ni un pronóstico validado.",
+                    proyecciones.some((d)=>recta(d.anio) < 0) && " Los valores negativos se muestran como cero.",
+                    !tendencia.significativa && " La tendencia histórica no es estadísticamente concluyente."
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
-            globo
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("details", {
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].tabla,
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("summary", {
+                        children: "Ver valores extrapolados"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                        lineNumber: 109,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$graficos$2f$Graficos$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].tablaScroll,
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("caption", {
+                                    children: "Escenario si continúa la tendencia histórica"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                    lineNumber: 112,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                scope: "col",
+                                                children: "Año"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                lineNumber: 113,
+                                                columnNumber: 24
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                scope: "col",
+                                                children: "Focos aproximados"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                lineNumber: 113,
+                                                columnNumber: 48
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                        lineNumber: 113,
+                                        columnNumber: 20
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                    lineNumber: 113,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                    children: proyecciones.map((d)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                    scope: "row",
+                                                    children: d.anio
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                    lineNumber: 114,
+                                                    columnNumber: 62
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["entero"])(Math.round(d.total))
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                                    lineNumber: 114,
+                                                    columnNumber: 91
+                                                }, this)
+                                            ]
+                                        }, d.anio, true, {
+                                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                            lineNumber: 114,
+                                            columnNumber: 45
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                                    lineNumber: 114,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                            lineNumber: 111,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                        lineNumber: 110,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/graficos/SerieAnual.tsx",
+                lineNumber: 108,
+                columnNumber: 7
+            }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/graficos/SerieAnual.tsx",
-        lineNumber: 32,
+        lineNumber: 48,
         columnNumber: 5
     }, this);
 }

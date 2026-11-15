@@ -6,8 +6,8 @@ import { aCsv, descargar } from "@/lib/exportar/csv";
 import type { Resumen } from "@/lib/focos/tipos";
 import estilos from "./Descargas.module.css";
 
-const ATRIBUCION = "Datos: CONAE / Gobierno de San Luis";
-const ATRIBUCION_TODOS = "Datos: CONAE / Gobierno de San Luis y NASA FIRMS";
+const ATRIBUCION = "Datos: NASA FIRMS";
+const ATRIBUCION_TODOS = "Datos: NASA FIRMS";
 
 function porAnioYFuente(resumen: Resumen) {
   const { porAnioOrigen, porOrigen, fechaMin, fechaMax } = resumen.todos;
@@ -20,7 +20,7 @@ function porAnioYFuente(resumen: Resumen) {
     }),
     [],
     [
-      `# ${ATRIBUCION_TODOS}. CONAE: serie base. FIRMS: meses que CONAE no registro y periodo posterior a su serie. Descargado ${resumen.descargado}.`,
+      `# ${ATRIBUCION_TODOS}. Se conserva la fuente registrada de cada serie. Descargado ${resumen.descargado}.`,
     ],
   ];
   descargar(
@@ -45,7 +45,7 @@ function anual(resumen: Resumen) {
     ["# Mann-Kendall p", Math.round(t.p * 10000) / 10000],
     ["# Pendiente de Sen (focos por decada)", Math.round(t.senAnual * 100) / 10],
     ["# Significativa (p < 0.05)", t.significativa ? "si" : "no"],
-    [`# ${ATRIBUCION}. Aqua (MODIS): CONAE y NASA FIRMS donde CONAE no tiene dato. Descargado ${resumen.descargado}.`],
+    [`# ${ATRIBUCION}. Aqua (MODIS). Descargado ${resumen.descargado}.`],
   ];
   descargar(`san-luis_focos-anuales-aqua_${t.desde}-${t.hasta}.csv`, aCsv(filas), "text/csv;charset=utf-8");
 }
@@ -62,7 +62,7 @@ async function mensual(resumen: Resumen) {
     }),
     [],
     ["# Celdas vacias: mes sin dato en la fuente (no es cero)."],
-    [`# ${ATRIBUCION}. Aqua (MODIS): CONAE y NASA FIRMS donde CONAE no tiene dato. Descargado ${resumen.descargado}.`],
+    [`# ${ATRIBUCION}. Aqua (MODIS). Descargado ${resumen.descargado}.`],
   ];
   descargar(`san-luis_focos-mensuales-por-departamento_${serie.meses[0]}_${serie.meses.at(-1)}.csv`, aCsv(filas), "text/csv;charset=utf-8");
 }
@@ -108,7 +108,7 @@ export function Descargas({ resumen }: { resumen: Resumen }) {
           <li>
             <div>
               <h3>Focos por año y fuente</h3>
-              <p>Todos los focos del sitio, por año y por fuente: CONAE y NASA FIRMS. Incluye los focos que no son de Aqua.</p>
+              <p>Todos los focos del sitio, por año y por fuente registrada. Incluye los focos que no son de Aqua.</p>
             </div>
             <button type="button" className="boton boton-principal" onClick={() => porAnioYFuente(resumen)}>
               Descargar CSV

@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { DemoEscenario } from "./DemoEscenario";
 import { BarrasMes } from "@/components/graficos/BarrasMes";
 import { MatrizAnioMes } from "@/components/graficos/MatrizAnioMes";
 import { RankingDeptos } from "@/components/graficos/RankingDeptos";
@@ -15,6 +19,7 @@ function titular(t: Resumen["aqua"]["tendencia"]): string {
 }
 
 export function Estacionalidad({ resumen }: { resumen: Resumen }) {
+  const [escenarioAbierto, setEscenarioAbierto] = useState(false);
   const { aqua, todos } = resumen;
   const t = aqua.tendencia;
   const t2 = aqua.tendenciaSinFaltantes;
@@ -82,6 +87,11 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
               los {t.n} años tienen algún mes sin dato; si se los deja afuera, {valorP(t2.p)}
               {t2.significativa === t.significativa ? " y la conclusión no cambia." : " y la conclusión cambia: tomala con cuidado."}
             </p>
+            <p className={`nota ${estilos.pieNota}`}>
+              Serie de {aqua.desde.replace("-", "/")} a {aqua.hasta.replace("-", "/")}: {entero(aqua.total)} focos de Aqua
+              {aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años
+              completos.
+            </p>
           </div>
           <figure className={estilos.tendenciaGrafico}>
             <figcaption className={estilos.leyendaSerie}>
@@ -105,15 +115,12 @@ export function Estacionalidad({ resumen }: { resumen: Resumen }) {
                 tendencia (pendiente de Sen)
               </span>
             </figcaption>
-            <SerieAnual anual={aqua.anual} tendencia={t} />
+            <SerieAnual anual={aqua.anual} tendencia={t} escenarioAbierto={escenarioAbierto} onAlternarEscenario={() => setEscenarioAbierto((abierto) => !abierto)} />
           </figure>
         </div>
-        <p className={`nota ${estilos.pieNota}`}>
-          Serie de {aqua.desde.replace("-", "/")} a {aqua.hasta.replace("-", "/")}: {entero(aqua.total)} focos de Aqua
-          {aquaSat ? ` sobre ${entero(todos.total)} detectados por todos los satélites` : ""}. Solo se analizan años
-          completos.
-        </p>
+
       </div>
+      {escenarioAbierto && <DemoEscenario />}
     </section>
   );
 }

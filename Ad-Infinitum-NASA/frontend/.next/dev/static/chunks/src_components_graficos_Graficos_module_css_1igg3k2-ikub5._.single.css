@@ -183,6 +183,52 @@
   overflow-x: auto;
 }
 
+.Graficos-module__sjx_Ea__accionesTendencia {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 22px;
+  margin-top: 12px;
+  display: flex;
+}
+
+.Graficos-module__sjx_Ea__tablaExtrapolada {
+  flex: 210px;
+  min-width: 0;
+}
+
+.Graficos-module__sjx_Ea__tablaExtrapolada summary {
+  color: var(--fuego-4);
+  font-weight: 500;
+}
+
+.Graficos-module__sjx_Ea__tablaExtrapolada summary:hover {
+  color: var(--fuego-5);
+}
+
+.Graficos-module__sjx_Ea__botonEscenario {
+  border: 1px solid color-mix(in srgb, var(--fuego-4) 50%, transparent);
+  background: color-mix(in srgb, var(--fuego-4) 7%, transparent);
+  min-height: 44px;
+  color: var(--fuego-4);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 999px;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 17px;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: background .16s, border-color .16s;
+  display: inline-flex;
+}
+
+.Graficos-module__sjx_Ea__botonEscenario:hover {
+  border-color: var(--fuego-4);
+  background: color-mix(in srgb, var(--fuego-4) 12%, transparent);
+}
+
 .Graficos-module__sjx_Ea__tablaScroll table {
   border-collapse: collapse;
   width: 100%;

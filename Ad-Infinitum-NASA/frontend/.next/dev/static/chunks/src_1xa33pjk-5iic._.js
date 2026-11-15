@@ -9,12 +9,14 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$escala$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/focos/escala.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$satelites$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/focos/satelites.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$proyeccion$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/focos/proyeccion.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$geo$2f$provincias$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/geo/provincias.json.[json].cjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$explorador$2f$Explorador$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/explorador/Explorador.module.css [app-client] (css module)");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -38,7 +40,8 @@ function puntosGeojson(f) {
             a: c.anio[i],
             m: c.mes[i],
             d: c.depto[i],
-            s: c.sat[i]
+            s: c.sat[i],
+            o: c.origen ? c.origen[i] : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$satelites$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ORIGEN_CONAE"]
         };
         const pw = c.power[i];
         if (pw !== null) p.p = pw;
@@ -86,14 +89,24 @@ function expresionFiltro(filtro, indiceAqua) {
         ],
         filtro.depto
     ]);
-    if (filtro.soloAqua) partes.push([
-        "==",
-        [
-            "get",
-            "s"
-        ],
-        indiceAqua
-    ]);
+    if (filtro.soloAqua) {
+        partes.push([
+            "==",
+            [
+                "get",
+                "s"
+            ],
+            indiceAqua
+        ]);
+        partes.push([
+            "==",
+            [
+                "get",
+                "o"
+            ],
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$satelites$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ORIGEN_CONAE"]
+        ]);
+    }
     return [
         "all",
         true,
@@ -224,7 +237,7 @@ function MapaFocos({ focos, departamentos, embalses, filtro, vista, cantidad, in
                         },
                         attributionControl: {
                             compact: true,
-                            customAttribution: "Datos: CONAE / Gobierno de San Luis"
+                            customAttribution: "Datos: NASA FIRMS"
                         },
                         cooperativeGestures: true,
                         dragRotate: false,
@@ -662,7 +675,7 @@ function MapaFocos({ focos, departamentos, embalses, filtro, vista, cantidad, in
         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$explorador$2f$Explorador$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].mapa
     }, void 0, false, {
         fileName: "[project]/src/components/explorador/MapaFocos.tsx",
-        lineNumber: 348,
+        lineNumber: 352,
         columnNumber: 10
     }, this);
 }

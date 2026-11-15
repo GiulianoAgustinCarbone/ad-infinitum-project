@@ -303,7 +303,7 @@ export function Explorador({ inicial }: { inicial?: { anio: number; mes: number 
           </label>
           <label className={estilos.casilla}>
             <input type="checkbox" checked={soloAqua} onChange={(e) => setSoloAqua(e.target.checked)} />
-            <span>Solo satélite Aqua de CONAE</span>
+            <span>Solo satélite Aqua</span>
           </label>
         </fieldset>
 
