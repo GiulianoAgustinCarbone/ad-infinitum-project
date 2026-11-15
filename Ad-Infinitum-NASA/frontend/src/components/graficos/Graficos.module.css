@@ -1,0 +1,213 @@
+.figura {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.titulo {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.subtitulo {
+  color: var(--ceniza-2);
+  font-size: 0.95rem;
+}
+
+.lienzo {
+  position: relative;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.eje {
+  fill: var(--ceniza-3);
+  font-size: 12px;
+}
+
+.grilla {
+  stroke: var(--linea);
+  stroke-width: 1;
+}
+
+.marca {
+  cursor: default;
+}
+
+.marca:focus-visible {
+  outline: none;
+}
+
+.marca:focus-visible .resalte,
+.marca:hover .resalte {
+  stroke: var(--ceniza);
+  stroke-width: 2;
+}
+
+.globo {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, calc(-100% - 10px));
+  min-width: 140px;
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: var(--radio-chico);
+  background: var(--ceniza);
+  color: var(--noche);
+  font-size: 0.875rem;
+  line-height: 1.35;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+}
+
+.globo strong {
+  display: block;
+}
+
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--ceniza-2);
+}
+
+.leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.muestra {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.sinDato {
+  background: repeating-linear-gradient(135deg, var(--linea-fuerte) 0 2px, transparent 2px 5px), var(--superficie);
+}
+
+.fuera {
+  border: 1px dashed var(--linea-fuerte);
+}
+
+/* Matriz anio x mes */
+.matriz {
+  display: grid;
+  grid-template-columns: 3.2em repeat(12, minmax(0, 1fr));
+  gap: 2px;
+  font-size: 0.75rem;
+}
+
+.matriz .encabezado {
+  color: var(--ceniza-3);
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+.matriz .anio {
+  color: var(--ceniza-3);
+  display: flex;
+  align-items: center;
+}
+
+.celda {
+  aspect-ratio: 2.6;
+  border-radius: 2px;
+  min-height: 14px;
+}
+
+.celda.sinDato,
+.celda.fuera {
+  border-radius: 2px;
+}
+
+.celda:hover {
+  outline: 2px solid var(--ceniza);
+  outline-offset: -1px;
+}
+
+/* Ranking */
+.ranking {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.ranking li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  font-size: 0.95rem;
+}
+
+.ranking .barra {
+  grid-column: 1 / -1;
+  height: 10px;
+  border-radius: 0 4px 4px 0;
+  background: var(--fuego-3);
+}
+
+.ranking .valor {
+  color: var(--ceniza-2);
+}
+
+.tabla {
+  font-size: 0.9rem;
+}
+
+.tabla summary {
+  cursor: pointer;
+  color: var(--ceniza-2);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.tablaScroll {
+  overflow-x: auto;
+  max-height: 360px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-chico);
+}
+
+.tablaScroll table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tablaScroll th,
+.tablaScroll td {
+  padding: 6px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--linea);
+  white-space: nowrap;
+}
+
+.tablaScroll th:first-child,
+.tablaScroll td:first-child {
+  text-align: left;
+}
+
+.tablaScroll thead th {
+  position: sticky;
+  top: 0;
+  background: var(--superficie);
+  color: var(--ceniza-2);
+  font-weight: 600;
+}

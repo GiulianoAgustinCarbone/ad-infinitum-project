@@ -1,0 +1,60 @@
+.insignia {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--linea-fuerte);
+  background: var(--noche);
+  color: var(--ceniza);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.compacta {
+  padding: 1px 8px;
+  font-size: 0.72rem;
+}
+
+.icono {
+  flex: none;
+}
+
+/* Real: punto lleno con el tono de los datos */
+.insignia[data-estado="real"] {
+  border-color: var(--fuego-4);
+}
+
+.insignia[data-estado="real"] .icono {
+  fill: var(--fuego-4);
+}
+
+/* Ilustrativo: borde de trazos y triangulo de aviso */
+.insignia[data-estado="ilustrativo"] {
+  border-style: dashed;
+  border-color: var(--sin-dato);
+}
+
+.insignia[data-estado="ilustrativo"] .icono {
+  fill: none;
+  stroke: var(--sin-dato);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+/* Proximamente: borde punteado y reloj, en tinta secundaria */
+.insignia[data-estado="proximamente"] {
+  border-style: dotted;
+  border-color: var(--ceniza-3);
+  color: var(--ceniza-2);
+}
+
+.insignia[data-estado="proximamente"] .icono {
+  fill: none;
+  stroke: var(--ceniza-2);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}

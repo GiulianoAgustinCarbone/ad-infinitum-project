@@ -1,1 +1,4 @@
 *.nc
+modis_cache/
+appeears_cache/
+raw/
