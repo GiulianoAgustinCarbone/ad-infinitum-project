@@ -73,7 +73,7 @@ function Atajos() {
   );
 }
 
-function Selector({ modo }: { modo: Modo }) {
+function Selector({ modo, language }: { modo: Modo; language: "es" | "en" }) {
   return (
     <nav aria-label="Qué mostrar" className={modoEstilos.selector}>
       {MODOS.map((m) => {
@@ -81,7 +81,7 @@ function Selector({ modo }: { modo: Modo }) {
         return (
           <Link
             key={m.valor}
-            href={m.valor === "focos" ? "/focos" : "/focos?modo=incendios"}
+            href={`/focos?modo=${m.valor}&lang=${language}`}
             scroll={false}
             aria-current={activa ? "page" : undefined}
             className={`${modoEstilos.opcion} ${activa ? modoEstilos.activa : ""}`}
@@ -109,7 +109,7 @@ function Selector({ modo }: { modo: Modo }) {
   );
 }
 
-function Contenido({ modo, resumenFocos, resumenIncendios }: Props & { modo: Modo }) {
+function Contenido({ modo, resumenFocos, resumenIncendios, language = "es" }: Props & { modo: Modo; language?: "es" | "en" }) {
   const incendios = modo === "incendios";
   const resumen = incendios ? resumenIncendios : resumenFocos;
   const desde = Number(resumen.todos.fechaMin.slice(0, 4));
@@ -134,7 +134,7 @@ function Contenido({ modo, resumenFocos, resumenIncendios }: Props & { modo: Mod
             <span className={modoEstilos.titulo}>Tipo de registro</span>
             <span className={modoEstilos.ayuda}>Elegí qué mostrar en el mapa y las métricas</span>
           </div>
-          <Selector modo={modo} />
+          <Selector modo={modo} language={language} />
         </div>
         <Atajos />
       </header>
@@ -158,7 +158,7 @@ function Contenido({ modo, resumenFocos, resumenIncendios }: Props & { modo: Mod
 function ConModo(props: Props) {
   const parametros = useSearchParams();
   const modo: Modo = parametros.get("modo") === "incendios" ? "incendios" : "focos";
-  return <Contenido modo={modo} {...props} />;
+  return <Contenido modo={modo} language={parametros.get("lang") === "es" ? "es" : "en"} {...props} />;
 }
 
 // El modo se lee de la URL (?modo=incendios). Suspense permite prerenderizar la pagina en modo focos.

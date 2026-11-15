@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs",
+    "predev": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs && node scripts/traducir-focos.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs",
+    "prebuild": "node scripts/copiar-worker-maplibre.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts && node scripts/preparar-escenario-incendios.mjs && node scripts/traducir-focos.mjs",
     "datos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/preparar-datos.mts",
-    "escenario:incendios": "node scripts/preparar-escenario-incendios.mjs"
+    "escenario:incendios": "node scripts/preparar-escenario-incendios.mjs",
+    "idioma:focos": "node scripts/traducir-focos.mjs"
   },
   "dependencies": {
     "@turf/helpers": "7.4.0",

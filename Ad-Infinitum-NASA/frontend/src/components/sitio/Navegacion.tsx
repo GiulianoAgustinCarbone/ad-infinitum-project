@@ -20,7 +20,7 @@ export const SECCIONES: Seccion[] = [
 ];
 
 const SECCIONES_EN: Seccion[] = [
-  { texto: "Heat hotspots", href: "/focos" },
+  { texto: "Hotspots and fires", href: "/focos" },
   { texto: "Water balance", href: "/water-balance" },
   { texto: "Method", href: null },
   { texto: "Data", href: null },
@@ -87,7 +87,7 @@ export function Navegacion({ language = "es" }: { language?: "es" | "en" }) {
             priority
             className={estilos.logo}
           />
-          <span className={estilos.marcaTexto}>Eco Forensic</span>
+          <span className={estilos.marcaTexto}>Eco Monitor</span>
         </Link>
         <button
           type="button"

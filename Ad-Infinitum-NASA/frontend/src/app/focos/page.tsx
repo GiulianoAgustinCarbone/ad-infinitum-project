@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ContenidoFocos } from "@/components/sitio/ContenidoFocos";
+import { ContenidoFocos as ContenidoFocosEn } from "@/presentation-en/components/sitio/ContenidoFocos";
 import { Navegacion } from "@/components/sitio/Navegacion";
 import { Pie } from "@/components/sitio/Pie";
 import type { Resumen } from "@/lib/focos/tipos";
@@ -10,17 +12,29 @@ const resumenFocos = datosResumen as Resumen;
 const resumenIncendios = datosIncendios as Resumen;
 
 export const metadata: Metadata = {
-  title: "Focos de calor e incendios en San Luis | Eco Forensic",
+  title: "Thermal hotspots and fires in San Luis | Eco Forensic",
   description:
-    "Explorá mes a mes los focos de calor y los incendios confirmados en San Luis, su estacionalidad y su tendencia.",
+    "Explore monthly thermal hotspots and fire-associated detections in San Luis, their seasonality and long-term trends.",
 };
 
-export default function Focos() {
+type Props = { searchParams: Promise<{ lang?: string }> };
+
+async function FocosConIdioma({ searchParams }: Props) {
+  const language = (await searchParams).lang === "es" ? "es" : "en";
+  const Contenido = language === "en" ? ContenidoFocosEn : ContenidoFocos;
   return (
     <>
-      <Navegacion />
-      <ContenidoFocos resumenFocos={resumenFocos} resumenIncendios={resumenIncendios} />
-      <Pie resumen={resumenFocos} />
+      <Navegacion language={language} />
+      <Contenido resumenFocos={resumenFocos} resumenIncendios={resumenIncendios} />
+      <Pie resumen={resumenFocos} language={language} />
     </>
+  );
+}
+
+export default function Focos(props: Props) {
+  return (
+    <Suspense fallback={<main id="contenido" className="contenedor seccion" lang="en" aria-busy="true">Loading satellite data…</main>}>
+      <FocosConIdioma {...props} />
+    </Suspense>
   );
 }
