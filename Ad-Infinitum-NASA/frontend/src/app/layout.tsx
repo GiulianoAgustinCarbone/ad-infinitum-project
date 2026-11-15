@@ -16,9 +16,9 @@ const texto = Atkinson_Hyperlegible_Next({
 });
 
 export const metadata: Metadata = {
-  title: "Detective de Tendencias: el fuego en San Luis",
+  title: "Eco Forensic | Fire in San Luis",
   description:
-    "Cómo cambiaron los focos de calor detectados por satélite en la provincia de San Luis entre 2002 y 2024: cuándo, dónde y si hay una tendencia.",
+    "How satellite-detected heat hotspots changed in San Luis Province between 2002 and 2024: when, where, and whether a trend is present.",
 };
 
 export const viewport: Viewport = {

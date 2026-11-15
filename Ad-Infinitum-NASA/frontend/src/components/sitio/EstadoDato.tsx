@@ -2,14 +2,14 @@ import estilos from "./EstadoDato.module.css";
 
 export type Estado = "real" | "ilustrativo" | "proximamente";
 
-const TEXTO: Record<Estado, string> = {
-  real: "Datos reales",
-  ilustrativo: "Datos ilustrativos",
-  proximamente: "Próximamente",
+const TEXTO: Record<Estado, Record<"es" | "en", string>> = {
+  real: { es: "Datos reales", en: "Real data" },
+  ilustrativo: { es: "Datos ilustrativos", en: "Illustrative data" },
+  proximamente: { es: "Próximamente", en: "Coming soon" },
 };
 
 // Insignia de estado del dato: texto e icono, nunca solo color
-export function EstadoDato({ estado, compacta = false }: { estado: Estado; compacta?: boolean }) {
+export function EstadoDato({ estado, compacta = false, language = "es" }: { estado: Estado; compacta?: boolean; language?: "es" | "en" }) {
   return (
     <span className={`${estilos.insignia} ${compacta ? estilos.compacta : ""}`} data-estado={estado}>
       <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" className={estilos.icono}>
@@ -22,7 +22,7 @@ export function EstadoDato({ estado, compacta = false }: { estado: Estado; compa
           </>
         )}
       </svg>
-      {TEXTO[estado]}
+      {TEXTO[estado][language]}
     </span>
   );
 }

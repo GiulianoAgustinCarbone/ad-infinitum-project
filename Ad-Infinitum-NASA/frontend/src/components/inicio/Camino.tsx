@@ -45,66 +45,64 @@ function MiniaturaSequia() {
   );
 }
 
-export function Camino({ resumen }: { resumen: Resumen }) {
+export function Camino({ resumen, language = "es" }: { resumen: Resumen; language?: "es" | "en" }) {
   const pico = resumen.aqua.estacionalidad.find((e) => e.mes === resumen.aqua.mesPico)!;
   return (
-    <section id="camino" className="seccion" aria-labelledby="titulo-camino">
+    <section id="camino" className="seccion" aria-labelledby="titulo-camino" lang={language}>
       <div className="contenedor">
         <div className="seccion-cabeza" data-revelar>
-          <h2 id="titulo-camino">Elegí tu camino</h2>
-          <p>Cada tema es una página con sus propios datos. Te avisamos qué está listo y qué está en camino.</p>
+          <h2 id="titulo-camino">{language === "en" ? "Choose your path" : "Elegí tu camino"}</h2>
+          <p>{language === "en" ? "Each topic has its own page and data. We’ll show what is ready and what is still in progress." : "Cada tema es una página con sus propios datos. Te avisamos qué está listo y qué está en camino."}</p>
         </div>
         <ul className={estilos.tarjetas}>
           <li className={`${estilos.tarjeta} ${estilos.tarjetaActiva}`} data-revelar>
             <div className={estilos.tarjetaCabeza}>
-              <EstadoDato estado="real" />
-              <span className={estilos.tema}>Focos de calor</span>
+              <EstadoDato estado="real" language={language} />
+              <span className={estilos.tema}>{language === "en" ? "Heat hotspots" : "Focos de calor"}</span>
             </div>
             <h3>
               <Link href="/focos" className={estilos.enlaceTarjeta}>
-                ¿Cuándo y dónde aparece el fuego?
+                {language === "en" ? "When and where does fire activity occur?" : "¿Cuándo y dónde aparece el fuego?"}
               </Link>
             </h3>
             <figure className={estilos.figura}>
               <MiniaturaFocos resumen={resumen} />
               <figcaption>
-                Focos promedio por mes. {capitalizar(nombreMes(pico.mes))} es el pico, con {decimal(pico.promedio, 0)}{" "}
-                por año.
+                {language === "en" ? `Average hotspots by month. ${capitalizar(new Date(Date.UTC(2020, pico.mes - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" }))} is the peak, with ${pico.promedio.toLocaleString("en-US", { maximumFractionDigits: 0 })} per year.` : `Focos promedio por mes. ${capitalizar(nombreMes(pico.mes))} es el pico, con ${decimal(pico.promedio, 0)} por año.`}
               </figcaption>
             </figure>
             <ul className={estilos.incluye}>
-              <li>Mapa mes a mes y por departamento</li>
-              <li>Estacionalidad y tendencia</li>
+              <li>{language === "en" ? "Month-by-month and department maps" : "Mapa mes a mes y por departamento"}</li>
+              <li>{language === "en" ? "Seasonality and trend" : "Estacionalidad y tendencia"}</li>
               <li>
-                Comparar departamentos <EstadoDato estado="proximamente" compacta />
+                {language === "en" ? "Compare departments" : "Comparar departamentos"} <EstadoDato estado="proximamente" compacta language={language} />
               </li>
             </ul>
             <span className={estilos.ir} aria-hidden="true">
-              Explorar los focos →
+              {language === "en" ? "Explore hotspots →" : "Explorar los focos →"}
             </span>
           </li>
           <li className={estilos.tarjeta} data-revelar>
             <div className={estilos.tarjetaCabeza}>
-              <EstadoDato estado="proximamente" />
-              <span className={estilos.tema}>Sequía y diques</span>
+              <EstadoDato estado="proximamente" language={language} />
+              <span className={estilos.tema}>{language === "en" ? "Drought and reservoirs" : "Sequía y diques"}</span>
             </div>
-            <h3>¿Hay menos agua que antes?</h3>
+            <h3>{language === "en" ? "Is there less water than before?" : "¿Hay menos agua que antes?"}</h3>
             <figure className={estilos.figura}>
               <MiniaturaSequia />
-              <figcaption>Dibujo de referencia, todavía sin datos.</figcaption>
+              <figcaption>{language === "en" ? "Concept sketch; data are not available yet." : "Dibujo de referencia, todavía sin datos."}</figcaption>
             </figure>
             <p className={estilos.descripcion}>
-              Un balance hídrico aproximado (lluvia menos evapotranspiración) por zona y el estado de los diques de la
-              provincia, cuando consigamos sus registros.
+              {language === "en" ? "An approximate water balance (rainfall minus evapotranspiration) by area, plus reservoir conditions once records become available." : "Un balance hídrico aproximado (lluvia menos evapotranspiración) por zona y el estado de los diques de la provincia, cuando consigamos sus registros."}
             </p>
           </li>
         </ul>
-        <ul className={estilos.secundarios} aria-label="Otras páginas">
+        <ul className={estilos.secundarios} aria-label={language === "en" ? "Other pages" : "Otras páginas"}>
           <li>
-            <span aria-disabled="true">Método</span> <EstadoDato estado="proximamente" compacta />
+            <span aria-disabled="true">{language === "en" ? "Method" : "Método"}</span> <EstadoDato estado="proximamente" compacta language={language} />
           </li>
           <li>
-            <span aria-disabled="true">Datos y descargas</span> <EstadoDato estado="proximamente" compacta />
+            <span aria-disabled="true">{language === "en" ? "Data and downloads" : "Datos y descargas"}</span> <EstadoDato estado="proximamente" compacta language={language} />
           </li>
         </ul>
       </div>

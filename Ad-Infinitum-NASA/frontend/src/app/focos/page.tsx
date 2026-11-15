@@ -13,7 +13,7 @@ import estilos from "./focos.module.css";
 const resumen = datosResumen as Resumen;
 
 export const metadata: Metadata = {
-  title: "Focos de calor en San Luis | Detective de Tendencias",
+  title: "Focos de calor en San Luis | Eco Forensic",
   description:
     "Explorá mes a mes los focos de calor detectados por satélite en San Luis, su estacionalidad y su tendencia.",
 };

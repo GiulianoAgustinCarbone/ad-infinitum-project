@@ -31,7 +31,7 @@ function anillosDe(geo: Awaited<ReturnType<typeof fuenteFocos.getDepartamentos>>
   return anillos;
 }
 
-export function HeroFocos() {
+export function HeroFocos({ language = "es" }: { language?: "es" | "en" }) {
   const lienzo = useRef<HTMLCanvasElement>(null);
   const tira = useRef<HTMLCanvasElement>(null);
   const textoMes = useRef<HTMLSpanElement>(null);
@@ -144,7 +144,7 @@ export function HeroFocos() {
         b.moveTo(x, alto);
         b.lineTo(x, alto - 10);
         b.stroke();
-        b.fillText(`${-lon}° O`, x - 14, alto - 14);
+        b.fillText(`${-lon}° ${language === "en" ? "W" : "O"}`, x - 14, alto - 14);
       }
     };
 
@@ -199,10 +199,12 @@ export function HeroFocos() {
       dibujarTira(k);
       if (k >= 0 && k < datos.porMes.length) {
         const f = fecha(k);
-        if (textoMes.current) textoMes.current.textContent = mesAnio(f.anio, f.mes);
+        if (textoMes.current) textoMes.current.textContent = language === "en"
+          ? `${new Date(Date.UTC(f.anio, f.mes - 1, 1)).toLocaleString("en-US", { month: "long", timeZone: "UTC" })} ${f.anio}`
+          : mesAnio(f.anio, f.mes);
         if (textoCuenta.current) {
           const n = datos.porMes[k].length;
-          textoCuenta.current.textContent = `${entero(n)} ${n === 1 ? "foco" : "focos"}`;
+          textoCuenta.current.textContent = language === "en" ? `${n.toLocaleString("en-US")} ${n === 1 ? "hotspot" : "hotspots"}` : `${entero(n)} ${n === 1 ? "foco" : "focos"}`;
         }
       }
     };
@@ -217,8 +219,8 @@ export function HeroFocos() {
       ctx.drawImage(base, 0, 0);
       ctx.drawImage(ceniza, 0, 0);
       dibujarTira(datos.porMes.length - 1);
-      if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
-      if (textoCuenta.current) textoCuenta.current.textContent = `${entero(datos.total)} focos`;
+      if (textoMes.current) textoMes.current.textContent = language === "en" ? "2002 to 2024" : "2002 a 2024";
+      if (textoCuenta.current) textoCuenta.current.textContent = language === "en" ? `${datos.total.toLocaleString("en-US")} hotspots` : `${entero(datos.total)} focos`;
     };
 
     const medir = () => {
@@ -275,8 +277,8 @@ export function HeroFocos() {
         c.clearRect(0, 0, ceniza.width, ceniza.height);
       } else if (mesDibujado === n - 1 && k === n) {
         dibujar(n + ESTELA);
-        if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
-        if (textoCuenta.current) textoCuenta.current.textContent = `${entero(datos.total)} focos`;
+        if (textoMes.current) textoMes.current.textContent = language === "en" ? "2002 to 2024" : "2002 a 2024";
+        if (textoCuenta.current) textoCuenta.current.textContent = language === "en" ? `${datos.total.toLocaleString("en-US")} hotspots` : `${entero(datos.total)} focos`;
       }
       raf = requestAnimationFrame(paso);
     };
@@ -286,7 +288,7 @@ export function HeroFocos() {
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [datos, quieto]);
+  }, [datos, quieto, language]);
 
   return (
     <figure className={estilos.figura}>
@@ -295,12 +297,12 @@ export function HeroFocos() {
           ref={lienzo}
           className={estilos.lienzo}
           role="img"
-          aria-label="Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de 2002 hasta octubre de 2024 y dejan una marca acumulada."
+          aria-label={language === "en" ? "Map of San Luis and its nine departments. Satellite-detected heat hotspots appear month by month from January 2002 to October 2024, leaving an accumulated trace." : "Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de 2002 hasta octubre de 2024 y dejan una marca acumulada."}
         />
-        {!datos && !error && <p className={estilos.estado}>Cargando 22 años de focos…</p>}
+        {!datos && !error && <p className={estilos.estado}>{language === "en" ? "Loading 22 years of hotspots…" : "Cargando 22 años de focos…"}</p>}
         {error && (
           <p className={estilos.estado}>
-            No se pudieron cargar los focos. Recargá la página para intentar de nuevo.
+            {language === "en" ? "Hotspots could not be loaded. Reload the page to try again." : "No se pudieron cargar los focos. Recargá la página para intentar de nuevo."}
           </p>
         )}
         <div className={estilos.lectura} aria-hidden="true">
@@ -320,10 +322,10 @@ export function HeroFocos() {
           <span>2024</span>
         </div>
         <div className={estilos.controles}>
-          <figcaption className="nota">Cada barra es un mes: altura según la cantidad de focos.</figcaption>
+          <figcaption className="nota">{language === "en" ? "Each bar represents one month; height shows the number of hotspots." : "Cada barra es un mes: altura según la cantidad de focos."}</figcaption>
           {!quieto && (
             <button type="button" className="boton" onClick={() => setPausado((p) => !p)} aria-pressed={pausado}>
-              {pausado ? "Reanudar" : "Pausar"}
+              {language === "en" ? (pausado ? "Resume" : "Pause") : pausado ? "Reanudar" : "Pausar"}
             </button>
           )}
         </div>
