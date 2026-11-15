@@ -3,6 +3,7 @@
 import { CENIZA, FUEGO } from "@/lib/focos/escala";
 import type { Resumen, TendenciaResumen } from "@/lib/focos/tipos";
 import { entero } from "@/lib/formato";
+import { rotuloEje, pasoEje, type Textos } from "@/lib/focos/modo";
 import { useGlobo } from "./Globo";
 import { useAncho } from "./useAncho";
 import estilos from "./Graficos.module.css";
@@ -10,15 +11,16 @@ import estilos from "./Graficos.module.css";
 const AL = 300;
 const M = { arriba: 20, derecha: 16, abajo: 30, izquierda: 48 };
 
-type Props = { anual: Resumen["aqua"]["anual"]; tendencia: TendenciaResumen };
+type Props = { anual: Resumen["aqua"]["anual"]; tendencia: TendenciaResumen; t: Textos };
 
-export function SerieAnual({ anual, tendencia }: Props) {
+export function SerieAnual({ anual, tendencia, t }: Props) {
   const { globo, mostrar, ocultar } = useGlobo();
   const { ref, ancho: AN } = useAncho<HTMLDivElement>(720);
   const a0 = anual[0].anio;
   const a1 = anual[anual.length - 1].anio;
   const max = Math.max(...anual.map((d) => d.total));
-  const tope = Math.ceil(max / 500) * 500;
+  const pasoY = pasoEje(max);
+  const tope = Math.ceil(max / pasoY) * pasoY;
   const ancho = AN - M.izquierda - M.derecha;
   const alto = AL - M.arriba - M.abajo;
   const x = (a: number) => M.izquierda + ((a - a0) / (a1 - a0)) * ancho;
@@ -26,16 +28,15 @@ export function SerieAnual({ anual, tendencia }: Props) {
   // Recta de Sen: la misma pendiente que se informa como cambio por decada
   const recta = (a: number) => tendencia.ordenadaSen + tendencia.senAnual * a;
   const linea = anual.map((d, i) => `${i ? "L" : "M"}${x(d.anio)},${y(d.total)}`).join(" ");
-  const pasoY = tope > 2000 ? 500 : 250;
 
   return (
     <div ref={ref} className={estilos.lienzo} onMouseLeave={ocultar}>
-      <svg className={estilos.svg} viewBox={`0 0 ${AN} ${AL}`} role="group" aria-label={`Focos por año de ${a0} a ${a1} con recta de tendencia`}>
+      <svg className={estilos.svg} viewBox={`0 0 ${AN} ${AL}`} role="group" aria-label={`${t.eje}, de ${a0} a ${a1}, con recta de tendencia`}>
         {Array.from({ length: tope / pasoY + 1 }, (_, i) => i * pasoY).map((t) => (
           <g key={t}>
             <line className={estilos.grilla} x1={M.izquierda} x2={AN - M.derecha} y1={y(t)} y2={y(t)} />
             <text className={estilos.eje} x={M.izquierda - 8} y={y(t) + 4} textAnchor="end">
-              {entero(t)}
+              {rotuloEje(t)}
             </text>
           </g>
         ))}
@@ -64,7 +65,7 @@ export function SerieAnual({ anual, tendencia }: Props) {
               contenido: (
                 <>
                   <strong>{d.anio}</strong>
-                  {entero(d.total)} focos
+                  {entero(d.total)} {t.unidadSerie}
                   {d.mesesSinDato > 0 && (
                     <>
                       <br />
@@ -82,7 +83,7 @@ export function SerieAnual({ anual, tendencia }: Props) {
               onMouseEnter={leer}
               onFocus={leer}
               onBlur={ocultar}
-              aria-label={`${d.anio}: ${entero(d.total)} focos${d.mesesSinDato ? `, con ${d.mesesSinDato} meses sin dato` : ""}`}
+              aria-label={`${d.anio}: ${entero(d.total)} ${t.unidadSerie}${d.mesesSinDato ? `, con ${d.mesesSinDato} meses sin dato` : ""}`}
             >
               <rect x={x(d.anio) - ancho / (a1 - a0) / 2} y={M.arriba} width={ancho / (a1 - a0)} height={alto} fill="transparent" />
               <circle

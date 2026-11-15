@@ -22,7 +22,7 @@ export function Metodo({ resumen }: { resumen: Resumen }) {
               Los satélites {modis.map((s) => NOMBRE_SATELITE[s.satelite]).join(" y ")} (sensor MODIS) y, más tarde,{" "}
               {viirs.map((s) => `${NOMBRE_SATELITE[s.satelite]} desde ${s.desde}`).join(" y ")} (sensor VIIRS) pasan
               sobre San Luis varias veces por día. Marcan como foco de calor cada punto mucho más caliente que su
-              entorno. CONAE procesa esas detecciones y el Gobierno de San Luis las publica. Para los meses que CONAE no
+              entorno. Esas detecciones se publican a través del Gobierno de San Luis. Para los meses que la serie histórica no
               registró y desde octubre de 2024 usamos las detecciones de NASA FIRMS.
             </p>
           </li>
@@ -30,7 +30,7 @@ export function Metodo({ resumen }: { resumen: Resumen }) {
             <h3>Serie mensual</h3>
             <p>
               Contamos los focos de cada mes y de cada departamento. Para comparar años usamos solo el satélite Aqua,
-              que tiene el mismo sensor durante todo el período. Donde CONAE no tiene dato usamos los focos de Aqua de NASA FIRMS, con confianza 60 o más (el mismo criterio de CONAE). Cada mes indica de qué fuente viene.
+              que tiene el mismo sensor durante todo el período. Donde la serie histórica no tiene dato usamos los focos de Aqua de NASA FIRMS, con confianza 60 o más (el mismo criterio de la serie histórica). Cada mes indica de qué fuente viene.
             </p>
           </li>
           <li>
@@ -71,7 +71,7 @@ export function Metodo({ resumen }: { resumen: Resumen }) {
               puede tener el triple de focos que el siguiente.
             </li>
             <li>
-              <strong>La fuente tiene errores conocidos.</strong> {aqua.mesesFaltantes.length} meses no tenían dato en la tabla de CONAE por departamento; los completamos con NASA FIRMS. En {entero(todos.potenciaNoConfiable)} focos la potencia no es confiable (los
+              <strong>La fuente tiene errores conocidos.</strong> {aqua.mesesFaltantes.length} meses no tenían dato en la tabla de la serie histórica por departamento; los completamos con NASA FIRMS. En {entero(todos.potenciaNoConfiable)} focos la potencia no es confiable (los
               registros MODIS desde 2017 perdieron el separador decimal) y se muestran como “sin dato confiable”. El
               campo Instrumento etiqueta como VIIRS a Terra y Aqua, por eso deducimos el sensor a partir del satélite.
             </li>

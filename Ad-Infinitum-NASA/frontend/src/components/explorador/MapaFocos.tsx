@@ -141,7 +141,7 @@ export default function MapaFocos({
         fitBoundsOptions: { padding: 24 },
         maxBounds: [caja.oeste - 3, caja.sur - 2.5, caja.este + 3, caja.norte + 2.5],
         canvasContextAttributes: { preserveDrawingBuffer: true },
-        attributionControl: { compact: true, customAttribution: "Datos: CONAE / Gobierno de San Luis y NASA FIRMS" },
+        attributionControl: { compact: true, customAttribution: "Datos: Gobierno de San Luis y NASA FIRMS" },
         cooperativeGestures: true,
         dragRotate: false,
         touchPitch: false,

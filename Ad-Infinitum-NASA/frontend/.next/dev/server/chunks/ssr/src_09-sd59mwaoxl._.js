@@ -57,6 +57,8 @@ function HeroFocos() {
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [pausado, setPausado] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [quieto, setQuieto] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activa, setActiva] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const animar = !quieto || activa;
     const pausadoRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -97,6 +99,9 @@ function HeroFocos() {
                     anio: a0,
                     mes: m0
                 },
+                anioDesde: a0,
+                anioHasta: a1,
+                mesHasta: m1,
                 total: focos.n
             });
         }).catch(()=>vivo && setError(true));
@@ -156,7 +161,7 @@ function HeroFocos() {
                 b.moveTo(0, y);
                 b.lineTo(10, y);
                 b.stroke();
-                b.fillText(`${-lat}° S`, 14, y + 4);
+                b.fillText(`${-lat}Â° S`, 14, y + 4);
             }
             for(let lon = -67; lon <= -65; lon++){
                 const x = proy.x(lon);
@@ -165,7 +170,7 @@ function HeroFocos() {
                 b.moveTo(x, alto);
                 b.lineTo(x, alto - 10);
                 b.stroke();
-                b.fillText(`${-lon}° O`, x - 14, alto - 14);
+                b.fillText(`${-lon}Â° O`, x - 14, alto - 14);
             }
         };
         const punto = (c, i, r)=>{
@@ -233,7 +238,7 @@ function HeroFocos() {
             ctx.drawImage(base, 0, 0);
             ctx.drawImage(ceniza, 0, 0);
             dibujarTira(datos.porMes.length - 1);
-            if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
+            if (textoMes.current) textoMes.current.textContent = `${datos.anioDesde} a ${datos.anioHasta}`;
             if (textoCuenta.current) textoCuenta.current.textContent = `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["entero"])(datos.total)} focos`;
         };
         const medir = ()=>{
@@ -252,7 +257,7 @@ function HeroFocos() {
             proy = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$proyeccion$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ajustarProyeccion"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$focos$2f$proyeccion$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cajaDe"])(datos.anillos), ancho, alto, Math.min(48, ancho * 0.08));
             dibujarBase();
             // Reconstruye la ceniza hasta el mes que se estaba mostrando
-            if (quieto) estadoFinal();
+            if (!animar) estadoFinal();
             else {
                 for(let k = 0; k <= mesDibujado; k++)sumarCeniza(k);
                 dibujar(mesDibujado);
@@ -261,7 +266,7 @@ function HeroFocos() {
         const ro = new ResizeObserver(medir);
         ro.observe(cv);
         medir();
-        if (quieto) return ()=>ro.disconnect();
+        if (!animar) return ()=>ro.disconnect();
         let raf = 0;
         let acumulado = 0;
         let ultimo = performance.now();
@@ -286,7 +291,7 @@ function HeroFocos() {
                 c.clearRect(0, 0, ceniza.width, ceniza.height);
             } else if (mesDibujado === n - 1 && k === n) {
                 dibujar(n + ESTELA);
-                if (textoMes.current) textoMes.current.textContent = "2002 a 2024";
+                if (textoMes.current) textoMes.current.textContent = `${datos.anioDesde} a ${datos.anioHasta}`;
                 if (textoCuenta.current) textoCuenta.current.textContent = `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["entero"])(datos.total)} focos`;
             }
             raf = requestAnimationFrame(paso);
@@ -298,7 +303,7 @@ function HeroFocos() {
         };
     }, [
         datos,
-        quieto
+        animar
     ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("figure", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].figura,
@@ -310,26 +315,26 @@ function HeroFocos() {
                         ref: lienzo,
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].lienzo,
                         role: "img",
-                        "aria-label": "Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de 2002 hasta octubre de 2024 y dejan una marca acumulada."
+                        "aria-label": datos ? `Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes desde enero de ${datos.anioDesde} hasta ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$formato$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["mesAnio"])(datos.anioHasta, datos.mesHasta)} y dejan una marca acumulada.` : "Mapa de San Luis con sus nueve departamentos. Los focos de calor detectados por satélite aparecen mes a mes y dejan una marca acumulada."
                     }, void 0, false, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 294,
+                        lineNumber: 302,
                         columnNumber: 9
                     }, this),
                     !datos && !error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].estado,
-                        children: "Cargando 22 años de focos…"
+                        children: "Cargando los focos de calor…"
                     }, void 0, false, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 300,
+                        lineNumber: 312,
                         columnNumber: 30
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].estado,
-                        children: "No se pudieron cargar los focos. Recargá la página para intentar de nuevo."
+                        children: "No se pudieron cargar los focos. RecargÃ¡ la pÃ¡gina para intentar de nuevo."
                     }, void 0, false, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 302,
+                        lineNumber: 314,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -339,31 +344,31 @@ function HeroFocos() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 ref: textoMes,
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].mes,
-                                children: " "
+                                children: "Â "
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 307,
+                                lineNumber: 319,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 ref: textoCuenta,
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$hero$2f$HeroFocos$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cuenta,
-                                children: " "
+                                children: "Â "
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 310,
+                                lineNumber: 322,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 306,
+                        lineNumber: 318,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                lineNumber: 293,
+                lineNumber: 301,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -375,7 +380,7 @@ function HeroFocos() {
                         "aria-hidden": "true"
                     }, void 0, false, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 316,
+                        lineNumber: 328,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -383,30 +388,30 @@ function HeroFocos() {
                         "aria-hidden": "true",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "2002"
+                                children: datos?.anioDesde
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 318,
+                                lineNumber: 330,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "2013"
+                                children: datos ? Math.round((datos.anioDesde + datos.anioHasta) / 2) : ""
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 319,
+                                lineNumber: 331,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "2024"
+                                children: datos?.anioHasta
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 320,
+                                lineNumber: 332,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 317,
+                        lineNumber: 329,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -414,13 +419,13 @@ function HeroFocos() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("figcaption", {
                                 className: "nota",
-                                children: "Cada barra es un mes: altura según la cantidad de focos."
+                                children: "Cada barra es un mes: altura segÃºn la cantidad de focos."
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 323,
+                                lineNumber: 335,
                                 columnNumber: 11
                             }, this),
-                            !quieto && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            animar ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 type: "button",
                                 className: "boton",
                                 onClick: ()=>setPausado((p)=>!p),
@@ -428,25 +433,34 @@ function HeroFocos() {
                                 children: pausado ? "Reanudar" : "Pausar"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                                lineNumber: 325,
+                                lineNumber: 337,
+                                columnNumber: 13
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: "boton",
+                                onClick: ()=>setActiva(true),
+                                children: "Reproducir animaciÃ³n"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/hero/HeroFocos.tsx",
+                                lineNumber: 341,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                        lineNumber: 322,
+                        lineNumber: 334,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/hero/HeroFocos.tsx",
-                lineNumber: 315,
+                lineNumber: 327,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/hero/HeroFocos.tsx",
-        lineNumber: 292,
+        lineNumber: 300,
         columnNumber: 5
     }, this);
 }
@@ -937,7 +951,9 @@ const fuenteFocos = {
     ilustrativo: false,
     getFocos: ()=>pedir("focos.json"),
     getDepartamentos: ()=>pedir("departamentos.geojson"),
-    getSerieMensual: ()=>pedir("departamentos.mensual.json"),
+    getSerieMensual: ()=>pedir("serie-aqua.json"),
+    getIncendios: ()=>pedir("incendios.json"),
+    getSerieIncendios: ()=>pedir("serie-incendios.json"),
     getEmbalses: ()=>pedir("embalses.geojson"),
     getGrilla () {
         grilla ??= this.getFocos().then(grillaDeFocos).catch((e)=>{

@@ -1,16 +1,17 @@
 import { decimal, entero } from "@/lib/formato";
+import type { Textos } from "@/lib/focos/modo";
 import estilos from "./Graficos.module.css";
 
-type Props = { ranking: { nombre: string; total: number }[] };
+type Props = { ranking: { nombre: string; total: number }[]; t: Textos };
 
-export function RankingDeptos({ ranking }: Props) {
+export function RankingDeptos({ ranking, t }: Props) {
   const max = ranking[0]?.total ?? 1;
   const total = ranking.reduce((s, d) => s + d.total, 0);
   return (
     <figure className={estilos.figura}>
       <figcaption>
-        <p className={estilos.titulo}>Departamentos con más focos</p>
-        <p className={estilos.subtitulo}>Total acumulado del satélite Aqua en todo el período.</p>
+        <p className={estilos.titulo}>{t.tituloRanking}</p>
+        <p className={estilos.subtitulo}>{t.subtituloRanking}</p>
       </figcaption>
       <ol className={estilos.ranking}>
         {ranking.map((d) => (

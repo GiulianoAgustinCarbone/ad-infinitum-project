@@ -16,6 +16,8 @@ export interface FuenteFocos extends FuenteDatos {
   getFocos(): Promise<FocosCompactos>;
   getDepartamentos(): Promise<Departamentos>;
   getSerieMensual(): Promise<SerieMensualDeptos>;
+  getIncendios(): Promise<FocosCompactos>;
+  getSerieIncendios(): Promise<SerieMensualDeptos>;
   getEmbalses(): Promise<Embalses>;
 }
 
@@ -87,6 +89,8 @@ export const fuenteFocos: FuenteFocos = {
   getFocos: () => pedir<FocosCompactos>("focos.json"),
   getDepartamentos: () => pedir<Departamentos>("departamentos.geojson"),
   getSerieMensual: () => pedir<SerieMensualDeptos>("serie-aqua.json"),
+  getIncendios: () => pedir<FocosCompactos>("incendios.json"),
+  getSerieIncendios: () => pedir<SerieMensualDeptos>("serie-incendios.json"),
   getEmbalses: () => pedir<Embalses>("embalses.geojson"),
   getGrilla() {
     grilla ??= this.getFocos()

@@ -1,0 +1,33 @@
+.selector {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  margin: 8px 0 4px;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  background: var(--superficie);
+}
+
+.opcion {
+  padding: 8px 18px;
+  border-radius: 999px;
+  color: var(--ceniza-2);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.opcion:hover {
+  color: var(--ceniza);
+}
+
+.activa {
+  background: var(--ceniza);
+  color: var(--noche);
+}
+
+.opcion:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}

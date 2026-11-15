@@ -1,12 +1,15 @@
 "use client";
 
 import { CLASES_CONTEO, CERO, colorConteo } from "@/lib/focos/escala";
+import { CLASES_HA, colorHectareas, type Modo, type Textos } from "@/lib/focos/modo";
 import type { CeldaMatriz } from "@/lib/focos/tipos";
 import { capitalizar, entero, MESES_CORTOS, mesAnio } from "@/lib/formato";
 import { useGlobo } from "./Globo";
 import estilos from "./Graficos.module.css";
 
-export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
+export function MatrizAnioMes({ matriz, t, modo }: { matriz: CeldaMatriz[]; t: Textos; modo: Modo }) {
+  const clases: readonly { etiqueta: string; color: string }[] = modo === "incendios" ? CLASES_HA : CLASES_CONTEO;
+  const color = modo === "incendios" ? colorHectareas : colorConteo;
   const { globo, mostrar, ocultar } = useGlobo();
   const anios = [...new Set(matriz.map((c) => c.anio))];
   const filas = anios.length;
@@ -17,11 +20,11 @@ export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
       <figcaption>
         <p className={estilos.titulo}>Cada año, mes por mes</p>
         <p className={estilos.subtitulo}>
-          Cantidad de focos de Aqua: CONAE, y NASA FIRMS donde CONAE no tiene dato. Las celdas rayadas son meses fuera del período con datos.
+          {t.subtituloMatriz}
         </p>
       </figcaption>
       <div className={estilos.lienzo} onMouseLeave={ocultar}>
-        <div className={estilos.matriz} role="img" aria-label="Matriz de focos por año y mes. La tabla equivalente está debajo.">
+        <div className={estilos.matriz} role="img" aria-label={modo === "incendios" ? "Matriz de hectÃ¡reas quemadas por aÃ±o y mes. La tabla equivalente estÃ¡ debajo." : "Matriz de focos por aÃ±o y mes. La tabla equivalente estÃ¡ debajo."}>
           <span />
           {MESES_CORTOS.map((m) => (
             <span key={m} className={estilos.encabezado}>
@@ -29,7 +32,7 @@ export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
             </span>
           ))}
           {anios.map((a, fila) => (
-            <Fila key={a} anio={a} fila={fila} filas={filas} celdas={matriz.filter((c) => c.anio === a)} mostrar={mostrar} />
+            <Fila key={a} anio={a} fila={fila} filas={filas} celdas={matriz.filter((c) => c.anio === a)} mostrar={mostrar} color={color} unidad={t.unidadSerie} />
           ))}
         </div>
         {globo}
@@ -37,9 +40,9 @@ export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
       <ul className={estilos.leyenda}>
         <li>
           <span className={estilos.muestra} style={{ background: CERO }} />
-          sin focos
+          {modo === "incendios" ? "sin Ã¡rea quemada" : "sin focos"}
         </li>
-        {CLASES_CONTEO.map((c) => (
+        {clases.map((c) => (
           <li key={c.etiqueta}>
             <span className={estilos.muestra} style={{ background: c.color }} />
             {c.etiqueta}
@@ -58,7 +61,7 @@ export function MatrizAnioMes({ matriz }: { matriz: CeldaMatriz[] }) {
         <summary>Ver como tabla</summary>
         <div className={estilos.tablaScroll}>
           <table>
-            <caption className="sr-only">Focos por año y mes, satélite Aqua</caption>
+            <caption className="sr-only">{modo === "incendios" ? "HectÃ¡reas quemadas por aÃ±o y mes" : "Focos por aÃ±o y mes, satÃ©lite Aqua"}</caption>
             <thead>
               <tr>
                 <th scope="col">Año</th>
@@ -94,16 +97,18 @@ type FilaProps = {
   filas: number;
   celdas: CeldaMatriz[];
   mostrar: ReturnType<typeof useGlobo>["mostrar"];
+  color: (v: number) => string;
+  unidad: string;
 };
 
-function Fila({ anio, fila, filas, celdas, mostrar }: FilaProps) {
+function Fila({ anio, fila, filas, celdas, mostrar, color, unidad }: FilaProps) {
   return (
     <>
       <span className={estilos.anio}>{anio}</span>
       {celdas.map((c) => {
         const clase =
           c.estado === "sin-dato" ? `${estilos.celda} ${estilos.sinDato}` : c.estado === "fuera" ? `${estilos.celda} ${estilos.fuera}` : estilos.celda;
-        const fondo = c.estado === "dato" ? colorConteo(c.valor ?? 0) : undefined;
+        const fondo = c.estado === "dato" ? color(c.valor ?? 0) : undefined;
         return (
           <span
             key={c.mes}
@@ -118,7 +123,7 @@ function Fila({ anio, fila, filas, celdas, mostrar }: FilaProps) {
                   <>
                     <strong>{capitalizar(mesAnio(anio, c.mes))}</strong>
                     {c.estado === "dato"
-                      ? `${entero(c.valor ?? 0)} ${c.valor === 1 ? "foco" : "focos"}`
+                      ? `${entero(c.valor ?? 0)} ${unidad}`
                       : c.estado === "sin-dato"
                         ? "Sin dato en la fuente"
                         : "Fuera del período registrado"}

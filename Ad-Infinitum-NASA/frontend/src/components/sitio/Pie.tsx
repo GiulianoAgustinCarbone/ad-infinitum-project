@@ -2,8 +2,6 @@ import type { Resumen } from "@/lib/focos/tipos";
 import { fechaLarga } from "@/lib/formato";
 import estilos from "./Pie.module.css";
 
-const SERVICIOS = "https://services5.arcgis.com/HhpfpBpfJF3e3irA/arcgis/rest/services/";
-
 export function Pie({ resumen }: { resumen: Resumen }) {
   return (
     <footer className={estilos.pie}>
@@ -14,14 +12,10 @@ export function Pie({ resumen }: { resumen: Resumen }) {
           <p>Alcance: provincia de San Luis, Argentina.</p>
         </div>
         <div>
-          <p className={estilos.atribucion}>Datos: CONAE / Gobierno de San Luis y NASA FIRMS</p>
+          <p className={estilos.atribucion}>Datos: Gobierno de San Luis y NASA FIRMS</p>
           <p>
-            Focos de calor, departamentos y embalses publicados en{" "}
-            <a href={SERVICIOS} rel="noopener noreferrer">
-              ArcGIS Online
-            </a>
-            , descargados el {fechaLarga(resumen.descargado)}. La fuente no declara una licencia de uso; su
-            publicación está pendiente de autorización.
+            Focos de calor y departamentos, descargados el {fechaLarga(resumen.descargado)}. La serie histórica no declara
+            una licencia de uso; su publicación está pendiente de autorización.
           </p>
           <p>Límites de provincias: Natural Earth (dominio público). Mapa: MapLibre GL JS.</p>
         </div>

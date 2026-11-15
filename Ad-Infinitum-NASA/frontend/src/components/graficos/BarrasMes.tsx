@@ -3,6 +3,7 @@
 import type { Resumen } from "@/lib/focos/tipos";
 import { capitalizar, decimal, MESES_CORTOS, mesAnio, nombreMes } from "@/lib/formato";
 import { FUEGO } from "@/lib/focos/escala";
+import { pasoEje, rotuloEje, type Textos } from "@/lib/focos/modo";
 import { useGlobo } from "./Globo";
 import { useAncho } from "./useAncho";
 import estilos from "./Graficos.module.css";
@@ -10,23 +11,23 @@ import estilos from "./Graficos.module.css";
 const AL = 260;
 const M = { arriba: 24, derecha: 8, abajo: 28, izquierda: 40 };
 
-function ticks(max: number): number[] {
-  const paso = max > 150 ? 50 : max > 60 ? 20 : 10;
-  return Array.from({ length: Math.floor(max / paso) + 1 }, (_, i) => i * paso);
+function ticks(tope: number, paso: number): number[] {
+  return Array.from({ length: Math.round(tope / paso) + 1 }, (_, i) => i * paso);
 }
 
-type Props = { estacionalidad: Resumen["aqua"]["estacionalidad"]; mesPico: number; desde: string; hasta: string };
+type Props = { estacionalidad: Resumen["aqua"]["estacionalidad"]; mesPico: number; desde: string; hasta: string; t: Textos };
 
 function textoMes(clave: string): string {
   const [a, m] = clave.split("-").map(Number);
   return mesAnio(a, m);
 }
 
-export function BarrasMes({ estacionalidad, mesPico, desde, hasta }: Props) {
+export function BarrasMes({ estacionalidad, mesPico, desde, hasta, t }: Props) {
   const { globo, mostrar, ocultar } = useGlobo();
   const { ref, ancho: AN } = useAncho<HTMLDivElement>(600);
   const max = Math.max(...estacionalidad.map((e) => e.promedio));
-  const tope = Math.ceil(max / 50) * 50;
+  const paso = pasoEje(max);
+  const tope = Math.ceil(max / paso) * paso;
   const ancho = AN - M.izquierda - M.derecha;
   const alto = AL - M.arriba - M.abajo;
   const banda = ancho / 12;
@@ -35,16 +36,16 @@ export function BarrasMes({ estacionalidad, mesPico, desde, hasta }: Props) {
   return (
     <figure className={estilos.figura}>
       <figcaption>
-        <p className={estilos.titulo}>Focos por mes, promedio de todos los años</p>
-        <p className={estilos.subtitulo}>Satélite Aqua, de {textoMes(desde)} a {textoMes(hasta)}. Los meses sin dato no cuentan.</p>
+        <p className={estilos.titulo}>{t.tituloBarras}</p>
+        <p className={estilos.subtitulo}>{t.subtituloBarras(textoMes(desde), textoMes(hasta))}</p>
       </figcaption>
       <div ref={ref} className={estilos.lienzo} onMouseLeave={ocultar}>
-        <svg className={estilos.svg} viewBox={`0 0 ${AN} ${AL}`} role="group" aria-label={`Promedio de focos por mes. El máximo es ${nombreMes(mesPico)}.`}>
-          {ticks(tope).map((t) => (
+        <svg className={estilos.svg} viewBox={`0 0 ${AN} ${AL}`} role="group" aria-label={`Promedio por mes (${t.unidadSerie}). El máximo es ${nombreMes(mesPico)}.`}>
+          {ticks(tope, paso).map((t) => (
             <g key={t}>
               <line className={estilos.grilla} x1={M.izquierda} x2={AN - M.derecha} y1={y(t)} y2={y(t)} />
               <text className={estilos.eje} x={M.izquierda - 8} y={y(t) + 4} textAnchor="end">
-                {t}
+                {rotuloEje(t)}
               </text>
             </g>
           ))}
@@ -59,7 +60,7 @@ export function BarrasMes({ estacionalidad, mesPico, desde, hasta }: Props) {
                 contenido: (
                   <>
                     <strong>{capitalizar(nombreMes(e.mes))}</strong>
-                    {decimal(e.promedio, 1)} focos en promedio ({e.anios} años con dato). Máximo: {e.maximo} en {e.anioMaximo}.
+                    {decimal(e.promedio, 1)} {t.unidadSerie} en promedio ({e.anios} años con dato). Máximo: {e.maximo} en {e.anioMaximo}.
                   </>
                 ),
               });
@@ -71,7 +72,7 @@ export function BarrasMes({ estacionalidad, mesPico, desde, hasta }: Props) {
                 onMouseEnter={leer}
                 onFocus={leer}
                 onBlur={ocultar}
-                aria-label={`${nombreMes(e.mes)}: ${decimal(e.promedio, 1)} focos en promedio`}
+                aria-label={`${nombreMes(e.mes)}: ${decimal(e.promedio, 1)} ${t.unidadSerie} en promedio`}
               >
                 {/* Zona sensible mas grande que la barra */}
                 <rect x={M.izquierda + i * banda} y={M.arriba} width={banda} height={alto} fill="transparent" />
