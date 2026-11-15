@@ -1,0 +1,107 @@
+/* [project]/src/components/sitio/Metodo.module.css [app-client] (css) */
+.Metodo-module__rO3lMW__pasos {
+  counter-reset: paso;
+  border-top: 1px solid var(--linea-fuerte);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+
+.Metodo-module__rO3lMW__pasos li {
+  counter-increment: paso;
+  align-content: start;
+  gap: 10px;
+  padding: 20px 24px 8px 0;
+  display: grid;
+}
+
+.Metodo-module__rO3lMW__pasos li + li {
+  border-left: 1px solid var(--linea);
+  padding-left: 24px;
+}
+
+.Metodo-module__rO3lMW__pasos li:before {
+  content: counter(paso);
+  font-family: var(--fuente-titulos), sans-serif;
+  font-variation-settings: "wdth" 75, "opsz" 96;
+  color: var(--ceniza-3);
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.Metodo-module__rO3lMW__pasos p {
+  color: var(--ceniza-2);
+}
+
+.Metodo-module__rO3lMW__limites {
+  gap: 16px;
+  max-width: 820px;
+  margin-top: clamp(48px, 7vw, 80px);
+  display: grid;
+}
+
+.Metodo-module__rO3lMW__limitesTitulo {
+  font-size: 1.5rem;
+}
+
+.Metodo-module__rO3lMW__limites ul {
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+
+.Metodo-module__rO3lMW__limites li {
+  border-top: 1px solid var(--linea);
+  color: var(--ceniza-2);
+  padding: 14px 0 14px 28px;
+  position: relative;
+}
+
+.Metodo-module__rO3lMW__limites li:before {
+  content: "";
+  background: var(--fuego-3);
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  top: 24px;
+  left: 4px;
+}
+
+.Metodo-module__rO3lMW__limites strong {
+  color: var(--ceniza);
+}
+
+@media (max-width: 960px) {
+  .Metodo-module__rO3lMW__pasos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .Metodo-module__rO3lMW__pasos li:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .Metodo-module__rO3lMW__pasos li:nth-child(n+3) {
+    border-top: 1px solid var(--linea);
+  }
+}
+
+@media (max-width: 560px) {
+  .Metodo-module__rO3lMW__pasos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .Metodo-module__rO3lMW__pasos li + li {
+    border-left: 0;
+    border-top: 1px solid var(--linea);
+    padding-left: 0;
+  }
+}
+
+/*# sourceMappingURL=src_components_sitio_Metodo_module_css_1igg3k2-ikub5._.single.css.map*/
