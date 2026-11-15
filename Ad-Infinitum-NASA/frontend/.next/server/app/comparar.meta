@@ -1,0 +1,37 @@
+{
+  "status": 307,
+  "headers": {
+    "location": "/focos#estacionalidad",
+    "link": "</_next/static/media/10b40a20e4e62717.p.2dv7oiayrgfo5.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/fe68a48bcbeff111-s.p.1jake7ccbq8_p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/comparar/layout,_N_T_/comparar/page,_N_T_/comparar"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/comparar/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 49216,
+    "slots": {
+      "children": {
+        "hints": 49248,
+        "slots": {
+          "children": {
+            "hints": 49312,
+            "slots": null
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/dbe31da625c6fe286b6f5f0b8af40d556ee6f1ab78f80ab3776bc65225776863/$/comparar",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/comparar/page"
+    },
+    "isFallback": false
+  }
+}

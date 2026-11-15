@@ -1,0 +1,84 @@
+/* [project]/src/components/sitio/Cifras.module.css [app-client] (css) */
+.Cifras-module__7qXlIG__grilla {
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(32px, 6vw, 80px);
+  display: grid;
+}
+
+.Cifras-module__7qXlIG__principal {
+  gap: 8px;
+  display: grid;
+}
+
+.Cifras-module__7qXlIG__titulo {
+  font-variation-settings: normal;
+  color: var(--ceniza-2);
+  letter-spacing: 0;
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.Cifras-module__7qXlIG__numero {
+  font-family: var(--fuente-titulos), sans-serif;
+  font-variation-settings: "wdth" 75, "opsz" 96;
+  letter-spacing: -.04em;
+  font-size: clamp(5rem, 16vw, 12rem);
+  font-weight: 800;
+  line-height: .85;
+}
+
+.Cifras-module__7qXlIG__leyenda {
+  color: var(--ceniza-2);
+  max-width: 36ch;
+  font-size: 1.15rem;
+}
+
+.Cifras-module__7qXlIG__lista {
+  margin: 0;
+  display: grid;
+}
+
+.Cifras-module__7qXlIG__lista > div {
+  border-top: 1px solid var(--linea);
+  gap: 4px;
+  padding: 18px 0;
+  display: grid;
+}
+
+.Cifras-module__7qXlIG__lista > div:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.Cifras-module__7qXlIG__lista dt {
+  color: var(--ceniza-3);
+  font-size: .9rem;
+}
+
+.Cifras-module__7qXlIG__lista dd {
+  gap: 2px;
+  margin: 0;
+  display: grid;
+}
+
+.Cifras-module__7qXlIG__valor {
+  font-family: var(--fuente-titulos), sans-serif;
+  letter-spacing: -.015em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.Cifras-module__7qXlIG__detalle {
+  color: var(--ceniza-2);
+  font-size: .95rem;
+}
+
+@media (max-width: 860px) {
+  .Cifras-module__7qXlIG__grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*# sourceMappingURL=src_components_sitio_Cifras_module_css_1igg3k2-ikub5._.single.css.map*/

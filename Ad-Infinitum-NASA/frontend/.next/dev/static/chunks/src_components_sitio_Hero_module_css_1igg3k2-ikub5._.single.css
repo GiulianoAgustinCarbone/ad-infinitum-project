@@ -1,0 +1,70 @@
+/* [project]/src/components/sitio/Hero.module.css [app-client] (css) */
+.Hero-module__sJa99G__hero {
+  padding: clamp(32px, 6vw, 72px) 0 clamp(48px, 8vw, 96px);
+}
+
+.Hero-module__sJa99G__grilla {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 80px);
+  display: grid;
+}
+
+.Hero-module__sJa99G__texto {
+  align-content: center;
+  gap: 24px;
+  display: grid;
+}
+
+.Hero-module__sJa99G__lugar {
+  color: var(--ceniza-2);
+  font-size: 1rem;
+}
+
+.Hero-module__sJa99G__titulo {
+  font-variation-settings: "wdth" 80, "opsz" 96;
+  letter-spacing: -.035em;
+  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  font-weight: 800;
+  line-height: .95;
+}
+
+.Hero-module__sJa99G__bajada {
+  color: var(--ceniza-2);
+  max-width: 44ch;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+}
+
+.Hero-module__sJa99G__acciones {
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  display: flex;
+}
+
+@media (max-width: 860px) {
+  .Hero-module__sJa99G__grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.Hero-module__sJa99G__ingles {
+  color: var(--ceniza-3);
+  max-width: 48ch;
+  margin-top: -12px;
+  font-size: .95rem;
+  font-style: italic;
+}
+
+.Hero-module__sJa99G__acciones [aria-disabled="true"] {
+  opacity: 1;
+  color: var(--ceniza-3);
+  border-style: dashed;
+}
+
+.Hero-module__sJa99G__acciones [aria-disabled="true"]:hover {
+  border-color: var(--linea-fuerte);
+  background: none;
+}
+
+/*# sourceMappingURL=src_components_sitio_Hero_module_css_1igg3k2-ikub5._.single.css.map*/
