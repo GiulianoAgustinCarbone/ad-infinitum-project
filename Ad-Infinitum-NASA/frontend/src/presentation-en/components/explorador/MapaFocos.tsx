@@ -62,7 +62,7 @@ function puntosGeojson(f: FocosCompactos): FeatureCollection<Point> {
 
 function expresionFiltro(filtro: FiltroFocos, indiceAqua: number): FilterSpecification {
   const partes: ExpressionSpecification[] = [];
-  if (filtro.anio !== null) partes.push(["==", ["get", "to"], filtro.anio]);
+  if (filtro.anio !== null) partes.push(["==", ["get", "a"], filtro.anio]);
   if (filtro.mes !== null) partes.push(["==", ["get", "m"], filtro.mes]);
   if (filtro.depto !== null) partes.push(["==", ["get", "d"], filtro.depto]);
   if (filtro.soloAqua) {
@@ -168,7 +168,7 @@ export default function MapaFocos({
           type: "fill",
           source: "deptos",
           paint: {
-            "fill-color": ["case", ["boolean", ["feature-state", "out of"], false], "#22344a", "#1b2a3a"],
+            "fill-color": ["case", ["boolean", ["feature-state", "sobre"], false], "#22344a", "#1b2a3a"],
           },
         });
         m.addLayer({

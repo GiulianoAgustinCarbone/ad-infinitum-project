@@ -270,12 +270,20 @@ for (const file of files) {
   }
   const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,file.endsWith('tsx')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
   const edits=[];
+  const mapControls = file==='components/explorador/MapaFocos.tsx'
+    ? ast.statements.find(s => ts.isVariableStatement(s) && s.declarationList.declarations.some(d => d.name.getText(ast)==='TEXTOS_CONTROLES'))
+    : undefined;
   function visit(node) {
     if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node) || ts.isTemplateHead(node) || ts.isTemplateMiddle(node) || ts.isTemplateTail(node)) {
       const start=node.getStart(ast)+1;
       const end=node.end-(ts.isTemplateHead(node)||ts.isTemplateMiddle(node)?2:1);
       const raw=source.slice(start,end);
-      if (!protectedValues.has(raw) && !raw.startsWith('@/') && !raw.startsWith('./') && !raw.startsWith('../') && !raw.startsWith('/')) {
+      const call = node.parent;
+      const technicalArgument = ts.isCallExpression(call) && ts.isPropertyAccessExpression(call.expression)
+        && ['get', 'getElementById', 'createElement', 'querySelector', 'querySelectorAll', 'getAttribute'].includes(call.expression.name.text);
+      // MapLibre expressions, source IDs and feature keys are code, not copy.
+      const mapCopy = !mapControls || (node.pos>=mapControls.pos && node.end<=mapControls.end) || raw.startsWith('Datos:');
+      if (!technicalArgument && mapCopy && !protectedValues.has(raw) && !raw.startsWith('@/') && !raw.startsWith('./') && !raw.startsWith('../') && !raw.startsWith('/')) {
         let translated=translate(raw);
         if (node.parent && ts.isJsxAttribute(node.parent)) translated=translated.replaceAll('"','&quot;');
         else translated=translated.replaceAll("'","’");
@@ -288,6 +296,16 @@ for (const file of files) {
   }
   visit(ast);
   for (const e of edits.sort((a,b)=>b.start-a.start)) source=source.slice(0,e.start)+e.text+source.slice(e.end);
+  if(mapControls) {
+    const generated=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+    for(const name of ['puntosGeojson','expresionFiltro']) {
+      const original=ast.statements.find(s=>ts.isFunctionDeclaration(s) && s.name?.text===name);
+      const translated=generated.statements.find(s=>ts.isFunctionDeclaration(s) && s.name?.text===name);
+      if(!original || !translated || original.getText(ast)!==translated.getText(generated)) {
+        throw new Error(`English generation changed map logic: ${name}`);
+      }
+    }
+  }
   source=source.replace(/(from\s+|import\s*\()(["'])([^"']+)\2/g,(all,prefix,q,spec)=>{
     let resolved=spec.startsWith('@/')?spec.slice(2):spec.startsWith('.')?path.posix.normalize(path.posix.join(path.posix.dirname(file),spec)):null;
     if(!resolved) return all;
